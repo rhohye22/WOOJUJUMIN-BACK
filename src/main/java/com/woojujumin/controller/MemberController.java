@@ -11,4 +11,5 @@ public class MemberController {
 	@Autowired
 	MemberService service;
 	//gkgkgkgkgkgkgkgkgk
+	// 나는 김건우
 }
