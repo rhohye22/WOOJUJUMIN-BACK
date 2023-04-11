@@ -11,4 +11,6 @@ public class MemberController {
 	@Autowired
 	MemberService service;
 	//gkgkgkgkgkgkgkgkgk
+	
+	// 230411 kyr 테스트 입니다!!!!!!!!!!!!!!!!!!!!!
 }
