@@ -9,7 +9,7 @@ import com.woojujumin.dao.MemberDao;
 @Service
 @Transactional
 public class MemberService {
-
+	// test입니다.
 	@Autowired
 	MemberDao dao;
 }
