@@ -3,12 +3,12 @@ package com.woojujumin.controller;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.RestController;
 
-import com.woojujumin.service.MemberService;
+import com.woojujumin.service.FreeBbsService;
 
 @RestController
-public class MemberController {
+public class FreeBbsController {
 
 	@Autowired
-	MemberService service;
-
+	FreeBbsService service;
+	
 }
