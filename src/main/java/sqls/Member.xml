@@ -23,9 +23,16 @@
 
 <!-- 로그인 -->
 <select id="login" parameterType="com.woojujumin.dto.MemberDto" resultType="com.woojujumin.dto.MemberDto">
-	select id, name, nickname, email, phoneNum, profile, address, auth, point
-	from member
-	where id=#{id} and password=#{password}
+	select * from member where id=#{id} and password=#{password}
 </select>
+
+
+<!--회원 수정  -->
+<update id="changeInfo" parameterType="com.woojujumin.dto.MemberDto">
+
+	update member set id=#{id}, password=#{password}, nickname=#{nickname}, email=#{email}, phoneNum=#{phoneNum}, address=#{address},
+					  profile=#{profile} where memberSeq=#{memberSeq}
+
+</update>
 
 </mapper>
