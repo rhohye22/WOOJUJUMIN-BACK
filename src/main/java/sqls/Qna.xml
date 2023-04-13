@@ -4,6 +4,26 @@
 
 <mapper namespace="com.woojujumin.dao.QnaDao">
 
+	<select id="myqna" resultType="com.woojujumin.dto.QnaDto">
+		select qnaSeq,id,title, content,
+		wdate from qna where id =#{id}
+		ORDER BY qnaSeq DESC
+		LIMIT #{start},10
 
+	</select>
+
+	<!-- 개인별 Qna 게시글 수 -->
+	<select id="cntqna" resultType="java.lang.Integer">
+		select count(*) from qna where id =#{id}
+	</select>
+
+	<insert id="addQna" parameterType="com.woojujumin.dto.QnaDto">
+
+		insert into qna(id, qtype,
+		title, content,wdate)
+		values(#{id},#{qtype},#{title},#{content},
+		now())
+
+	</insert>
 
 </mapper>
