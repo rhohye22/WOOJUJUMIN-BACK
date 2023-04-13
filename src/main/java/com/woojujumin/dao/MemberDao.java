@@ -21,4 +21,7 @@ public interface MemberDao {
 	
 	// 로그인
 	MemberDto login(MemberDto dto);
+
+	// 회원수정 4/12
+	int changeInfo(MemberDto dto);
 }

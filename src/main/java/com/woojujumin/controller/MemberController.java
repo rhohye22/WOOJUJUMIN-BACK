@@ -84,8 +84,24 @@ public class MemberController {
 		System.out.println("MemberController login " + new Date());
 		
 		MemberDto mem = service.login(dto);
-		
+		System.out.println("mem : " + mem.getId() + mem.getPassword());
 		return mem;
 	}
+	
+	// 회원정보 수정 4/12 김건우
+	@PostMapping(value = "/changeInfo")
+	public String changeInfo(MemberDto dto) {
+		System.out.println("MemberController changeInfo " + new Date());
+		
+		boolean b = service.changeInfo(dto);
+		if(b == false) {
+			return "NO";
+		}
+		return "YES";
+	}
+	
+	
+	
+	
 
 }
