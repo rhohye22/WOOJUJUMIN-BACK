@@ -45,6 +45,19 @@ public class MemberController {
 		return "YES";
 	}
 	
+	// 닉네임 체크
+	@PostMapping(value = "/nickcheck")
+	public String nickcheck(String nickname) {
+		System.out.println("MemberController nickcheck " + new Date());
+		
+		boolean b = service.nickcheck(nickname);
+		if(b == true) {
+			return "NO";
+		}
+		
+		return "YES";
+	}
+	
 	// 회원가입
 	@PostMapping(value = "/addmember")
 	public String addmember(MemberDto dto,
@@ -56,7 +69,15 @@ public class MemberController {
 		
 		// 경로
 		String path = req.getServletContext().getRealPath("/upload");
+		System.out.println(path);
+		
 		String filename = uploadFile.getOriginalFilename();
+		System.out.println(filename);
+		/*
+		if(filename == null || filename.equals("")) {
+			
+		}*/
+		
 		String filepath = path + "/" + filename;
 		System.out.println(filepath);
 		
