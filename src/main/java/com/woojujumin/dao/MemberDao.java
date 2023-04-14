@@ -16,6 +16,9 @@ public interface MemberDao {
 	// 아이디 체크
 	int idcheck(String id);
 	
+	// 닉네임 체크
+	int nickcheck(String nickname);
+	
 	// 회원가입
 	int addmember(MemberDto dto);
 	
