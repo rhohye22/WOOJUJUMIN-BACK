@@ -42,4 +42,11 @@ public class MemberService {
 	public MemberDto login(MemberDto dto) {
 		return dao.login(dto);
 	}
+
+	// 회원수정 4/12
+	public boolean changeInfo(MemberDto dto) {
+		
+		int n = dao.changeInfo(dto);
+		return n>0?true:false;
+	}
 }
