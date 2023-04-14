@@ -27,5 +27,11 @@ public class QnaService {
 	public int cntqna(String id) {
 		return dao.cntqna(id);
 	}
+	public QnaDto getQna(int qnaSeq) {
+		return dao.getQna(qnaSeq);
+	}
+	
+	
+	
 
 }

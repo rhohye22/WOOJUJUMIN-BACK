@@ -40,5 +40,9 @@ public class QnaController {
 		}
 		return "YES";
 	}
-	
+	@GetMapping(value = "getQna")
+	public QnaDto getQna(int qnaSeq) {
+		System.out.println("QnaController getQna() " + new Date());
+		return service.getQna(qnaSeq);
+	}
 }

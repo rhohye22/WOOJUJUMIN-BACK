@@ -3,10 +3,10 @@
 	"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 
 <mapper namespace="com.woojujumin.dao.QnaDao">
-
+	<!--id별 질문글 리스트 -->
 	<select id="myqna" resultType="com.woojujumin.dto.QnaDto">
-		select qnaSeq,id,title, content,
-		wdate from qna where id =#{id}
+		select qnaSeq,id,title, content,qtype,
+		wdate,ansdate from qna where id =#{id}
 		ORDER BY qnaSeq DESC
 		LIMIT #{start},10
 
@@ -14,9 +14,11 @@
 
 	<!-- 개인별 Qna 게시글 수 -->
 	<select id="cntqna" resultType="java.lang.Integer">
-		select count(*) from qna where id =#{id}
+		select count(*) from qna where id
+		=#{id}
 	</select>
 
+	<!--질문글 추가 -->
 	<insert id="addQna" parameterType="com.woojujumin.dto.QnaDto">
 
 		insert into qna(id, qtype,
@@ -25,5 +27,9 @@
 		now())
 
 	</insert>
+	<!-- qnaSeq로 질문글 조회 -->
+	<select id="getQna" resultType="com.woojujumin.dto.QnaDto">
+	select * from qna where qnaSeq = #{qnaSeq}
+	</select>
 
 </mapper>
