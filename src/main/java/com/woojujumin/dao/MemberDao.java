@@ -2,6 +2,7 @@ package com.woojujumin.dao;
 
 import java.util.List;
 
+
 import org.apache.ibatis.annotations.Mapper;
 import org.springframework.stereotype.Repository;
 
@@ -16,9 +17,15 @@ public interface MemberDao {
 	// 아이디 체크
 	int idcheck(String id);
 	
+	// 닉네임 체크
+	int nickcheck(String nickname);
+	
 	// 회원가입
 	int addmember(MemberDto dto);
 	
 	// 로그인
 	MemberDto login(MemberDto dto);
+
+	// 회원수정 4/12
+	int changeInfo(MemberDto dto);
 }
