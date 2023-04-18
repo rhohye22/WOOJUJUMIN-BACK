@@ -7,6 +7,7 @@ public class MsgDto implements Serializable {
 	private int seq;
 	private String targetId;
 	private String sendId;
+	private String title;
 	private String message;
 	private String sendDate;
 	private int partySeq;
@@ -15,11 +16,13 @@ public class MsgDto implements Serializable {
 		// TODO Auto-generated constructor stub
 	}
 
-	public MsgDto(int seq, String targetId, String sendId, String message, String sendDate, int partySeq) {
+	public MsgDto(int seq, String targetId, String sendId, String title, String message, String sendDate,
+			int partySeq) {
 		super();
 		this.seq = seq;
 		this.targetId = targetId;
 		this.sendId = sendId;
+		this.title = title;
 		this.message = message;
 		this.sendDate = sendDate;
 		this.partySeq = partySeq;
@@ -49,6 +52,14 @@ public class MsgDto implements Serializable {
 		this.sendId = sendId;
 	}
 
+	public String getTitle() {
+		return title;
+	}
+
+	public void setTitle(String title) {
+		this.title = title;
+	}
+
 	public String getMessage() {
 		return message;
 	}
@@ -75,7 +86,10 @@ public class MsgDto implements Serializable {
 
 	@Override
 	public String toString() {
-		return "MsgDto [seq=" + seq + ", targetId=" + targetId + ", sendId=" + sendId + ", message=" + message
-				+ ", sendDate=" + sendDate + ", partySeq=" + partySeq + "]";
+		return "MsgDto [seq=" + seq + ", targetId=" + targetId + ", sendId=" + sendId + ", title=" + title
+				+ ", message=" + message + ", sendDate=" + sendDate + ", partySeq=" + partySeq + "]";
 	}
+	
+	
+	
 }
