@@ -1,16 +1,17 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 	"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+	<mapper namespace="com.woojujumin.dao.FreeBbsDao">
 	
-<mapper namespace="com.woojujumin.dao.PartyBbsDao">
-	<!-- 내가쓴글 보기 모집게시판 -->
-	<select id="myBbslist" parameterType="com.woojujumin.dto.mypartyBbsParam" resultType="com.woojujumin.dto.PartyBbsDto">
+	<!--*****************************************************************************************************************  -->
+	<!-- 내가쓴글 보기 자유게시판 -->
+	<select id="myfreeBbslist" parameterType="com.woojujumin.dto.mypartyBbsParam" resultType="com.woojujumin.dto.FreeBbsDto">
 		
-		select * 
+		select id, title, content, image, wdate, del, readcount, tag, likey, hate
 		from 
 			(select row_number()over(order by wdate desc) as rnum,
-			partySeq, id, title, content, image, wdate, del, readcount, tag, partyType, people, likey, hate, place, mdate, applyMem, endParty, fullParty
-		from partyBbs
+			 id, title, content, image, wdate, del, readcount, tag, likey, hate
+		from freeBbs
 		where 1=1 AND id =#{id}
 			<if test="choice != null and choice != '' and search != null and search != ''">
 				<if test="choice == 'title'">
@@ -34,10 +35,10 @@
 		</select>
 		
 		<!--글의 총수   -->
-	<select id="getmyAllBbs" parameterType="com.woojujumin.dto.mypartyBbsParam" resultType="Integer">
+	<select id="getmyfreeAllBbs" parameterType="com.woojujumin.dto.mypartyBbsParam" resultType="Integer">
 	
 		select ifnull(count(*), 0)
-		from partyBbs
+		from freeBbs
 		<if test="choice != null and choice != '' and search != null and search != ''">
 				<if test="choice == 'title'">
 					where title like concat('%', #{search}, '%')
@@ -59,9 +60,5 @@
 	
 	
 	
-		
-		
-		
-		
-		
-</mapper>
+	
+	</mapper>

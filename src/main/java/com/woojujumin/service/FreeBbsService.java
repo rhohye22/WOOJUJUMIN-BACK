@@ -6,29 +6,27 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import com.woojujumin.dao.PartyBbsDao;
+import com.woojujumin.dao.FreeBbsDao;
 import com.woojujumin.dto.FreeBbsDto;
-import com.woojujumin.dto.PartyBbsDto;
 import com.woojujumin.dto.mypartyBbsParam;
+
 
 @Service
 @Transactional
-public class PartyBbsService {
-	
+public class FreeBbsService {
+
 	@Autowired
-	PartyBbsDao dao;
-
-	public List<PartyBbsDto> myBbslist(mypartyBbsParam param) {
+	FreeBbsDao dao;
+	
+	public List<FreeBbsDto> myfreeBbslist(mypartyBbsParam param) {
 		
-		return dao.myBbslist(param);
+		return dao.myfreeBbslist(param);
 	}
 
-	public int getmyAllBbs(mypartyBbsParam param) {
+	public int getmyfreeAllBbs(mypartyBbsParam param) {
 		
-		return dao.getmyAllBbs(param);
+		return dao.getmyfreeAllBbs(param);
 	}
 
-
-
-
+	
 }

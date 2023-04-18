@@ -6,18 +6,16 @@ import org.apache.ibatis.annotations.Mapper;
 import org.springframework.stereotype.Repository;
 
 import com.woojujumin.dto.FreeBbsDto;
-import com.woojujumin.dto.PartyBbsDto;
 import com.woojujumin.dto.mypartyBbsParam;
 
 @Mapper
 @Repository
-public interface PartyBbsDao {
+public interface FreeBbsDao {
 
-	 List<PartyBbsDto> myBbslist(mypartyBbsParam param);
+	List<FreeBbsDto> myfreeBbslist(mypartyBbsParam param);
 
-	 int getmyAllBbs(mypartyBbsParam param);
+	int getmyfreeAllBbs(mypartyBbsParam param);
 
 	
 	
-
 }
