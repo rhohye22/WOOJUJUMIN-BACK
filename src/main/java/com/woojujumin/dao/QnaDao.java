@@ -14,4 +14,7 @@ public interface QnaDao {
 	int addQna(QnaDto dto);
 	int cntqna(String id);
 	QnaDto getQna(int qnaSeq);
+	List<QnaDto> allnewqna();
+	List<QnaDto> typeqna(String qtype);
+	List<QnaDto> answeredqns();
 }

@@ -31,6 +31,17 @@ public class QnaService {
 		return dao.getQna(qnaSeq);
 	}
 	
+	public List<QnaDto> allnewqna(){
+		return dao.allnewqna();
+	}
+	public List<QnaDto> typeqna(String qtype){
+		return dao.typeqna(qtype);
+	}
+	public List<QnaDto> answeredqns(){
+		return dao.answeredqns();
+	}
+
+	
 	
 	
 

@@ -43,4 +43,15 @@ public class MemberService {
 		int n = dao.changeInfo(dto);
 		return n>0?true:false;
 	}
+	
+	//관리자 페이지 로그인 4/17
+	public MemberDto adminLogin(MemberDto dto) {
+		return dao.adminLogin(dto);
+	}
+	 
+	//관리자 등록 4/17
+	public boolean adminAddmember(MemberDto dto) {
+		int n = dao.adminAddmember(dto);
+		return n>0?true:false; 
+	}
 }

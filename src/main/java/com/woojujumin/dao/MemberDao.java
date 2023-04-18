@@ -25,4 +25,10 @@ public interface MemberDao {
 
 	// 회원수정 4/12
 	int changeInfo(MemberDto dto);
+	
+	// 관리자 페이지 로그인 4/17
+	MemberDto adminLogin(MemberDto dto);
+	
+	// 관리자 등록 4/17
+	int adminAddmember(MemberDto dto);
 }

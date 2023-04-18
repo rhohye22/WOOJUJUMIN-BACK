@@ -45,4 +45,28 @@ public class QnaController {
 		System.out.println("QnaController getQna() " + new Date());
 		return service.getQna(qnaSeq);
 	}
+	
+	//관리자 페이지 
+	//답변이 안달린 질문들	
+	@GetMapping(value = "allnewqna")
+	public List<QnaDto> allnewqna() {
+		System.out.println("QnaController allnewqna() " + new Date());
+		return service.allnewqna();
+	}
+	//타입별 질문들	
+	@GetMapping(value = "typeqna")
+	public List<QnaDto> typeqna(String qtype) {
+		System.out.println("QnaController typeqna() " + new Date());
+		System.out.println("qtype : " + qtype);
+		return service.typeqna(qtype);
+	}
+	
+	//답변이 완료된 질문들
+	@GetMapping(value = "answeredqns")
+	public List<QnaDto> answeredqns() {
+		System.out.println("QnaController answeredqns() " + new Date());
+		
+		return service.answeredqns();
+	}
+	
 }
