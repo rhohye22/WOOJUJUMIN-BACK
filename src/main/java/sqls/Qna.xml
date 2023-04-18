@@ -31,7 +31,8 @@
 	</insert>
 	<!-- qnaSeq로 질문글 조회 -->
 	<select id="getQna" resultType="com.woojujumin.dto.QnaDto">
-		select * from qna where qnaSeq = #{qnaSeq}
+		select * from qna where qnaSeq =
+		#{qnaSeq}
 	</select>
 
 	<!-- 답변이 안달린 질문 전체 리스트 -->
@@ -52,13 +53,23 @@
 		ORDER BY qnaSeq DESC
 
 	</select>
-	
+
 	<!--답변이 달린 리스트 -->
 	<select id="answeredqns" resultType="com.woojujumin.dto.QnaDto">
 		select *
-		from qna where ansdate
+		from qna where
+		ansdate
 		is not null
 		ORDER BY qnaSeq DESC
 
 	</select>
+
+	<!--관리자 답변 등록 -->
+	<update id="makeanswer" parameterType="com.woojujumin.dto.QnaDto">
+		UPDATE qna set mngid=#{mngid},answer=#{answer},ansdate=now()
+		where qnaSeq=#{qnaSeq}
+	</update>
+	
+	
+	
 </mapper>

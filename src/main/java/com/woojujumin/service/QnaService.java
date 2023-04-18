@@ -40,7 +40,11 @@ public class QnaService {
 	public List<QnaDto> answeredqns(){
 		return dao.answeredqns();
 	}
-
+	public boolean makeanswer(QnaDto dto) {
+		int cnt = dao.makeanswer(dto);
+		return cnt>0?true:false;
+				
+	}
 	
 	
 	

@@ -17,4 +17,5 @@ public interface QnaDao {
 	List<QnaDto> allnewqna();
 	List<QnaDto> typeqna(String qtype);
 	List<QnaDto> answeredqns();
+	int makeanswer(QnaDto dto);
 }

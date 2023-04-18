@@ -68,5 +68,14 @@ public class QnaController {
 		
 		return service.answeredqns();
 	}
-	
+	@PostMapping(value = "makeanswer")
+	public String makeanswer(QnaDto dto) {
+		System.out.println("QnaController makeanswer() " + new Date());
+		
+		boolean b = service.makeanswer(dto);
+		if(b == false) {
+			return "NO";
+		}
+		return "YES";
+	}
 }
