@@ -1,6 +1,8 @@
 package com.woojujumin.controller;
 
+
 import java.util.Date;
+
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -48,7 +50,20 @@ public class FreeBbsController {
 			map.put("cnt", len);
 			
 			return map;
+			
 		}
 
+		@GetMapping("getAllList")
+		public List<FreeBbsDto> getAllList() {
+			return service.getAllList();
+		}
 		
+		
+
+		@GetMapping("getBbs")
+		public List<FreeBbsDto> getBbs(int bbsSeq) {
+			return service.getBbs(bbsSeq);
+		}
+
 }
+

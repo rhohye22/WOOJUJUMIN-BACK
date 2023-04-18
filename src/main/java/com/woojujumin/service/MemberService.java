@@ -26,6 +26,12 @@ public class MemberService {
 		return n>0?true:false;
 	}
 	
+	// 닉네임 체크
+	public boolean nickcheck(String nickname) {
+		int n = dao.nickcheck(nickname);
+		return n>0?true:false;
+	}
+	
 	// 회원가입
 	public boolean addmember(MemberDto dto) {
 		int n = dao.addmember(dto);

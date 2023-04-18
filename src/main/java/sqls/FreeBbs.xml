@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 	"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
 	<mapper namespace="com.woojujumin.dao.FreeBbsDao">
 	
 	<!--*****************************************************************************************************************  -->
@@ -58,7 +59,16 @@
 	
 	</select>
 	
-	
+	<select id="getAllList" resultType="com.woojujumin.dto.FreeBbsDto">
+		select * from freeBbs
+	</select>
+	<select id="getBbs" parameterType="Integer" resultType="com.woojujumin.dto.FreeBbsDto">
+		select *
+		from freeBbs
+		where bbsSeq=#{bbsSeq}
+	</select>
 	
 	
 	</mapper>
+
+
