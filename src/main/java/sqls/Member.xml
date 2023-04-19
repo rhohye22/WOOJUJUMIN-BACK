@@ -29,9 +29,10 @@
 </insert>
 
 <!-- 로그인 -->
+<!-- 4/19(노혜원) auth=3 관리자의 회원 활동정지 기능때문에 쿼리 수정했습니다 + and auth in(0,1,2) -->
 <select id="login" parameterType="com.woojujumin.dto.MemberDto" resultType="com.woojujumin.dto.MemberDto">
 
-	select * from member where id=#{id} and password=#{password}
+	select * from member where id=#{id} and password=#{password} and auth in(0,1,2)
 
 </select>
 
