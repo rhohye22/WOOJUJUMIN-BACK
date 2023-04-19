@@ -29,7 +29,22 @@ public class FreeBbsService {
 		
 		return dao.getmyfreeAllBbs(param);
 	}
-
+	
+	
+	
+	//자유게시판(혜원)
+	
+	public List<FreeBbsDto> freeBbslist(String choice, String search, int start){
+		return dao.freeBbslist(choice, search,start);
+	}
+	
+	public int cntFreeBbs(String choice, String search){
+		return dao.cntFreeBbs(choice, search);
+	}
+	
+	
+	
+//쓰는지 확인필요
 	public List<FreeBbsDto> getAllList() {
 		return dao.getAllList();
 	}
