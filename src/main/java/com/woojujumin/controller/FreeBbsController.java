@@ -1,14 +1,21 @@
 package com.woojujumin.controller;
 
+
+import java.util.Date;
+
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.woojujumin.dto.FreeBbsDto;
+import com.woojujumin.dto.mypartyBbsParam;
 import com.woojujumin.service.FreeBbsService;
+
+
 
 @RestController
 public class FreeBbsController {
@@ -16,14 +23,66 @@ public class FreeBbsController {
 	@Autowired
 	FreeBbsService service;
 	
-	@GetMapping("getAllList")
-	public List<FreeBbsDto> getAllList() {
-		return service.getAllList();
-	}
 	
-	@GetMapping("getBbs")
-	public List<FreeBbsDto> getBbs(int bbsSeq) {
-		return service.getBbs(bbsSeq);
-	}
-	
+	// 4/13 내가 쓴 게시판(자유)
+		@GetMapping(value = "/myfreeBbslist")
+		public Map<String, Object> myfreeBbslist(mypartyBbsParam param) {
+			
+			System.out.println("BbsController myfreeBbslist : " + new Date());
+			System.out.println("id" +param.getId());
+			
+			// 글의 시작과 끝
+			int pn = param.getPageNumber(); // 0 1 2 3 4
+			int start = 1 + (pn * 10); // 1 11
+			int end = (pn + 1) * 10; // 10 20
+			System.out.println("pn" +pn);
+			
+			param.setStart(start);
+			param.setEnd(end);
+			
+			List<FreeBbsDto> list = service.myfreeBbslist(param);
+			
+			int len = service.getmyfreeAllBbs(param);
+			
+			
+			Map<String, Object> map = new HashMap<>();
+			map.put("list", list);
+			map.put("cnt", len);
+			
+			return map;
+			
+		}
+
+		//자유게시판 리스트
+		@GetMapping(value = "freeBbslist")
+		public List<FreeBbsDto> freeBbslist(String choice, String search, int start){
+			System.out.println("Free BbsController freeBbslist : " + new Date());
+			System.out.println("choice: "+choice+"  search: "+search+"  start: "+start);
+			return service.freeBbslist(choice, search,start);
+		}
+		
+		@GetMapping(value = "cntFreeBbs")
+		public int cntFreeBbs(String choice, String search){
+			System.out.println("Free BbsController cntFreeBbs : " + new Date());
+			System.out.println("choice: "+choice+"  search: "+search);
+			return service.cntFreeBbs(choice, search);
+		}
+		
+		
+		//
+		
+		
+		@GetMapping("getAllList")
+		public List<FreeBbsDto> getAllList() {
+			return service.getAllList();
+		}
+		
+		
+
+		@GetMapping("getBbs")
+		public List<FreeBbsDto> getBbs(int bbsSeq) {
+			return service.getBbs(bbsSeq);
+		}
+
 }
+

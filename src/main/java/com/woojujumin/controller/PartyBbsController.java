@@ -9,6 +9,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.woojujumin.dto.FreeBbsDto;
 import com.woojujumin.dto.PartyBbsDto;
 import com.woojujumin.dto.mypartyBbsParam;
 import com.woojujumin.service.PartyBbsService;
@@ -19,7 +20,7 @@ public class PartyBbsController {
 	@Autowired
 	PartyBbsService service;
 	
-	// 4/13 내가 쓴 게시판
+	// 4/13 내가 쓴 게시판(파티모집)
 	@GetMapping(value = "/myBbslist")
 	public Map<String, Object> bbslist(mypartyBbsParam param) {
 
@@ -39,15 +40,11 @@ public class PartyBbsController {
 		
 		int len = service.getmyAllBbs(param);
 		
-//		int pageBbs = len / 10;		// 25 / 10 -> 2
-//		if((len % 10) > 0) {
-//			pageBbs = pageBbs + 1;
-//		}
 		
 		Map<String, Object> map = new HashMap<>();
 		map.put("list", list);
 		map.put("cnt", len);
-	//	map.put("pageBbs", pageBbs);
+
 		return map;
 	}
 	

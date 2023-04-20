@@ -29,8 +29,11 @@
 </insert>
 
 <!-- 로그인 -->
+<!-- 4/19(노혜원) auth=3 관리자의 회원 활동정지 기능때문에 쿼리 수정했습니다 + and auth in(0,1,2) -->
 <select id="login" parameterType="com.woojujumin.dto.MemberDto" resultType="com.woojujumin.dto.MemberDto">
-	select * from member where id=#{id} and password=#{password}
+
+	select * from member where id=#{id} and password=#{password} and auth in(0,1,2)
+
 </select>
 
 <!--회원 수정  -->
@@ -49,5 +52,23 @@
 	update member set nickname=#{nickname}, phoneNum=#{phoneNum}, address=#{address}
 	where id=#{id}
 </update>
+
+
+
+
+<!-- 관리자 페이지 로그인(노혜원) -->
+<select id="adminLogin" parameterType="com.woojujumin.dto.MemberDto" resultType="com.woojujumin.dto.MemberDto">
+
+	select * from member where id=#{id} and password=#{password} and auth = 2
+
+</select>
+
+
+<!-- 관리자 페이지 회원가입(노혜원) -->
+<insert id="adminAddmember" parameterType="com.woojujumin.dto.MemberDto">
+	insert into member(id, password, nickname, email, phoneNum, profile, address, regdate, delflg, auth, point)
+	values(#{id}, #{password}, #{nickname}, #{email}, #{phoneNum}, #{profile}, #{address}, now(), 0, 2, 0)
+</insert>
+
 
 </mapper>

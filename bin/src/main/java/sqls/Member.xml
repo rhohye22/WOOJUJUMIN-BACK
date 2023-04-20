@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+	"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.woojujumin.dao.MemberDao">
+
+<select id="allmember" resultType="com.woojujumin.dto.MemberDto">
+	select * from member
+</select>
+
+<!-- id 체크 -->
+<select id="idcheck" parameterType="String" resultType="Integer">
+	select count(*)
+	from member
+	where id=#{id}
+</select>
+
+<!-- 회원가입 -->
+<insert id="addmember" parameterType="com.woojujumin.dto.MemberDto">
+	insert into member(id, password, nickname, email, phoneNum, profile, address, regdate, delflg, auth, point)
+	values(#{id}, #{password}, #{nickname}, #{email}, #{phoneNum}, #{profile}, #{address}, now(), 0, 0, 0)
+</insert>
+
+<!-- 로그인 -->
+<select id="login" parameterType="com.woojujumin.dto.MemberDto" resultType="com.woojujumin.dto.MemberDto">
+	select id, name, nickname, email, phoneNum, profile, address, auth, point
+	from member
+	where id=#{id} and password=#{password}
+</select>
+
+</mapper>
