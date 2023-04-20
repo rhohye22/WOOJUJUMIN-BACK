@@ -11,6 +11,7 @@ public class FreeBbsDto implements Serializable {
 	private String wdate;
 	private int del;
 	private int readcount;
+	private String image;
 	private int tag;
 	private int likey;
 	private int hate;
@@ -20,7 +21,7 @@ public class FreeBbsDto implements Serializable {
 	}
 
 	public FreeBbsDto(int bbsSeq, String id, String title, String content, String wdate, int del, int readcount,
-			int tag, int likey, int hate) {
+			String image, int tag, int likey, int hate) {
 		super();
 		this.bbsSeq = bbsSeq;
 		this.id = id;
@@ -29,6 +30,7 @@ public class FreeBbsDto implements Serializable {
 		this.wdate = wdate;
 		this.del = del;
 		this.readcount = readcount;
+		this.image = image;
 		this.tag = tag;
 		this.likey = likey;
 		this.hate = hate;
@@ -90,6 +92,14 @@ public class FreeBbsDto implements Serializable {
 		this.readcount = readcount;
 	}
 
+	public String getImage() {
+		return image;
+	}
+
+	public void setImage(String image) {
+		this.image = image;
+	}
+
 	public int getTag() {
 		return tag;
 	}
@@ -117,7 +127,8 @@ public class FreeBbsDto implements Serializable {
 	@Override
 	public String toString() {
 		return "FreeBbsDto [bbsSeq=" + bbsSeq + ", id=" + id + ", title=" + title + ", content=" + content + ", wdate="
-				+ wdate + ", del=" + del + ", readcount=" + readcount + ", tag=" + tag + ", likey=" + likey + ", hate="
-				+ hate + "]";
+				+ wdate + ", del=" + del + ", readcount=" + readcount + ", image=" + image + ", tag=" + tag + ", likey="
+				+ likey + ", hate=" + hate + "]";
 	}
+
 }
