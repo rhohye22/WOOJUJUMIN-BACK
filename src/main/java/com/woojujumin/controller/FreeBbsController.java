@@ -53,6 +53,25 @@ public class FreeBbsController {
 			
 		}
 
+		//자유게시판 리스트
+		@GetMapping(value = "freeBbslist")
+		public List<FreeBbsDto> freeBbslist(String choice, String search, int start){
+			System.out.println("Free BbsController freeBbslist : " + new Date());
+			System.out.println("choice: "+choice+"  search: "+search+"  start: "+start);
+			return service.freeBbslist(choice, search,start);
+		}
+		
+		@GetMapping(value = "cntFreeBbs")
+		public int cntFreeBbs(String choice, String search){
+			System.out.println("Free BbsController cntFreeBbs : " + new Date());
+			System.out.println("choice: "+choice+"  search: "+search);
+			return service.cntFreeBbs(choice, search);
+		}
+		
+		
+		//
+		
+		
 		@GetMapping("getAllList")
 		public List<FreeBbsDto> getAllList() {
 			return service.getAllList();
