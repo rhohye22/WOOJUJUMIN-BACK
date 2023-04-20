@@ -2,7 +2,63 @@
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 	"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 
-<mapper namespace="com.woojujumin.dao.FreeBbsDao">
+	<mapper namespace="com.woojujumin.dao.FreeBbsDao">
+	
+	<!--*****************************************************************************************************************  -->
+	<!-- 내가쓴글 보기 자유게시판 -->
+	<select id="myfreeBbslist" parameterType="com.woojujumin.dto.mypartyBbsParam" resultType="com.woojujumin.dto.FreeBbsDto">
+		
+		select id, title, content, image, wdate, del, readcount, tag, likey, hate
+		from 
+			(select row_number()over(order by wdate desc) as rnum,
+			 id, title, content, image, wdate, del, readcount, tag, likey, hate
+		from freeBbs
+		where 1=1 AND id =#{id}
+			<if test="choice != null and choice != '' and search != null and search != ''">
+				<if test="choice == 'title'">
+					and title like concat('%', #{search}, '%') and del =0
+				
+				</if>
+				<if test="choice == 'content'">
+				
+					and content like concat('%', #{search}, '%') and del =0
+				
+				</if>
+				<if test="choice == 'writer'">
+				
+					and id=#{search} and del =0
+				
+				</if>
+			</if>
+			order by wdate desc) a
+			
+		where id =#{id} AND rnum between ${start} and ${end}    <!-- 숫자는 $, 문자열은 # -->	
+		</select>
+		
+		<!--글의 총수   -->
+	<select id="getmyfreeAllBbs" parameterType="com.woojujumin.dto.mypartyBbsParam" resultType="Integer">
+	
+		select ifnull(count(*), 0)
+		from freeBbs
+		<if test="choice != null and choice != '' and search != null and search != ''">
+				<if test="choice == 'title'">
+					where title like concat('%', #{search}, '%')
+				
+				</if>
+				<if test="choice == 'content'">
+				
+					where content like concat('%', #{search}, '%')
+				
+				</if>
+				<if test="choice == 'writer'">
+				
+					where id=#{search}
+				
+				</if>
+			</if>
+	
+	</select>
+	
 	<select id="getAllList" resultType="com.woojujumin.dto.FreeBbsDto">
 		select * from freeBbs
 	</select>
@@ -11,4 +67,8 @@
 		from freeBbs
 		where bbsSeq=#{bbsSeq}
 	</select>
-</mapper>
+	
+	
+	</mapper>
+
+

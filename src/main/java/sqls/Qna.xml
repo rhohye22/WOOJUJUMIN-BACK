@@ -1,0 +1,75 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+	"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.woojujumin.dao.QnaDao">
+	<!--id별 질문글 리스트 -->
+	<select id="myqna" resultType="com.woojujumin.dto.QnaDto">
+		select qnaSeq,id,title,
+		content,qtype,
+		wdate,ansdate from qna where id =#{id}
+		ORDER BY qnaSeq
+		DESC
+		LIMIT #{start},10
+
+	</select>
+
+	<!-- 개인별 Qna 게시글 수 -->
+	<select id="cntqna" resultType="java.lang.Integer">
+		select count(*) from qna where id
+		=#{id}
+	</select>
+
+	<!--질문글 추가 -->
+	<insert id="addQna" parameterType="com.woojujumin.dto.QnaDto">
+
+		insert into qna(id, qtype,
+		title, content,wdate)
+		values(#{id},#{qtype},#{title},#{content},
+		now())
+
+	</insert>
+	<!-- qnaSeq로 질문글 조회 -->
+	<select id="getQna" resultType="com.woojujumin.dto.QnaDto">
+		select * from qna where qnaSeq =
+		#{qnaSeq}
+	</select>
+
+	<!-- 답변이 안달린 질문 전체 리스트 -->
+	<select id="allnewqna" resultType="com.woojujumin.dto.QnaDto">
+		select *
+		from qna where ansdate
+		is null
+		ORDER BY qnaSeq DESC
+
+	</select>
+
+	<!-- 질문 타입별 리스트 -->
+
+	<select id="typeqna" resultType="com.woojujumin.dto.QnaDto">
+		select *
+		from qna where ansdate
+		is null and qtype=#{qtype}
+		ORDER BY qnaSeq DESC
+
+	</select>
+
+	<!--답변이 달린 리스트 -->
+	<select id="answeredqns" resultType="com.woojujumin.dto.QnaDto">
+		select *
+		from qna where
+		ansdate
+		is not null
+		ORDER BY qnaSeq DESC
+
+	</select>
+
+	<!--관리자 답변 등록 -->
+	<update id="makeanswer" parameterType="com.woojujumin.dto.QnaDto">
+		UPDATE qna set mngid=#{mngid},answer=#{answer},ansdate=now()
+		where qnaSeq=#{qnaSeq}
+	</update>
+	
+	
+	
+</mapper>
