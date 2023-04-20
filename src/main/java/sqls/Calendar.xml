@@ -1,0 +1,52 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+	"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+	
+
+<mapper namespace="com.woojujumin.dao.CalendarDao">
+
+<!-- 230417 달력가져오기 / CalendarDto에 tagName 변수 하나 추가-->
+<select id="getCalendarList" parameterType="String" resultType="com.woojujumin.dto.CalendarDto">
+	select * 
+	from (select row_number()over(partition by substr(rdate, 1, 8) order by rdate asc) as rnum,
+	 	calSeq, manager, title, content, rdate, wdate, tag
+     	from calendar 
+     	where substr(rdate, 1, 6)=#{yyyymm} ) a , category c
+	where rnum between 1 and 5 and a.tag = c.tagSeq;
+</select>
+
+<!-- 230414 일정 등록하기 -->
+<insert id="calwrite" parameterType="com.woojujumin.dto.CalendarDto" >
+	INSERT INTO CALENDAR(manager, title, content, rdate, wdate, tag)
+	VALUES (#{manager}, #{title}, #{content}, #{rdate}, now(), #{tag})
+</insert>
+
+<!-- 230417 일정 상세보기 -->
+<select id="caldetail" parameterType="Integer" resultType="com.woojujumin.dto.CalendarDto">
+	select * 
+	from calendar cal, category c
+	where calSeq=#{calSeq} and cal.tag = c.tagSeq;
+</select>	
+
+<!-- 230418 날짜에 해당하는 리스트 보기 -->
+<select id="getDayList" parameterType="com.woojujumin.dto.CalendarDto" resultType="com.woojujumin.dto.CalendarDto">
+	select *
+	from calendar
+	where manager=#{manager} and substr(rdate, 1, 8)=#{rdate}
+	order by rdate asc 
+</select>
+
+<!-- 230418 일정 수정하기 -->
+<update id="calupdate" parameterType="com.woojujumin.dto.CalendarDto">
+	update calendar
+	set title=#{title}, content=#{content}, rdate=#{rdate}, wdate=now(), tag=#{tag}
+	where calSeq=#{calSeq}
+</update>
+
+<!-- 230419 일정 삭제하기 -->
+<delete id="caldelete" parameterType="Integer">
+	delete from calendar
+	where calSeq=#{calSeq}
+</delete>
+</mapper>
