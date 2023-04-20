@@ -30,7 +30,9 @@
 
 <!-- 로그인 -->
 <select id="login" parameterType="com.woojujumin.dto.MemberDto" resultType="com.woojujumin.dto.MemberDto">
+
 	select * from member where id=#{id} and password=#{password}
+
 </select>
 
 
@@ -41,5 +43,23 @@
 					  profile=#{profile} where memberSeq=#{memberSeq}
 
 </update>
+
+
+
+
+<!-- 관리자 페이지 로그인(노혜원) -->
+<select id="adminLogin" parameterType="com.woojujumin.dto.MemberDto" resultType="com.woojujumin.dto.MemberDto">
+
+	select * from member where id=#{id} and password=#{password} and auth = 2
+
+</select>
+
+
+<!-- 관리자 페이지 회원가입(노혜원) -->
+<insert id="adminAddmember" parameterType="com.woojujumin.dto.MemberDto">
+	insert into member(id, password, nickname, email, phoneNum, profile, address, regdate, delflg, auth, point)
+	values(#{id}, #{password}, #{nickname}, #{email}, #{phoneNum}, #{profile}, #{address}, now(), 0, 2, 0)
+</insert>
+
 
 </mapper>
