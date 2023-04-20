@@ -33,13 +33,21 @@
 	select * from member where id=#{id} and password=#{password}
 </select>
 
-
 <!--회원 수정  -->
 <update id="changeInfo" parameterType="com.woojujumin.dto.MemberDto">
-
 	update member set id=#{id}, password=#{password}, nickname=#{nickname}, email=#{email}, phoneNum=#{phoneNum}, address=#{address},
 					  profile=#{profile} where memberSeq=#{memberSeq}
+</update>
 
+<!-- 카카오 로그인 -->
+<select id="kakaoLogin" parameterType="String" resultType="com.woojujumin.dto.MemberDto">
+	select * from member where id=#{id}
+</select>
+
+<!-- 카카오 회원가입 후 정보 추가 -->
+<update id="kakaoAdd" parameterType="com.woojujumin.dto.MemberDto">
+	update member set nickname=#{nickname}, phoneNum=#{phoneNum}, address=#{address}
+	where id=#{id}
 </update>
 
 </mapper>

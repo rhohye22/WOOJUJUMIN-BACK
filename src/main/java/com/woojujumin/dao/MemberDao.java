@@ -28,4 +28,10 @@ public interface MemberDao {
 
 	// 회원수정 4/12
 	int changeInfo(MemberDto dto);
+	
+	// 카카오 로그인
+	MemberDto kakaoLogin(String id);
+	
+	// 카카오 추가작업
+	int kakaoAdd(MemberDto dto);
 }
