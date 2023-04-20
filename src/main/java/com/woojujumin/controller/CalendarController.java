@@ -3,6 +3,7 @@ package com.woojujumin.controller;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.HashMap;
+import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -30,10 +31,11 @@ public class CalendarController {
 	}
 
 	@PostMapping(value = "/calendarmain")
-	public HashMap<String, Object> calendarmain(String sendYear, String sendMonth) {
+	public HashMap<String, Object> calendarmain(String sendYear, String sendMonth, String sendYyyymm) {
 		System.out.println("CalendarController calendarmain() " + new Date());
 		System.out.println("sendYear: "+sendYear);
 		System.out.println("sendMonth: "+sendMonth);
+		System.out.println("넘어온 값 yyyymm : " + sendYyyymm);
 		
 		Calendar cal = Calendar.getInstance();
 		cal.set(Calendar.DATE, 1); // 1일로 설정
@@ -41,6 +43,7 @@ public class CalendarController {
 		// 맨 처음은 빈문자 - 그다음은 계속 넘어 올 것임
 		String syear = sendYear;
 		String smonth = sendMonth;
+		String syyyymm = sendYyyymm;
 
 		int year = cal.get(Calendar.YEAR);
 		if (nvl(syear) == false) { // 넘어온 파라미터가 있다!
@@ -51,7 +54,12 @@ public class CalendarController {
 		if (nvl(smonth) == false) {
 			month = Integer.parseInt(smonth);
 		}
-
+		
+		String yyyymm = year + two(month+"");
+		if(nvl(syyyymm) == false) {
+			yyyymm = syyyymm;
+		}
+		
 		if (month < 1) {
 			month = 12;
 			year--;
@@ -79,9 +87,25 @@ public class CalendarController {
 		map.put("year", year);
 		map.put("month", month);
 		
+		List<CalendarDto> calDto = service.getCalendarList(yyyymm);
+		
+		map.put("list",calDto);
+		
 		return map;
 	}
 	
+//	// 일정 불러오기 230417 - 그냥 main으로 이동 
+//	@GetMapping(value="/calendarlist")
+//	public List<CalendarDto> getCalendarList(String yyyymm){
+//		System.out.println("CalendarController getCalendarList() " + new Date());
+//		System.out.println("넘어온 값 yyyymm : " + yyyymm);
+//		
+//		List<CalendarDto> calDto = service.getCalendarList(yyyymm);
+//		
+//		return calDto;
+//	}
+	
+	// 일정 추가 230414
 	@GetMapping(value="/calendarwrite")
 	public String calendarwrite(CalendarDto cal) {
 		System.out.println("CalendarController calendarwrite() " + new Date());
@@ -92,5 +116,45 @@ public class CalendarController {
 		
 		return "NO";
 	}
-
+	
+	
+	// 일정 상세보기 230417
+	@PostMapping(value="/calendardetail")
+	public CalendarDto caldetail(int calSeq) {
+		System.out.println("CalendarController caldetail() " + new Date());
+		System.out.println("넘어온 값 calSeq : " + calSeq);
+		
+		return service.caldetail(calSeq);
+	}
+	
+	// 날짜 선택하면 일정 리스트 보기 230418
+	@GetMapping(value="/calendarlist")
+	public List<CalendarDto> calendarlist(CalendarDto cal){
+		System.out.println("CalendarController calendarlist() " + new Date());
+		System.out.println("넘어온 값 cal : " + cal);
+		
+		return service.getDayList(cal);
+	}
+	
+	// 일정 수정하기 230418
+	@GetMapping(value="/calendarupdate")
+	public String calupdate(CalendarDto cal) {
+		System.out.println("CalendarController calupdate() " + new Date());
+		System.out.println("넘어온 값 cal : " + cal);
+		
+		boolean isS = service.calupdate(cal);
+		if(isS) return "YES";
+		return "NO";
+	}
+	
+	// 일정 삭제하기 230419
+	@GetMapping(value="/calendardelete")
+	public String caldelete(int calSeq) {
+		System.out.println("CalendarController caldelete() " + new Date());
+		System.out.println("넘어온 값 calSeq : " + calSeq);
+		
+		boolean isS = service.caldelete(calSeq);
+		if(isS) return "YES";
+		return "NO";
+	}
 }
