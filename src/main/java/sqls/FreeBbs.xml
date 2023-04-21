@@ -118,15 +118,27 @@
 
 			</if>
 		</if>
-	
+
 	</select>
 
-	<select id="getBbs" parameterType="Integer"
+	<!-- 자유게시판 글쓰기 -->
+	<insert id="writeFreeBbs" parameterType="com.woojujumin.dto.FreeBbsDto">
+		insert into freeBbs(id, title, content,image,tag)
+		VALUES(#{id},#{title},#{content},#{image}, #{tag})
+	</insert>
+	
+	<!-- 자유게시판 -->
+	<select id="getfreeBbs"
 		resultType="com.woojujumin.dto.FreeBbsDto">
 		select *
 		from freeBbs
 		where bbsSeq=#{bbsSeq}
 	</select>
+	
+	
+	
+	
+	
 	<!-- 쓰는지 안쓰는지 모르겠음 -->
 	<select id="getAllList"
 		resultType="com.woojujumin.dto.FreeBbsDto">
