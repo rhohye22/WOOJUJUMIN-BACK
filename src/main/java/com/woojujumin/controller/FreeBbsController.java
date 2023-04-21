@@ -19,7 +19,7 @@ import org.springframework.web.multipart.MultipartFile;
 
 import com.woojujumin.dto.FreeBbsDto;
 import com.woojujumin.dto.MemberDto;
-import com.woojujumin.dto.QnaDto;
+import com.woojujumin.dto.FreeReplyDto;
 import com.woojujumin.dto.mypartyBbsParam;
 import com.woojujumin.service.FreeBbsService;
 
@@ -123,6 +123,30 @@ public class FreeBbsController {
 		public FreeBbsDto getfreeBbs(int bbsSeq) {
 			return service.getfreeBbs(bbsSeq);
 		}
+			
+			
+		//자유게시판 댓글
+			@PostMapping(value = "writeFreeReply")
+			public String writeFreeReply(FreeReplyDto dto) {
+				System.out.println("FreeBbsController writeFreeReply() " + new Date());
+				System.out.println(dto.toString());
+				boolean b = service.writeFreeReply(dto);
+				if(b == false) {
+					return "NO";
+				}
+				return "YES";
+			}
+			
+			
+			//자유게시판 댓글 리스트
+			@GetMapping(value = "freeReplyList")
+			public List<FreeReplyDto> freeReplyList(int replySeq, int start, int limit){
+				System.out.println("FreeBbsController freeReplyList : " + new Date());
+				System.out.println("replySeq: "+replySeq+ " start: "+start+ " limit: "+limit);
+				return service.freeReplyList(replySeq,start,limit);
+			}
+			
+			
 		
 		//사용 확인필요
 		

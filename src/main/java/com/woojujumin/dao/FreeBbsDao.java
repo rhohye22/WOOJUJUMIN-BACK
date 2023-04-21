@@ -7,6 +7,7 @@ import org.apache.ibatis.annotations.Mapper;
 import org.springframework.stereotype.Repository;
 
 import com.woojujumin.dto.FreeBbsDto;
+import com.woojujumin.dto.FreeReplyDto;
 
 import com.woojujumin.dto.mypartyBbsParam;
 
@@ -27,7 +28,9 @@ public interface FreeBbsDao {
 	int writeFreeBbs(FreeBbsDto dto);
 
 	FreeBbsDto getfreeBbs(int bbsSeq);
-
+	
+	int writeFreeReply(FreeReplyDto dto);
+	List<FreeReplyDto> freeReplyList(int replySeq, int start, int limit);
 	
 	
 	

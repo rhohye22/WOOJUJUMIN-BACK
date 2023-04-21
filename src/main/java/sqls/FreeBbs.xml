@@ -122,23 +122,34 @@
 	</select>
 
 	<!-- 자유게시판 글쓰기 -->
-	<insert id="writeFreeBbs" parameterType="com.woojujumin.dto.FreeBbsDto">
+	<insert id="writeFreeBbs"
+		parameterType="com.woojujumin.dto.FreeBbsDto">
 		insert into freeBbs(id, title, content,image,tag)
 		VALUES(#{id},#{title},#{content},#{image}, #{tag})
 	</insert>
-	
-	<!-- 자유게시판 -->
+
+	<!-- 자유게시판 특정게시물 -->
 	<select id="getfreeBbs"
 		resultType="com.woojujumin.dto.FreeBbsDto">
 		select *
 		from freeBbs
 		where bbsSeq=#{bbsSeq}
 	</select>
-	
-	
-	
-	
-	
+
+
+	<!-- 자유게시판 댓글 -->
+	<insert id="writeFreeReply"
+		parameterType="com.woojujumin.dto.FreeReplyDto">
+		insert into freereply(replySeq,content,writer,wdate)
+		values(#{replySeq},#{content},#{writer},now())
+	</insert>
+
+
+	<!-- 자유게시판 댓글리스트 -->
+	<select id="freeReplyList"
+		resultType="com.woojujumin.dto.FreeReplyDto">
+		select * from freereply where replySeq=#{replySeq} order by wdate limit #{start},#{limit};
+	</select>
 	<!-- 쓰는지 안쓰는지 모르겠음 -->
 	<select id="getAllList"
 		resultType="com.woojujumin.dto.FreeBbsDto">

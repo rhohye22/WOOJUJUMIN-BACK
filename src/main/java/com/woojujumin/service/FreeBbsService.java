@@ -8,7 +8,7 @@ import org.springframework.transaction.annotation.Transactional;
 
 import com.woojujumin.dao.FreeBbsDao;
 import com.woojujumin.dto.FreeBbsDto;
-import com.woojujumin.dto.QnaDto;
+import com.woojujumin.dto.FreeReplyDto;
 import com.woojujumin.dto.mypartyBbsParam;
 
 @Service
@@ -43,11 +43,20 @@ public class FreeBbsService {
 		return cnt > 0 ? true : false;
 
 	}
+	public boolean writeFreeReply(FreeReplyDto dto) {
+		int cnt = dao.writeFreeReply(dto);
+		return cnt > 0 ? true : false;
+		
+	}
 
 	public FreeBbsDto getfreeBbs(int bbsSeq) {
 		return dao.getfreeBbs(bbsSeq);
 	}
 
+	public List<FreeReplyDto> freeReplyList(int replySeq, int start, int limit){
+		return dao.freeReplyList(replySeq,start,limit);
+	}
+	
 //쓰는지 확인필요
 	public List<FreeBbsDto> getAllList() {
 		return dao.getAllList();
