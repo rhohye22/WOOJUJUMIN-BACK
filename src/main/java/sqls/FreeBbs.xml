@@ -123,8 +123,8 @@
 
 	<!-- 자유게시판 글쓰기 -->
 	<insert id="writeFreeBbs" parameterType="com.woojujumin.dto.FreeBbsDto">
-		insert into freeBbs(id, title, content,image)
-		VALUES(#{id},#{title},#{content},#{image})
+		insert into freeBbs(id, title, content,image,tag)
+		VALUES(#{id},#{title},#{content},#{image}, #{tag})
 	</insert>
 	
 	<!-- 자유게시판 -->
