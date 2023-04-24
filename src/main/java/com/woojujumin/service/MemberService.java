@@ -79,14 +79,17 @@ public class MemberService {
 		int n = dao.partyleadercheck(memid);
 		return t>0 && n>0?true:false;
 	}
-	// 카카오 로그인
-	public MemberDto kakaoLogin(String id) {
-		return dao.kakaoLogin(id);
+
+
+	// 소셜 로그인
+	public MemberDto socialLogin(String id) {
+		return dao.socialLogin(id);
+
 	}
 	
-	// 카카오 추가작업
-	public boolean kakaoAdd(MemberDto dto) {
-		int n = dao.kakaoAdd(dto);
+	// 소셜 추가작업
+	public boolean socialAdd(MemberDto dto) {
+		int n = dao.socialAdd(dto);
 		return n>0?true:false;
 
 	}
