@@ -62,4 +62,32 @@
 </insert>
 
 
+<!-- 관리자 페이지 파티장승급 (권유리) -->
+<insert id="adminPartyLeader" parameterType="com.woojujumin.dto.IdcardDto">
+	insert into idcard(memid, idname, idbirth, idaddress, iddate, idpublic, idimage, wdate, cardcheck)
+	values(#{memid}, #{idname}, #{idbirth}, #{idaddress}, #{iddate}, #{idpublic}, #{idimage}, now(), 0)
+</insert>
+
+<!-- 관리자 페이지 파티장승급(권유리) -->
+<select id="allcheck" resultType="com.woojujumin.dto.IdcardDto">
+	select * 
+	from idcard
+	where cardcheck=0;
+</select>
+
+<!-- 관리자 페이지 파티장승급여부 -->
+<update id="partyleadersuccess" parameterType="String">
+	update member
+	set auth=1
+	where id in(
+		select memid 
+		from idcard 
+		where memid=#{memid} )
+</update>
+
+<update id="partyleadercheck" parameterType="String">		
+	update idcard
+	set cardcheck=1
+	where memid=#{memid}
+</update>
 </mapper>
