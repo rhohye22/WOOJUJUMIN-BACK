@@ -245,7 +245,8 @@ public class MemberController {
 		boolean isS = service.partyleadersuccess(memid);
 		if(isS) return "YES";
 		return "NO";
-
+	}
+	
 	// 카카오 회원가입
 	@PostMapping(value = "/kakaoRegi")
 	public String kakaoRegi(MemberDto dto) {

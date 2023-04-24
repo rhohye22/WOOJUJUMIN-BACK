@@ -78,7 +78,7 @@ public class MemberService {
 		int t = dao.partyleadersuccess(memid);
 		int n = dao.partyleadercheck(memid);
 		return t>0 && n>0?true:false;
-
+	}
 	// 카카오 로그인
 	public MemberDto kakaoLogin(String id) {
 		return dao.kakaoLogin(id);
