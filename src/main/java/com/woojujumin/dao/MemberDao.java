@@ -36,6 +36,11 @@ public interface MemberDao {
 	// 관리자 등록 4/17
 	int adminAddmember(MemberDto dto);
 	
+	// 소셜 로그인
+	MemberDto socialLogin(String id);
+	
+	// 소셜 추가작업
+	int socialAdd(MemberDto dto);
 
 	// 관리자 파티장 승급 4/20
 	int adminPartyLeader(IdcardDto dto);
@@ -46,11 +51,4 @@ public interface MemberDao {
 	// 관리자 파티장 승급 승인 4/21 
 	int partyleadersuccess(String memid);	
 	int partyleadercheck(String memid);
-
-	// 카카오 로그인
-	MemberDto kakaoLogin(String id);
-	
-	// 카카오 추가작업
-	int kakaoAdd(MemberDto dto);
-
 }
