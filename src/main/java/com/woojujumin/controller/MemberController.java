@@ -245,10 +245,11 @@ public class MemberController {
 		boolean isS = service.partyleadersuccess(memid);
 		if(isS) return "YES";
 		return "NO";
+	}
 
-	// 카카오 회원가입
+	// 소셜 회원가입
 	@PostMapping(value = "/socialRegi")
-	public String kakaoRegi(MemberDto dto) {
+	public String socialRegi(MemberDto dto) {
 		System.out.println("MemberController socialRegi " + new Date());
 		
 		System.out.println(dto.toString());
