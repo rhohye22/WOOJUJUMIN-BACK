@@ -185,9 +185,9 @@ public class MemberController {
 		}
 
 	// 카카오 회원가입
-	@PostMapping(value = "/kakaoRegi")
+	@PostMapping(value = "/socialRegi")
 	public String kakaoRegi(MemberDto dto) {
-		System.out.println("MemberController kakaoRegi " + new Date());
+		System.out.println("MemberController socialRegi " + new Date());
 		
 		System.out.println(dto.toString());
 		
@@ -198,28 +198,28 @@ public class MemberController {
 		return "YES";
 	}
 
-	// 카카오 로그인
-	@PostMapping(value = "/kakaoLogin")
-	public MemberDto kakaoLogin(String id) {
-		System.out.println("MemberController kakaoLogin " + new Date());
+	// 소셜 로그인
+	@PostMapping(value = "/socialLogin")
+	public MemberDto socialLogin(String id) {
+		System.out.println("MemberController socialLogin " + new Date());
 		
-		MemberDto mem = service.kakaoLogin(id);
+		MemberDto mem = service.socialLogin(id);
 		System.out.println("mem : " + mem.getId() + mem.getPassword());
 		return mem;
 	}
 	
-	// 카카오 회원가입 추가작업
-	@PostMapping(value = "/kakaoAdd")
-	public MemberDto kakaoAdd(MemberDto dto) {
-		System.out.println("MemberController kakaoAdd " + new Date());
+	// 소셜 회원가입 추가작업
+	@PostMapping(value = "/socialAdd")
+	public MemberDto socialAdd(MemberDto dto) {
+		System.out.println("MemberController socialAdd " + new Date());
 		
 		MemberDto mem = new MemberDto();
-		boolean b = service.kakaoAdd(dto);
+		boolean b = service.socialAdd(dto);
 		if(b == false) {
 			return mem;
 		}
 		
-		mem = service.kakaoLogin(dto.getId());
+		mem = service.socialLogin(dto.getId());
 		return mem;
 	}
 }

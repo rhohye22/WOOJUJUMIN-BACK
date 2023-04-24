@@ -35,9 +35,9 @@ public interface MemberDao {
 	// 관리자 등록 4/17
 	int adminAddmember(MemberDto dto);
 	
-	// 카카오 로그인
-	MemberDto kakaoLogin(String id);
+	// 소셜 로그인
+	MemberDto socialLogin(String id);
 	
-	// 카카오 추가작업
-	int kakaoAdd(MemberDto dto);
+	// 소셜 추가작업
+	int socialAdd(MemberDto dto);
 }
