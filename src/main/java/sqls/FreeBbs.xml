@@ -73,25 +73,28 @@
 	<!-- 자유게시판 리스트 -->
 	<select id="freeBbslist"
 		resultType="com.woojujumin.dto.FreeBbsDto">
-		select * from freeBbs
+		SELECT f.bbsSeq, f.id, f.title, f.content, f.image, f.wdate, f.del, f.readcount, f.tag, a.likey, f.hate 
+		from freebbs f left join
+		(select bbsSeq, ifnull(sum(likeCheck),0) as likey from likey group by bbsSeq) a
+		on f.bbsSeq= a.bbsSeq
 		<if
 			test="choice != null and choice != '' and search != null and search != ''">
 			<if test="choice == 'title'">
-				where title like concat('%', #{search}, '%')
+				where f.title like concat('%', #{search}, '%')
 
 			</if>
 			<if test="choice == 'content'">
 
-				where content like concat('%', #{search}, '%')
+				where f.content like concat('%', #{search}, '%')
 
 			</if>
 			<if test="choice == 'writer'">
 
-				where id=#{search}
+				where f.id=#{search}
 
 			</if>
 		</if>
-		ORDER BY bbsSeq
+		ORDER BY f.bbsSeq
 		DESC
 		LIMIT #{start},20
 
@@ -148,15 +151,45 @@
 	<!-- 자유게시판 댓글리스트 -->
 	<select id="freeReplyList"
 		resultType="com.woojujumin.dto.FreeReplyDto">
-		select * from freereply where replySeq=#{replySeq} order by wdate limit #{start},#{limit};
-	</select>
-	<!-- 쓰는지 안쓰는지 모르겠음 -->
-	<select id="getAllList"
-		resultType="com.woojujumin.dto.FreeBbsDto">
-		select * from freeBbs
+		select * from freereply where replySeq=#{replySeq} order by
+		wdate limit #{start},#{limit};
 	</select>
 
-	<!-- 쓰는지 안쓰는지 모르겠음 -->
+
+	<!-- 좋아요기능 구현 -->	
+	
+	<!-- 좋아요 로우가 생성되어있는지 확인 -->
+	<select id="checkLikeyrow"  resultType="Integer">
+		SELECT ifnull(count(*), 0) from likey where bbsSeq=#{bbsSeq} and memSeq=#{memSeq}
+	</select>
+
+	<!--좋아요 테이블 데이터 삽입 -->
+	<insert id="makeLikeyrow">
+		insert into likey(bbsSeq, memSeq, likeCheck, hateCheck)
+		values(#{bbsSeq},#{memSeq},0,0)
+	</insert>
+
+	<!-- 좋아요 +1 -->
+	<update id="LikeyPlus">
+	update likey  set likeCheck = 1 where bbsSeq=#{bbsSeq} and memSeq=#{memSeq}
+	</update>
+	<!-- 좋아요 -1 -->
+	<update id="LikeyMinus">
+	update likey  set likeCheck = 0 where bbsSeq=#{bbsSeq} and memSeq=#{memSeq}
+	</update>
+	
+	<!-- 입장시 페이지 좋아요 상태 -->
+	<select id="LikeyState"  resultType="Integer">
+	SELECT ifnull(sum(likeCheck),0) from likey where  bbsSeq=#{bbsSeq} and memSeq=#{memSeq}
+	</select>
+
+<!-- 게시글당 좋아요 총 개수  -->
+
+<select id="cntLikey"  resultType="Integer">
+
+select ifnull(count(*), 0) from likey where bbsSeq=#{bbsSeq} and  likeCheck = 1 
+
+</select>
 
 
 

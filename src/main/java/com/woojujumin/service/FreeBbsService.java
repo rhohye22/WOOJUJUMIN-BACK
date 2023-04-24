@@ -57,9 +57,33 @@ public class FreeBbsService {
 		return dao.freeReplyList(replySeq,start,limit);
 	}
 	
-//쓰는지 확인필요
-	public List<FreeBbsDto> getAllList() {
-		return dao.getAllList();
+	
+	public int checkLikeyrow(int bbsSeq, int memSeq) {
+		return dao.checkLikeyrow(bbsSeq, memSeq);
+		}
+	
+	public boolean makeLikeyrow(int bbsSeq, int memSeq) {
+		int cnt = dao.makeLikeyrow(bbsSeq,memSeq);
+		return cnt > 0 ? true : false;
+		
 	}
+	public boolean LikeyPlus(int bbsSeq, int memSeq) {
+		int cnt = dao.LikeyPlus(bbsSeq,memSeq);
+		return cnt > 0 ? true : false;
+		
+	}
+	public boolean LikeyMinus(int bbsSeq, int memSeq) {
+		int cnt = dao.LikeyMinus(bbsSeq,memSeq);
+		return cnt > 0 ? true : false;
+		
+	}
+	
+	public int LikeyState(int bbsSeq, int memSeq) {
+		return dao.LikeyState(bbsSeq, memSeq);
+	}
+	public int cntLikey(int bbsSeq) {
+		return dao.cntLikey(bbsSeq);
+	}
+
 
 }

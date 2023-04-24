@@ -31,13 +31,16 @@ public interface FreeBbsDao {
 	
 	int writeFreeReply(FreeReplyDto dto);
 	List<FreeReplyDto> freeReplyList(int replySeq, int start, int limit);
+	//좋아요
+	int checkLikeyrow(int bbsSeq, int memSeq);//0이면 없는거 1이면 있는거
+	int makeLikeyrow(int bbsSeq, int memSeq);
 	
+	//좋아요
+	int LikeyPlus(int bbsSeq, int memSeq);
+	int LikeyMinus(int bbsSeq, int memSeq);
+	int LikeyState(int bbsSeq, int memSeq);
+	int cntLikey(int bbsSeq);
 	
-	
-	// 쓰는지 안쓰는지 확인필요
-	
-	List<FreeBbsDto> getAllList();
-	
-	
+
 
 }
