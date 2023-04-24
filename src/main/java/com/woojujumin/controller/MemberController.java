@@ -197,6 +197,7 @@ public class MemberController {
 		String filename = uploadFile.getOriginalFilename();
 		String filepath = uploadpath + "/" + filename;
 
+
 		System.out.println(filepath);
 		
 		try {
@@ -244,5 +245,44 @@ public class MemberController {
 		boolean isS = service.partyleadersuccess(memid);
 		if(isS) return "YES";
 		return "NO";
+
+	// 카카오 회원가입
+	@PostMapping(value = "/kakaoRegi")
+	public String kakaoRegi(MemberDto dto) {
+		System.out.println("MemberController kakaoRegi " + new Date());
+		
+		System.out.println(dto.toString());
+		
+		boolean b = service.addmember(dto);
+		if(b == false) {
+			return "NO";
+		}
+		return "YES";
+	}
+
+	// 카카오 로그인
+	@PostMapping(value = "/kakaoLogin")
+	public MemberDto kakaoLogin(String id) {
+		System.out.println("MemberController kakaoLogin " + new Date());
+		
+		MemberDto mem = service.kakaoLogin(id);
+		System.out.println("mem : " + mem.getId() + mem.getPassword());
+		return mem;
+	}
+	
+	// 카카오 회원가입 추가작업
+	@PostMapping(value = "/kakaoAdd")
+	public MemberDto kakaoAdd(MemberDto dto) {
+		System.out.println("MemberController kakaoAdd " + new Date());
+		
+		MemberDto mem = new MemberDto();
+		boolean b = service.kakaoAdd(dto);
+		if(b == false) {
+			return mem;
+		}
+		
+		mem = service.kakaoLogin(dto.getId());
+		return mem;
+
 	}
 }

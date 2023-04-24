@@ -46,7 +46,6 @@ public class MemberService {
 
 	// 회원수정 4/12
 	public boolean changeInfo(MemberDto dto) {
-		
 		int n = dao.changeInfo(dto);
 		return n>0?true:false;
 	}
@@ -62,6 +61,7 @@ public class MemberService {
 		return n>0?true:false; 
 	}
 	
+
 	// 관리자 파티장 승급 4/20
 	public boolean adminPartyLeader(IdcardDto dto) {
 		int n = dao.adminPartyLeader(dto);
@@ -78,5 +78,16 @@ public class MemberService {
 		int t = dao.partyleadersuccess(memid);
 		int n = dao.partyleadercheck(memid);
 		return t>0 && n>0?true:false;
+
+	// 카카오 로그인
+	public MemberDto kakaoLogin(String id) {
+		return dao.kakaoLogin(id);
+	}
+	
+	// 카카오 추가작업
+	public boolean kakaoAdd(MemberDto dto) {
+		int n = dao.kakaoAdd(dto);
+		return n>0?true:false;
+
 	}
 }
