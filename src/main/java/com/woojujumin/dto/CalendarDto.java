@@ -11,6 +11,7 @@ public class CalendarDto implements Serializable {
 	private String rdate;
 	private String wdate;
 	private int tag;
+	private String tagName;
 	
 	public CalendarDto() {
 		// TODO Auto-generated constructor stub
@@ -25,6 +26,7 @@ public class CalendarDto implements Serializable {
 		this.rdate = rdate;
 		this.wdate = wdate;
 		this.tag = tag;
+		this.tagName = tagName;
 	}
 
 	public int getCalSeq() {
@@ -83,9 +85,20 @@ public class CalendarDto implements Serializable {
 		this.tag = tag;
 	}
 
+	
+	public String getTagName() {
+		return tagName;
+	}
+
+	public void setTagName(String tagName) {
+		this.tagName = tagName;
+	}
+
 	@Override
 	public String toString() {
 		return "CalendarDto [calSeq=" + calSeq + ", manager=" + manager + ", title=" + title + ", content=" + content
-				+ ", rdate=" + rdate + ", wdate=" + wdate + ", tag=" + tag + "]";
+				+ ", rdate=" + rdate + ", wdate=" + wdate + ", tag=" + tag + ", tagName=" + tagName + "]";
 	}
+
+	
 }

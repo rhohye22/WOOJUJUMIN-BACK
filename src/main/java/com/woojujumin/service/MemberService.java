@@ -45,8 +45,29 @@ public class MemberService {
 
 	// 회원수정 4/12
 	public boolean changeInfo(MemberDto dto) {
-		
 		int n = dao.changeInfo(dto);
+		return n>0?true:false;
+	}
+	
+	//관리자 페이지 로그인 4/17
+	public MemberDto adminLogin(MemberDto dto) {
+		return dao.adminLogin(dto);
+	}
+	 
+	//관리자 등록 4/17
+	public boolean adminAddmember(MemberDto dto) {
+		int n = dao.adminAddmember(dto);
+		return n>0?true:false; 
+	}
+	
+	// 카카오 로그인
+	public MemberDto kakaoLogin(String id) {
+		return dao.kakaoLogin(id);
+	}
+	
+	// 카카오 추가작업
+	public boolean kakaoAdd(MemberDto dto) {
+		int n = dao.kakaoAdd(dto);
 		return n>0?true:false;
 	}
 }

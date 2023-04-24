@@ -141,9 +141,85 @@ public class MemberController {
 		}
 		return "YES";
 	}
-	
-	
-	
-	
+	// 관리자 페이지 로그인(4/17노혜원)
+	@PostMapping(value = "/adminLogin")
+	public MemberDto adminLogin(MemberDto dto) {
+		System.out.println("MemberController adminLogin " + new Date());
 
+		MemberDto mem = service.adminLogin(dto);
+		System.out.println("mem : " + mem.getId() + mem.getPassword());
+		return mem;
+	}
+	
+	// 관리자 등록 4/17
+		@PostMapping(value = "/adminAddmember")
+		public String adminAddmember(MemberDto dto,
+								@RequestParam("uploadFile")
+								MultipartFile uploadFile,
+								HttpServletRequest req) {
+			System.out.println("MemberController adminAddmember " + new Date());
+			System.out.println(dto.toString());
+			
+			// 경로
+			String path = req.getServletContext().getRealPath("/upload");
+			String filename = uploadFile.getOriginalFilename();
+			String filepath = path + "/" + filename;
+			System.out.println(filepath);
+			
+			try {
+				BufferedOutputStream bos = new BufferedOutputStream(new FileOutputStream(new File(filepath)));
+				bos.write(uploadFile.getBytes());
+				bos.close();
+				
+			} catch (Exception e) {
+				e.printStackTrace();
+				System.out.println("파일 업로드 실패");
+			}
+			dto.setProfile(filepath);
+			
+			boolean b = service.adminAddmember(dto);
+			if(b == false) {
+				return "NO";
+			}
+			return "YES";
+		}
+
+	// 카카오 회원가입
+	@PostMapping(value = "/kakaoRegi")
+	public String kakaoRegi(MemberDto dto) {
+		System.out.println("MemberController kakaoRegi " + new Date());
+		
+		System.out.println(dto.toString());
+		
+		boolean b = service.addmember(dto);
+		if(b == false) {
+			return "NO";
+		}
+		return "YES";
+	}
+
+	// 카카오 로그인
+	@PostMapping(value = "/kakaoLogin")
+	public MemberDto kakaoLogin(String id) {
+		System.out.println("MemberController kakaoLogin " + new Date());
+		
+		MemberDto mem = service.kakaoLogin(id);
+		System.out.println("mem : " + mem.getId() + mem.getPassword());
+		return mem;
+	}
+	
+	// 카카오 회원가입 추가작업
+	@PostMapping(value = "/kakaoAdd")
+	public MemberDto kakaoAdd(MemberDto dto) {
+		System.out.println("MemberController kakaoAdd " + new Date());
+		
+		MemberDto mem = new MemberDto();
+		boolean b = service.kakaoAdd(dto);
+		if(b == false) {
+			return mem;
+		}
+		
+		mem = service.kakaoLogin(dto.getId());
+		return mem;
+	}
 }

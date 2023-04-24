@@ -29,17 +29,46 @@
 </insert>
 
 <!-- 로그인 -->
+<!-- 4/19(노혜원) auth=3 관리자의 회원 활동정지 기능때문에 쿼리 수정했습니다 + and auth in(0,1,2) -->
 <select id="login" parameterType="com.woojujumin.dto.MemberDto" resultType="com.woojujumin.dto.MemberDto">
-	select * from member where id=#{id} and password=#{password}
-</select>
 
+	select * from member where id=#{id} and password=#{password} and auth in(0,1,2)
+
+</select>
 
 <!--회원 수정  -->
 <update id="changeInfo" parameterType="com.woojujumin.dto.MemberDto">
-
 	update member set id=#{id}, password=#{password}, nickname=#{nickname}, email=#{email}, phoneNum=#{phoneNum}, address=#{address},
 					  profile=#{profile} where memberSeq=#{memberSeq}
-
 </update>
+
+<!-- 카카오 로그인 -->
+<select id="kakaoLogin" parameterType="String" resultType="com.woojujumin.dto.MemberDto">
+	select * from member where id=#{id}
+</select>
+
+<!-- 카카오 회원가입 후 정보 추가 -->
+<update id="kakaoAdd" parameterType="com.woojujumin.dto.MemberDto">
+	update member set nickname=#{nickname}, phoneNum=#{phoneNum}, address=#{address}
+	where id=#{id}
+</update>
+
+
+
+
+<!-- 관리자 페이지 로그인(노혜원) -->
+<select id="adminLogin" parameterType="com.woojujumin.dto.MemberDto" resultType="com.woojujumin.dto.MemberDto">
+
+	select * from member where id=#{id} and password=#{password} and auth = 2
+
+</select>
+
+
+<!-- 관리자 페이지 회원가입(노혜원) -->
+<insert id="adminAddmember" parameterType="com.woojujumin.dto.MemberDto">
+	insert into member(id, password, nickname, email, phoneNum, profile, address, regdate, delflg, auth, point)
+	values(#{id}, #{password}, #{nickname}, #{email}, #{phoneNum}, #{profile}, #{address}, now(), 0, 2, 0)
+</insert>
+
 
 </mapper>
