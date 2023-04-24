@@ -24,14 +24,15 @@ public interface FreeBbsDao {
 	//자유게시판(혜원)
 	List<FreeBbsDto> freeBbslist(String choice, String search, int start);
 	int cntFreeBbs(String choice, String search);
+	int writeFreeBbs(FreeBbsDto dto);
 
-	
+	FreeBbsDto getfreeBbs(int bbsSeq);
+
 	
 	
 	
 	// 쓰는지 안쓰는지 확인필요
-	List<FreeBbsDto> getBbs(int bbsSeq);
-
+	
 	List<FreeBbsDto> getAllList();
 	
 	
