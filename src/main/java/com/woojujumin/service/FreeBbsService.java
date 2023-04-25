@@ -30,12 +30,12 @@ public class FreeBbsService {
 
 	// 자유게시판(혜원)
 
-	public List<FreeBbsDto> freeBbslist(String choice, String search, int start) {
-		return dao.freeBbslist(choice, search, start);
+	public List<FreeBbsDto> freeBbslist(String choice, String search, int start,Integer  tag) {
+		return dao.freeBbslist(choice, search, start,tag);
 	}
 
-	public int cntFreeBbs(String choice, String search) {
-		return dao.cntFreeBbs(choice, search);
+	public int cntFreeBbs(String choice, String search,Integer  tag) {
+		return dao.cntFreeBbs(choice, search,tag);
 	}
 
 	public boolean writeFreeBbs(FreeBbsDto dto) {

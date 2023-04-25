@@ -23,8 +23,8 @@ public interface FreeBbsDao {
 	
 	
 	//자유게시판(혜원)
-	List<FreeBbsDto> freeBbslist(String choice, String search, int start);
-	int cntFreeBbs(String choice, String search);
+	List<FreeBbsDto> freeBbslist(String choice, String search, int start,Integer  tag);
+	int cntFreeBbs(String choice, String search,Integer  tag);
 	int writeFreeBbs(FreeBbsDto dto);
 
 	FreeBbsDto getfreeBbs(int bbsSeq);

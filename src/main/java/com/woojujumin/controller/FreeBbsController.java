@@ -60,17 +60,18 @@ public class FreeBbsController {
 
 	// 자유게시판 리스트
 	@GetMapping(value = "freeBbslist")
-	public List<FreeBbsDto> freeBbslist(String choice, String search, int start) {
+	public List<FreeBbsDto> freeBbslist(@RequestParam(required=false)String choice, @RequestParam(required=false)String search, int start,@RequestParam(required=false)Integer  tag) {
 		System.out.println("FreeBbsController freeBbslist : " + new Date());
-		System.out.println("choice: " + choice + "  search: " + search + "  start: " + start);
-		return service.freeBbslist(choice, search, start);
+		System.out.println("choice: " + choice + "  search: " + search + "  start: " + start+ " tag : "+tag);
+		return service.freeBbslist(choice, search, start,tag);
 	}
 
 	@GetMapping(value = "cntFreeBbs")
-	public int cntFreeBbs(String choice, String search) {
+	public int cntFreeBbs(@RequestParam(required=false)String choice, @RequestParam(required=false)String search,@RequestParam(required=false)Integer  tag) {
 		System.out.println("FreeBbsController cntFreeBbs : " + new Date());
-		System.out.println("choice: " + choice + "  search: " + search);
-		return service.cntFreeBbs(choice, search);
+		System.out.println("choice: " + choice + "  search: " + search+" tag : "+tag);
+		System.out.println(service.cntFreeBbs(choice, search,tag));
+		return service.cntFreeBbs(choice, search,tag);
 	}
 
 	@PostMapping(value = "writeFreeBbs")
