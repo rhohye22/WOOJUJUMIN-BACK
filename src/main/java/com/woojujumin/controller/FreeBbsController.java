@@ -141,15 +141,15 @@ public class FreeBbsController {
 	// likey테이블에 bbsSeq, memSeq조건을 만족하는 로우가 있는지 확인
 	@GetMapping(value = "checkLikeyrow")
 	public int checkLikeyrow(int bbsSeq, int memSeq) {
-		System.out.println("FreeBbsController checkLikeyrow : " + new Date());
-		System.out.println("checkLikeyrow : bbsSeq: " + bbsSeq + " memSeq: " + memSeq);
+		//System.out.println("FreeBbsController checkLikeyrow : " + new Date());
+		//System.out.println("checkLikeyrow : bbsSeq: " + bbsSeq + " memSeq: " + memSeq);
 		return service.checkLikeyrow(bbsSeq, memSeq);
 	}
 
 	// likey테이블에 로우 삽입
 	@PostMapping(value = "makeLikeyrow")
 	public String makeLikeyrow(int bbsSeq, int memSeq) {
-		System.out.println("FreeBbsController makeLikeyrow() " + new Date());
+		//System.out.println("FreeBbsController makeLikeyrow() " + new Date());
 
 		boolean b = service.makeLikeyrow(bbsSeq, memSeq);
 		if (b == false) {
@@ -161,7 +161,7 @@ public class FreeBbsController {
 	// 좋아요 1
 	@PostMapping(value = "LikeyPlus")
 	public String LikeyPlus(int bbsSeq, int memSeq) {
-		System.out.println("FreeBbsController LikeyPlus() " + new Date());
+		//System.out.println("FreeBbsController LikeyPlus() " + new Date());
 
 		boolean b = service.LikeyPlus(bbsSeq, memSeq);
 		if (b == false) {
@@ -173,7 +173,7 @@ public class FreeBbsController {
 	// 좋아요 0(==좋아요 취소)
 	@PostMapping(value = "LikeyMinus")
 	public String LikeyMinus(int bbsSeq, int memSeq) {
-		System.out.println("FreeBbsController LikeyMinus() " + new Date());
+		//System.out.println("FreeBbsController LikeyMinus() " + new Date());
 
 		boolean b = service.LikeyMinus(bbsSeq, memSeq);
 		if (b == false) {
@@ -185,17 +185,49 @@ public class FreeBbsController {
 	// 입장시 페이지 좋아요 상태
 	@GetMapping(value = "LikeyState")
 	public int LikeyState(int bbsSeq, int memSeq) {
-		System.out.println("FreeBbsController LikeyState : " + new Date());
-		System.out.println("LikeyState : bbsSeq: " + bbsSeq + " memSeq: " + memSeq);
+		//System.out.println("FreeBbsController LikeyState : " + new Date());
+		//System.out.println("LikeyState : bbsSeq: " + bbsSeq + " memSeq: " + memSeq);
 		return service.LikeyState(bbsSeq, memSeq);
 	}
 
 	// 게시글당 좋아요 개수
 	@GetMapping(value = "cntLikey")
 	public int cntLikey(int bbsSeq) {
-		System.out.println("FreeBbsController cntLikey : " + new Date());
-		System.out.println("cntLikey : bbsSeq: " + bbsSeq);
+		//System.out.println("FreeBbsController cntLikey : " + new Date());
+		//System.out.println("cntLikey : bbsSeq: " + bbsSeq);
 		return service.cntLikey(bbsSeq);
 	}
 
+	
+	//조회수
+	// read테이블에 bbsSeq, memSeq조건을 만족하는 로우가 있는지 확인
+	@GetMapping(value = "checkReadrow")
+	public int checkReadrow(int bbsSeq, int memSeq) {
+		//System.out.println("FreeBbsController checkReadrow : " + new Date());
+		System.out.println("checkReadrow : bbsSeq: " + bbsSeq + " memSeq: " + memSeq);
+		
+		return service.checkLikeyrow(bbsSeq, memSeq);
+	}
+	
+	// read테이블에 로우 삽입
+		@PostMapping(value = "makeReadrow")
+		public String makeReadrow(int bbsSeq, int memSeq) {
+			//System.out.println("FreeBbsController makeReadrow() " + new Date());
+			System.out.println("makeReadrow : bbsSeq: " + bbsSeq + " memSeq: " + memSeq);
+		
+			boolean b = service.makeReadrow(bbsSeq, memSeq);
+			if (b == false) {
+				return "NO";
+			}
+			return "YES";
+		}
+		//게시글당 조회수
+		@GetMapping(value = "cntRead")
+		public int cntRead(int bbsSeq) {
+			System.out.println("FreeBbsController cntRead : " + new Date());
+			System.out.println("cntRead :  bbsSeq: " + bbsSeq);
+			return service.cntRead(bbsSeq);
+		}
+
+	
 }

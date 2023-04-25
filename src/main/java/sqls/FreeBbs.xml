@@ -74,15 +74,14 @@
 	<select id="freeBbslist"
 		resultType="com.woojujumin.dto.FreeBbsDto">
 		SELECT f.bbsSeq, f.id, f.title, f.content, f.image, f.wdate, f.del,
-		f.readcount, f.tag, a.likey, f.hate
+		b.readcount, f.tag, a.likey, f.hate
 		FROM freebbs f
-		LEFT JOIN (
-		SELECT
-		bbsSeq, IFNULL(SUM(likeCheck),0) AS likey
-		FROM likey
-		GROUP BY bbsSeq
-		) a
+		LEFT JOIN (SELECT bbsSeq, IFNULL(SUM(likeCheck),0) AS likey FROM likey
+		GROUP BY bbsSeq) a
 		ON f.bbsSeq = a.bbsSeq
+		LEFT JOIN (SELECT bbsSeq, IFNULL(COUNT(*),0) AS readcount FROM readcount
+		GROUP BY bbsSeq) b
+		ON f.bbsSeq = b.bbsSeq 
 		WHERE 1=1
 		<if test="choice != null and search != null and tag != null">
 			AND (
@@ -141,11 +140,13 @@
 	<select id="cntFreeBbs" resultType="Integer">
 		SELECT ifnull(COUNT(*),0)
 		FROM (
-		SELECT f.bbsSeq, f.id, f.title, f.content, f.image, f.wdate, f.del,
+		SELECT f.bbsSeq, f.id, f.title,
+		f.content, f.image, f.wdate, f.del,
 		f.readcount, f.tag, a.likey, f.hate
 		FROM freebbs f
 		LEFT JOIN (
-		SELECT bbsSeq, IFNULL(SUM(likeCheck),0) AS likey
+		SELECT bbsSeq, IFNULL(SUM(likeCheck),0) AS
+		likey
 		FROM likey
 		GROUP BY bbsSeq
 		) a ON f.bbsSeq = a.bbsSeq
@@ -190,7 +191,8 @@
 		<if test="choice == null and search != null and tag != null">
 			AND (
 			f.title LIKE CONCAT('%', #{search}, '%')
-			OR f.content LIKE CONCAT('%', #{search}, '%')
+			OR f.content
+			LIKE CONCAT('%', #{search}, '%')
 			)
 			AND f.tag = #{tag}
 		</if>
@@ -272,7 +274,28 @@
 
 	</select>
 
+	<!-- 조회수 구현 -->
 
+	<!-- 조회수 로우가 생성되어있는지 확인 -->
+	<select id="checkReadrow" resultType="Integer">
+		SELECT ifnull(count(*), 0)
+		from readcount where bbsSeq=#{bbsSeq} and memSeq=#{memSeq}
+	</select>
+
+	<!--조회수 테이블 데이터 삽입 -->
+	<insert id="makeReadrow">
+		insert into readcount(bbsSeq, memSeq)
+		values(#{bbsSeq},#{memSeq})
+	</insert>
+
+	<!-- 게시글당 조회수 총 수 -->
+
+	<select id="cntRead" resultType="Integer">
+
+		select ifnull(count(*), 0) from
+		readcount where bbsSeq=#{bbsSeq}
+
+	</select>
 
 </mapper>
 

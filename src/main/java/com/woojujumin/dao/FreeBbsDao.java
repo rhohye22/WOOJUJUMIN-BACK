@@ -41,6 +41,10 @@ public interface FreeBbsDao {
 	int LikeyState(int bbsSeq, int memSeq);
 	int cntLikey(int bbsSeq);
 	
+	//조회수
+	int checkReadrow(int bbsSeq, int memSeq);
+	int makeReadrow(int bbsSeq, int memSeq);
+	int cntRead(int bbsSeq);
 
 
 }
