@@ -76,13 +76,16 @@
 		SELECT f.bbsSeq, f.id, f.title, f.content, f.image, f.wdate, f.del,
 		b.readcount, f.tag, a.likey, f.hate
 		FROM freebbs f
-		LEFT JOIN (SELECT bbsSeq, IFNULL(SUM(likeCheck),0) AS likey FROM likey
+		LEFT JOIN (SELECT
+		bbsSeq, IFNULL(SUM(likeCheck),0) AS likey FROM likey
 		GROUP BY bbsSeq) a
 		ON f.bbsSeq = a.bbsSeq
-		LEFT JOIN (SELECT bbsSeq, IFNULL(COUNT(*),0) AS readcount FROM readcount
+		LEFT JOIN (SELECT bbsSeq, IFNULL(COUNT(*),0) AS
+		readcount FROM readcount
 		GROUP BY bbsSeq) b
-		ON f.bbsSeq = b.bbsSeq 
-		WHERE 1=1
+		ON f.bbsSeq = b.bbsSeq
+		WHERE
+		1=1
 		<if test="choice != null and search != null and tag != null">
 			AND (
 			<if test="choice == 'title'">
@@ -295,6 +298,30 @@
 		select ifnull(count(*), 0) from
 		readcount where bbsSeq=#{bbsSeq}
 
+	</select>
+
+	<!--최근 7일간 일별 자유게시판 글수 -->
+
+	<select id="cntBbsDays"
+		resultType="com.woojujumin.dto.BbsCountDto">
+
+		select * from (SELECT substr(wdate,1,10) as wdate,
+		count(substr(wdate,1,10))
+		as count FROM woojujumin.freebbs group by
+		substr(wdate,1,10) ORDER BY
+		wdate desc limit 7) a order by wdate asc
+	</select>
+
+	<!--최근 30일간 일별 가입한 회원수 -->
+
+	<select id="cntRegiMemDays"
+		resultType="com.woojujumin.dto.BbsCountDto">
+
+		select *
+		from (SELECT substr(regdate,1,10) as wdate, count(substr(regdate,1,10)) as
+		count FROM woojujumin.member group by substr(regdate,1,10) ORDER BY
+		wdate desc limit 30) a
+		order by wdate asc
 	</select>
 
 </mapper>
