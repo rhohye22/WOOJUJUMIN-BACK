@@ -8,7 +8,7 @@ import org.springframework.transaction.annotation.Transactional;
 
 import com.woojujumin.dao.FreeBbsDao;
 import com.woojujumin.dto.FreeBbsDto;
-import com.woojujumin.dto.QnaDto;
+import com.woojujumin.dto.FreeReplyDto;
 import com.woojujumin.dto.mypartyBbsParam;
 
 @Service
@@ -30,12 +30,12 @@ public class FreeBbsService {
 
 	// 자유게시판(혜원)
 
-	public List<FreeBbsDto> freeBbslist(String choice, String search, int start) {
-		return dao.freeBbslist(choice, search, start);
+	public List<FreeBbsDto> freeBbslist(String choice, String search, int start, Integer tag) {
+		return dao.freeBbslist(choice, search, start, tag);
 	}
 
-	public int cntFreeBbs(String choice, String search) {
-		return dao.cntFreeBbs(choice, search);
+	public int cntFreeBbs(String choice, String search, Integer tag) {
+		return dao.cntFreeBbs(choice, search, tag);
 	}
 
 	public boolean writeFreeBbs(FreeBbsDto dto) {
@@ -48,9 +48,67 @@ public class FreeBbsService {
 		return dao.getfreeBbs(bbsSeq);
 	}
 
-//쓰는지 확인필요
-	public List<FreeBbsDto> getAllList() {
-		return dao.getAllList();
+	
+	// 댓글
+	public boolean writeFreeReply(FreeReplyDto dto) {
+		int cnt = dao.writeFreeReply(dto);
+		return cnt > 0 ? true : false;
 	}
+
+	public List<FreeReplyDto> freeReplyList(int replySeq, int start, int limit) {
+		return dao.freeReplyList(replySeq, start, limit);
+	}
+
+	
+	
+	//좋아요
+	public int checkLikeyrow(int bbsSeq, int memSeq) {
+		return dao.checkLikeyrow(bbsSeq, memSeq);
+	}
+
+	public boolean makeLikeyrow(int bbsSeq, int memSeq) {
+		int cnt = dao.makeLikeyrow(bbsSeq, memSeq);
+		return cnt > 0 ? true : false;
+
+	}
+
+	public boolean LikeyPlus(int bbsSeq, int memSeq) {
+		int cnt = dao.LikeyPlus(bbsSeq, memSeq);
+		return cnt > 0 ? true : false;
+
+	}
+
+	public boolean LikeyMinus(int bbsSeq, int memSeq) {
+		int cnt = dao.LikeyMinus(bbsSeq, memSeq);
+		return cnt > 0 ? true : false;
+
+	}
+
+	public int LikeyState(int bbsSeq, int memSeq) {
+		return dao.LikeyState(bbsSeq, memSeq);
+	}
+
+	public int cntLikey(int bbsSeq) {
+		return dao.cntLikey(bbsSeq);
+	}
+	
+	//조회수
+	
+
+	public int checkReadrow(int bbsSeq, int memSeq) {
+		return dao.checkReadrow(bbsSeq, memSeq);
+	}
+
+	public boolean makeReadrow(int bbsSeq, int memSeq) {
+		int cnt = dao.makeReadrow(bbsSeq, memSeq);
+		return cnt > 0 ? true : false;
+
+	}
+	
+	public int cntRead(int bbsSeq) {
+		return dao.cntRead(bbsSeq);
+	}
+	
+	
 
 }
