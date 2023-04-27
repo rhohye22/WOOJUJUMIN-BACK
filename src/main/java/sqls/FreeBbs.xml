@@ -318,8 +318,10 @@
 		resultType="com.woojujumin.dto.BbsCountDto">
 
 		select *
-		from (SELECT substr(regdate,1,10) as wdate, count(substr(regdate,1,10)) as
-		count FROM woojujumin.member group by substr(regdate,1,10) ORDER BY
+		from (SELECT substr(regdate,1,10) as wdate,
+		count(substr(regdate,1,10)) as
+		count FROM woojujumin.member group by
+		substr(regdate,1,10) ORDER BY
 		wdate desc limit 30) a
 		order by wdate asc
 	</select>
