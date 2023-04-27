@@ -9,6 +9,7 @@ import org.springframework.transaction.annotation.Transactional;
 import com.woojujumin.dao.MemberDao;
 import com.woojujumin.dto.IdcardDto;
 import com.woojujumin.dto.MemberDto;
+import com.woojujumin.dto.TalkDto;
 
 @Service
 @Transactional
@@ -80,9 +81,11 @@ public class MemberService {
 		return t>0 && n>0?true:false;
 	}
 
+
 	// 소셜 로그인
 	public MemberDto socialLogin(String id) {
 		return dao.socialLogin(id);
+
 	}
 	
 	// 소셜 추가작업
@@ -90,5 +93,16 @@ public class MemberService {
 		int n = dao.socialAdd(dto);
 		return n>0?true:false;
 
+	}
+	
+	// 크롤링 사이트 댓글추가
+	public boolean talkcomment(TalkDto talk) {
+		int t = dao.talkcomment(talk);
+		return t>0?true:false;
+	}
+	
+	// 크롤링사이트 댓글보기
+	public List<TalkDto> alltalkcomment(){
+		return dao.alltalkcomment();
 	}
 }
