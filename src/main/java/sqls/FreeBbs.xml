@@ -10,11 +10,10 @@
 		parameterType="com.woojujumin.dto.mypartyBbsParam"
 		resultType="com.woojujumin.dto.FreeBbsDto">
 
-		select id, title, content, image, wdate, del, readcount, tag, likey,
-		hate
+		select *
 		from
 		(select row_number()over(order by wdate desc) as rnum,
-		id,
+		bbsSeq, id,
 		title, content, image, wdate, del, readcount, tag, likey, hate
 		from
 		freeBbs
