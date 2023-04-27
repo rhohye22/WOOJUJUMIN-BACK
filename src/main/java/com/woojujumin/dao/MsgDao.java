@@ -5,6 +5,7 @@ import java.util.List;
 import org.apache.ibatis.annotations.Mapper;
 import org.springframework.stereotype.Repository;
 
+import com.woojujumin.dto.ApplyDto;
 import com.woojujumin.dto.FreeBbsDto;
 import com.woojujumin.dto.MemberDto;
 import com.woojujumin.dto.MsgDto;
@@ -14,7 +15,7 @@ import com.woojujumin.dto.mypartyBbsParam;
 @Repository
 public interface MsgDao {
 
-	List<MemberDto> allmember();
+	List<MemberDto> allmember(ApplyDto dto);
 
 	int msgWrite(MsgDto dto);
 

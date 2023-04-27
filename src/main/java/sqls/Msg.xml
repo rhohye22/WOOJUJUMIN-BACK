@@ -4,8 +4,30 @@
 	
 	<mapper namespace="com.woojujumin.dao.MsgDao">
 	
-		<select id="allmember" resultType="com.woojujumin.dto.MemberDto">
-		select * from member
+
+		<select id="allmember" resultType="com.woojujumin.dto.MemberDto" parameterType="com.woojujumin.dto.ApplyDto">
+		
+			select m.memberSeq
+			, m.Id
+			, m.password
+			, m.nickname
+			, m.email
+			, m.phoneNum
+			, m.profile
+			, m.address
+			, m.regdate
+			, m.delflg
+			, m.auth
+			, m.point
+			, a.title
+            , a.`check`
+            , a.partySeq
+            , a.masterId
+		 from member AS m
+		INNER JOIN apply AS a
+		ON m.id = a.applyMem
+	where `check` = 1 AND partySeq = #{partySeq};
+		
 	</select>
 	
 	<!-- 메시지 전송 -->

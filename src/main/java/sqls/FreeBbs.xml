@@ -6,7 +6,7 @@
 
 	<!--***************************************************************************************************************** -->
 	<!-- 내가쓴글 보기 자유게시판 -->
-	<select id="myc"
+	<select id="myfreeBbslist"
 		parameterType="com.woojujumin.dto.mypartyBbsParam"
 		resultType="com.woojujumin.dto.FreeBbsDto">
 
