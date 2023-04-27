@@ -42,13 +42,13 @@
 					  profile=#{profile} where memberSeq=#{memberSeq}
 </update>
 
-<!-- 카카오 로그인 -->
-<select id="kakaoLogin" parameterType="String" resultType="com.woojujumin.dto.MemberDto">
+<!-- 소셜 로그인 -->
+<select id="socialLogin" parameterType="String" resultType="com.woojujumin.dto.MemberDto">
 	select * from member where id=#{id}
 </select>
 
-<!-- 카카오 회원가입 후 정보 추가 -->
-<update id="kakaoAdd" parameterType="com.woojujumin.dto.MemberDto">
+<!-- 소셜 회원가입 후 정보 추가 -->
+<update id="socialAdd" parameterType="com.woojujumin.dto.MemberDto">
 	update member set nickname=#{nickname}, phoneNum=#{phoneNum}, address=#{address}
 	where id=#{id}
 </update>
@@ -71,4 +71,32 @@
 </insert>
 
 
+<!-- 관리자 페이지 파티장승급 (권유리) -->
+<insert id="adminPartyLeader" parameterType="com.woojujumin.dto.IdcardDto">
+	insert into idcard(memid, idname, idbirth, idaddress, iddate, idpublic, idimage, wdate, cardcheck)
+	values(#{memid}, #{idname}, #{idbirth}, #{idaddress}, #{iddate}, #{idpublic}, #{idimage}, now(), 0)
+</insert>
+
+<!-- 관리자 페이지 파티장승급(권유리) -->
+<select id="allcheck" resultType="com.woojujumin.dto.IdcardDto">
+	select * 
+	from idcard
+	where cardcheck=0;
+</select>
+
+<!-- 관리자 페이지 파티장승급여부 -->
+<update id="partyleadersuccess" parameterType="String">
+	update member
+	set auth=1
+	where id in(
+		select memid 
+		from idcard 
+		where memid=#{memid} )
+</update>
+
+<update id="partyleadercheck" parameterType="String">		
+	update idcard
+	set cardcheck=1
+	where memid=#{memid}
+</update>
 </mapper>

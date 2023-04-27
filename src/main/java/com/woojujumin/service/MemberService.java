@@ -7,6 +7,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import com.woojujumin.dao.MemberDao;
+import com.woojujumin.dto.IdcardDto;
 import com.woojujumin.dto.MemberDto;
 
 @Service
@@ -60,14 +61,34 @@ public class MemberService {
 		return n>0?true:false; 
 	}
 	
-	// 카카오 로그인
-	public MemberDto kakaoLogin(String id) {
-		return dao.kakaoLogin(id);
+
+	// 관리자 파티장 승급 4/20
+	public boolean adminPartyLeader(IdcardDto dto) {
+		int n = dao.adminPartyLeader(dto);
+		return n>0?true:false;
 	}
 	
-	// 카카오 추가작업
-	public boolean kakaoAdd(MemberDto dto) {
-		int n = dao.kakaoAdd(dto);
+	// 관리자 파티장 승급 4/21
+	public List<IdcardDto> allcheck(){
+		return dao.allcheck();
+	}
+	
+	// 관리자 파티장 승급 4/21
+	public boolean partyleadersuccess(String memid) {
+		int t = dao.partyleadersuccess(memid);
+		int n = dao.partyleadercheck(memid);
+		return t>0 && n>0?true:false;
+	}
+
+	// 소셜 로그인
+	public MemberDto socialLogin(String id) {
+		return dao.socialLogin(id);
+	}
+	
+	// 소셜 추가작업
+	public boolean socialAdd(MemberDto dto) {
+		int n = dao.socialAdd(dto);
 		return n>0?true:false;
+
 	}
 }
