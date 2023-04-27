@@ -7,6 +7,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import com.woojujumin.dao.FreeBbsDao;
+import com.woojujumin.dto.BbsCountDto;
 import com.woojujumin.dto.FreeBbsDto;
 import com.woojujumin.dto.FreeReplyDto;
 import com.woojujumin.dto.mypartyBbsParam;
@@ -109,6 +110,13 @@ public class FreeBbsService {
 		return dao.cntRead(bbsSeq);
 	}
 	
+	//관리자 페이지
+	public List<BbsCountDto> cntBbsDays(){
+		return dao.cntBbsDays();
+	}
+	public List<BbsCountDto> cntRegiMemDays(){
+		return dao.cntRegiMemDays();
+	}
 	
 
 }
