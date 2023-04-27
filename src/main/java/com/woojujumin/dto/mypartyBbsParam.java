@@ -9,12 +9,13 @@ public class mypartyBbsParam {
 	
 	private int start; // page 가 1~10이냐 11~20이냐..
 	private int end;
+	private String title;
 	
 	public mypartyBbsParam() {
 		// TODO Auto-generated constructor stub
 	}
 
-	public mypartyBbsParam(String choice, String search, String id, int pageNumber, int start, int end) {
+	public mypartyBbsParam(String choice, String search, String id, int pageNumber, int start, int end, String title) {
 		super();
 		this.choice = choice;
 		this.search = search;
@@ -22,6 +23,7 @@ public class mypartyBbsParam {
 		this.pageNumber = pageNumber;
 		this.start = start;
 		this.end = end;
+		this.title = title;
 	}
 
 	public String getChoice() {
@@ -72,11 +74,20 @@ public class mypartyBbsParam {
 		this.end = end;
 	}
 
+	public String getTitle() {
+		return title;
+	}
+
+	public void setTitle(String title) {
+		this.title = title;
+	}
+
 	@Override
 	public String toString() {
 		return "mypartyBbsParam [choice=" + choice + ", search=" + search + ", id=" + id + ", pageNumber=" + pageNumber
-				+ ", start=" + start + ", end=" + end + "]";
+				+ ", start=" + start + ", end=" + end + ", title=" + title + "]";
 	}
+
 	
 	
 	

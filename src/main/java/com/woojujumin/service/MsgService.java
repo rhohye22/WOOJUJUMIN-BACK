@@ -7,6 +7,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import com.woojujumin.dao.MsgDao;
+import com.woojujumin.dto.ApplyDto;
 import com.woojujumin.dto.FreeBbsDto;
 import com.woojujumin.dto.MemberDto;
 import com.woojujumin.dto.MsgDto;
@@ -20,9 +21,9 @@ public class MsgService {
 	@Autowired
 	MsgDao dao;
 
-	public List<MemberDto> allmember() {
+	public List<MemberDto> allmember(ApplyDto dto) {
 		
-		return dao.allmember();
+		return dao.allmember(dto);
 	}
 
 	
@@ -67,4 +68,7 @@ public class MsgService {
 		
 		return n>0?true:false;
 	}
+
+
+	
 }

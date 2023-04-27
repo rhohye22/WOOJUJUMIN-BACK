@@ -9,6 +9,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.woojujumin.dto.ApplyDto;
 import com.woojujumin.dto.FreeBbsDto;
 import com.woojujumin.dto.MemberDto;
 import com.woojujumin.dto.MsgDto;
@@ -24,11 +25,13 @@ public class MsgController {
 	MsgService service;
 	
 	@GetMapping(value = "memberlist")
-	public List<MemberDto> memberlist(String id) {
+	public List<MemberDto> memberlist(ApplyDto dto) {
 		
 		System.out.println("MsgController memberlist() " + new Date());
+		System.out.println(dto.getPartySeq());
+				
 		
-		List<MemberDto> list = service.allmember();
+		List<MemberDto> list = service.allmember(dto);
 		System.out.println("list" + list);
 		return list;
 	}
