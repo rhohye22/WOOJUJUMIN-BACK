@@ -73,82 +73,229 @@
 	<!-- 자유게시판 리스트 -->
 	<select id="freeBbslist"
 		resultType="com.woojujumin.dto.FreeBbsDto">
-		select * from freeBbs
-		<if
-			test="choice != null and choice != '' and search != null and search != ''">
+		SELECT f.bbsSeq, f.id, f.title, f.content, f.image, f.wdate, f.del,
+		b.readcount, f.tag, a.likey, f.hate
+		FROM freebbs f
+		LEFT JOIN (SELECT bbsSeq, IFNULL(SUM(likeCheck),0) AS likey FROM likey
+		GROUP BY bbsSeq) a
+		ON f.bbsSeq = a.bbsSeq
+		LEFT JOIN (SELECT bbsSeq, IFNULL(COUNT(*),0) AS readcount FROM readcount
+		GROUP BY bbsSeq) b
+		ON f.bbsSeq = b.bbsSeq 
+		WHERE 1=1
+		<if test="choice != null and search != null and tag != null">
+			AND (
 			<if test="choice == 'title'">
-				where title like concat('%', #{search}, '%')
-
+				f.title LIKE CONCAT('%', #{search}, '%')
 			</if>
 			<if test="choice == 'content'">
-
-				where content like concat('%', #{search}, '%')
-
+				f.content LIKE CONCAT('%', #{search}, '%')
 			</if>
 			<if test="choice == 'writer'">
-
-				where id=#{search}
-
+				f.id = #{search}
 			</if>
+			)
+			AND f.tag = #{tag}
 		</if>
-		ORDER BY bbsSeq
-		DESC
-		LIMIT #{start},20
 
+		<if test="choice != null and search != null and tag == null">
+			AND (
+			<if test="choice == 'title'">
+				f.title LIKE CONCAT('%', #{search}, '%')
+			</if>
+			<if test="choice == 'content'">
+				f.content LIKE CONCAT('%', #{search}, '%')
+			</if>
+			<if test="choice == 'writer'">
+				f.id = #{search}
+			</if>
+			)
+		</if>
+
+		<if test="choice == null and search == null and tag != null">
+
+			AND f.tag = #{tag}
+
+		</if>
+		<if test="choice == null and search != null and tag != null">
+			AND f.tag = #{tag}
+		</if>
+
+		<if test="choice == null and search != null and tag != null">
+			AND (
+			f.title LIKE CONCAT('%', #{search}, '%')
+			OR f.content
+			LIKE
+			CONCAT('%', #{search}, '%')
+			)
+			AND f.tag = #{tag}
+		</if>
+
+		ORDER BY f.bbsSeq DESC
+		LIMIT #{start}, 20
 	</select>
+
 
 	<!-- 자유게시판 조건검색별 글 수 -->
 	<select id="cntFreeBbs" resultType="Integer">
-		select ifnull(count(*), 0)
-		from freeBbs
-		<if
-			test="choice != null and choice != '' and search != null and search != ''">
+		SELECT ifnull(COUNT(*),0)
+		FROM (
+		SELECT f.bbsSeq, f.id, f.title,
+		f.content, f.image, f.wdate, f.del,
+		f.readcount, f.tag, a.likey, f.hate
+		FROM freebbs f
+		LEFT JOIN (
+		SELECT bbsSeq, IFNULL(SUM(likeCheck),0) AS
+		likey
+		FROM likey
+		GROUP BY bbsSeq
+		) a ON f.bbsSeq = a.bbsSeq
+		WHERE 1=1
+		<if test="choice != null and search != null and tag != null">
+			AND (
 			<if test="choice == 'title'">
-				where title like concat('%', #{search}, '%')
-
+				f.title LIKE CONCAT('%', #{search}, '%')
 			</if>
 			<if test="choice == 'content'">
-
-				where content like concat('%', #{search}, '%')
-
+				f.content LIKE CONCAT('%', #{search}, '%')
 			</if>
 			<if test="choice == 'writer'">
-
-				where id=#{search}
-
+				f.id = #{search}
 			</if>
+			)
+			AND f.tag = #{tag}
 		</if>
 
+		<if test="choice != null and search != null and tag == null">
+			AND (
+			<if test="choice == 'title'">
+				f.title LIKE CONCAT('%', #{search}, '%')
+			</if>
+			<if test="choice == 'content'">
+				f.content LIKE CONCAT('%', #{search}, '%')
+			</if>
+			<if test="choice == 'writer'">
+				f.id = #{search}
+			</if>
+			)
+		</if>
+
+		<if test="choice == null and search == null and tag != null">
+			AND f.tag = #{tag}
+		</if>
+
+		<if test="choice == null and search != null and tag != null">
+			AND f.tag = #{tag}
+		</if>
+
+		<if test="choice == null and search != null and tag != null">
+			AND (
+			f.title LIKE CONCAT('%', #{search}, '%')
+			OR f.content
+			LIKE CONCAT('%', #{search}, '%')
+			)
+			AND f.tag = #{tag}
+		</if>
+		) AS result
 	</select>
 
 	<!-- 자유게시판 글쓰기 -->
-	<insert id="writeFreeBbs" parameterType="com.woojujumin.dto.FreeBbsDto">
+	<insert id="writeFreeBbs"
+		parameterType="com.woojujumin.dto.FreeBbsDto">
 		insert into freeBbs(id, title, content,image,tag)
 		VALUES(#{id},#{title},#{content},#{image}, #{tag})
 	</insert>
-	
-	<!-- 자유게시판 -->
+
+	<!-- 자유게시판 특정게시물 -->
 	<select id="getfreeBbs"
 		resultType="com.woojujumin.dto.FreeBbsDto">
 		select *
 		from freeBbs
 		where bbsSeq=#{bbsSeq}
 	</select>
-	
-	
-	
-	
-	
-	<!-- 쓰는지 안쓰는지 모르겠음 -->
-	<select id="getAllList"
-		resultType="com.woojujumin.dto.FreeBbsDto">
-		select * from freeBbs
+
+
+	<!-- 자유게시판 댓글 -->
+	<insert id="writeFreeReply"
+		parameterType="com.woojujumin.dto.FreeReplyDto">
+		insert into freereply(replySeq,content,writer,wdate)
+		values(#{replySeq},#{content},#{writer},now())
+	</insert>
+
+
+	<!-- 자유게시판 댓글리스트 -->
+	<select id="freeReplyList"
+		resultType="com.woojujumin.dto.FreeReplyDto">
+		select * from freereply where replySeq=#{replySeq} order by
+		wdate limit #{start},#{limit};
 	</select>
 
-	<!-- 쓰는지 안쓰는지 모르겠음 -->
 
+	<!-- 좋아요기능 구현 -->
 
+	<!-- 좋아요 로우가 생성되어있는지 확인 -->
+	<select id="checkLikeyrow" resultType="Integer">
+		SELECT ifnull(count(*), 0)
+		from likey where bbsSeq=#{bbsSeq} and memSeq=#{memSeq}
+	</select>
+
+	<!--좋아요 테이블 데이터 삽입 -->
+	<insert id="makeLikeyrow">
+		insert into likey(bbsSeq, memSeq, likeCheck,
+		hateCheck)
+		values(#{bbsSeq},#{memSeq},0,0)
+	</insert>
+
+	<!-- 좋아요 +1 -->
+	<update id="LikeyPlus">
+		update likey set likeCheck = 1 where bbsSeq=#{bbsSeq}
+		and memSeq=#{memSeq}
+	</update>
+	<!-- 좋아요 -1 -->
+	<update id="LikeyMinus">
+		update likey set likeCheck = 0 where bbsSeq=#{bbsSeq}
+		and memSeq=#{memSeq}
+	</update>
+
+	<!-- 입장시 페이지 좋아요 상태 -->
+	<select id="LikeyState" resultType="Integer">
+		SELECT
+		ifnull(sum(likeCheck),0) from likey where bbsSeq=#{bbsSeq} and
+		memSeq=#{memSeq}
+	</select>
+
+	<!-- 게시글당 좋아요 총 개수 -->
+
+	<select id="cntLikey" resultType="Integer">
+
+		select ifnull(count(*), 0) from
+		likey where bbsSeq=#{bbsSeq} and likeCheck =
+		1
+
+	</select>
+
+	<!-- 조회수 구현 -->
+
+	<!-- 조회수 로우가 생성되어있는지 확인 -->
+	<select id="checkReadrow" resultType="Integer">
+		SELECT ifnull(count(*), 0)
+		from readcount where bbsSeq=#{bbsSeq} and memSeq=#{memSeq}
+	</select>
+
+	<!--조회수 테이블 데이터 삽입 -->
+	<insert id="makeReadrow">
+		insert into readcount(bbsSeq, memSeq)
+		values(#{bbsSeq},#{memSeq})
+	</insert>
+
+	<!-- 게시글당 조회수 총 수 -->
+
+	<select id="cntRead" resultType="Integer">
+
+		select ifnull(count(*), 0) from
+		readcount where bbsSeq=#{bbsSeq}
+
+	</select>
 
 </mapper>
-
 
