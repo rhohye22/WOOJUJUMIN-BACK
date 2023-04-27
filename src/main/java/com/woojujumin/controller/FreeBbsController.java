@@ -16,6 +16,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.multipart.MultipartFile;
 
+import com.woojujumin.dto.BbsCountDto;
 import com.woojujumin.dto.FreeBbsDto;
 import com.woojujumin.dto.MemberDto;
 import com.woojujumin.dto.FreeReplyDto;
@@ -229,5 +230,16 @@ public class FreeBbsController {
 			return service.cntRead(bbsSeq);
 		}
 
-	
+	//관리자페이지 7일간 자유게시판 등록수
+		@GetMapping(value ="cntBbsDays")
+		public List<BbsCountDto> cntBbsDays(){
+			System.out.println("FreeBbsController cntBbsDays : " + new Date());
+			return service.cntBbsDays();
+		}
+		//최근 30일간 일별 가입한 회원수
+		@GetMapping(value ="cntRegiMemDays")
+		public List<BbsCountDto> cntRegiMemDays(){
+			System.out.println("FreeBbsController cntRegiMemDays : " + new Date());
+			return service.cntRegiMemDays();
+		}
 }

@@ -6,6 +6,7 @@ import java.util.List;
 import org.apache.ibatis.annotations.Mapper;
 import org.springframework.stereotype.Repository;
 
+import com.woojujumin.dto.BbsCountDto;
 import com.woojujumin.dto.FreeBbsDto;
 import com.woojujumin.dto.FreeReplyDto;
 
@@ -18,7 +19,6 @@ public interface FreeBbsDao {
 	List<FreeBbsDto> myfreeBbslist(mypartyBbsParam param);
 
 	int getmyfreeAllBbs(mypartyBbsParam param);
-	
 	
 	
 	
@@ -46,5 +46,9 @@ public interface FreeBbsDao {
 	int makeReadrow(int bbsSeq, int memSeq);
 	int cntRead(int bbsSeq);
 
+	
+	//관리자페이지
+	List<BbsCountDto> cntBbsDays();
+	List<BbsCountDto> cntRegiMemDays();
 
 }
