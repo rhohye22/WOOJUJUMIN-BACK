@@ -1,0 +1,106 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+	"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+	
+	<mapper namespace="com.woojujumin.dao.MsgDao">
+	
+
+		<select id="allmember" resultType="com.woojujumin.dto.MemberDto" parameterType="com.woojujumin.dto.ApplyDto">
+		
+			select m.memberSeq
+			, m.Id
+			, m.password
+			, m.nickname
+			, m.email
+			, m.phoneNum
+			, m.profile
+			, m.address
+			, m.regdate
+			, m.delflg
+			, m.auth
+			, m.point
+			, a.title
+            , a.`check`
+            , a.partySeq
+            , a.masterId
+		 from member AS m
+		INNER JOIN apply AS a
+		ON m.id = a.applyMem
+	where `check` = 1 AND partySeq = #{partySeq};
+		
+	</select>
+	
+	<!-- 메시지 전송 -->
+	<insert id="msgWrite" parameterType="com.woojujumin.dto.MsgDto">
+	
+		insert into msg(targetId, sendId, title, message, sendDate)
+		values(#{targetId}, #{sendId}, #{title}, #{message}, now())
+	</insert>
+	
+	<!-- 받은 메시지 보기 *********************************************************************************************** -->
+	<select id="msglist" parameterType="com.woojujumin.dto.mypartyBbsParam" resultType="com.woojujumin.dto.MsgDto">
+	
+	select seq, targetId, sendId, title, message, sendDate
+		from 
+			(select row_number()over(order by sendDate desc) as rnum,
+			 seq, targetId, sendId, title, message, sendDate
+		from msg
+		where 1=1 AND targetId =#{id}
+			
+			order by sendDate desc) a
+			
+		where targetId =#{id} AND rnum between ${start} and ${end} 
+	
+	</select>
+	
+	<!--글의 총수   -->
+	<select id="getmsglist" parameterType="com.woojujumin.dto.mypartyBbsParam" resultType="Integer">
+	
+		select ifnull(count(*), 0)
+		from msg
+		
+	
+	</select>
+	<!-- *********************************************************************************************** -->
+	
+	
+	
+	<!-- 보낸 메시지 보기 *********************************************************************************************** -->
+	<select id="sendmsglist" parameterType="com.woojujumin.dto.mypartyBbsParam" resultType="com.woojujumin.dto.MsgDto">
+	
+	select seq, targetId, sendId, title, message, sendDate
+		from 
+			(select row_number()over(order by sendDate desc) as rnum,
+			 seq, targetId, sendId, title, message, sendDate
+		from msg
+		where 1=1 AND sendId =#{id}
+			
+			order by sendDate desc) a
+			
+		where sendId =#{id} AND rnum between ${start} and ${end} 
+	
+	</select>
+	
+	<!--글의 총수   -->
+	<select id="getsendmsglist" parameterType="com.woojujumin.dto.mypartyBbsParam" resultType="Integer">
+	
+		select ifnull(count(*), 0)
+		from msg
+		
+	
+	</select>
+	<!-- *********************************************************************************************** -->
+	
+	<!-- 메시지 삭제  -->
+	
+	<delete id="delMsg" parameterType="com.woojujumin.dto.MsgDto">
+	
+		delete from msg where seq = #{seq}
+	</delete>
+	
+	
+	
+	
+	
+	
+	</mapper>

@@ -14,7 +14,9 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.multipart.MultipartFile;
 
+import com.woojujumin.dto.IdcardDto;
 import com.woojujumin.dto.MemberDto;
+import com.woojujumin.naver.NaverCloud;
 import com.woojujumin.service.MemberService;
 
 import jakarta.servlet.http.HttpServletRequest;
@@ -141,9 +143,147 @@ public class MemberController {
 		}
 		return "YES";
 	}
-	
-	
-	
-	
+	// 관리자 페이지 로그인(4/17노혜원)
+	@PostMapping(value = "/adminLogin")
+	public MemberDto adminLogin(MemberDto dto) {
+		System.out.println("MemberController adminLogin " + new Date());
 
+		MemberDto mem = service.adminLogin(dto);
+		System.out.println("mem : " + mem.getId() + mem.getPassword());
+		return mem;
+	}
+	
+	// 관리자 등록 4/17
+		@PostMapping(value = "/adminAddmember")
+		public String adminAddmember(MemberDto dto,
+								@RequestParam("uploadFile")
+								MultipartFile uploadFile,
+								HttpServletRequest req) {
+			System.out.println("MemberController adminAddmember " + new Date());
+			System.out.println(dto.toString());
+			
+			// 경로
+			String path = req.getServletContext().getRealPath("/upload");
+			String filename = uploadFile.getOriginalFilename();
+			String filepath = path + "/" + filename;
+			System.out.println(filepath);
+			
+			try {
+				BufferedOutputStream bos = new BufferedOutputStream(new FileOutputStream(new File(filepath)));
+				bos.write(uploadFile.getBytes());
+				bos.close();
+				
+			} catch (Exception e) {
+				e.printStackTrace();
+				System.out.println("파일 업로드 실패");
+			}
+			dto.setProfile(filepath);
+			
+			boolean b = service.adminAddmember(dto);
+			if(b == false) {
+				return "NO";
+			}
+			return "YES";
+		}
+		
+	// 관리자 파티장 승급페이지 - ocr 결과 보내주기 (권유리) - 230420
+	@PostMapping(value="partyrequest")
+	public String partyrequest_ocr(@RequestParam("uploadFile") MultipartFile uploadFile, 
+									HttpServletRequest req) {
+		System.out.println("MemberController partyrequest_ocr " + new Date());
+		
+		String uploadpath = req.getServletContext().getRealPath("/upload");
+
+		String filename = uploadFile.getOriginalFilename();
+		String filepath = uploadpath + "/" + filename;
+
+
+		System.out.println(filepath);
+		
+		try {
+			BufferedOutputStream os = new BufferedOutputStream(new FileOutputStream(new File(filepath)));
+			os.write(uploadFile.getBytes());
+			os.close();
+
+		} catch (Exception e) {
+			e.printStackTrace();
+			return "fail";
+		}
+		
+		String result = NaverCloud.ocr(filepath);		
+		return result;
+	
+	}
+
+	// 관리자 파티장 승급 페이지 - 신청하기 230420
+	@PostMapping(value="partyleader")
+	public String adminPartyLeader(IdcardDto dto) {
+		System.out.println("MemberController adminPartyLeader " + new Date());
+		System.out.println("넘어온 값 : " + dto);
+		
+		boolean isS = service.adminPartyLeader(dto);
+		if(isS) return "YES";
+		return "NO";
+		
+	}
+	
+	// 관리자 파티장 승급 페이지 - 리스트 보여주기 230421 
+	@PostMapping(value="partycheck")
+	public List<IdcardDto> allcheck(){
+		System.out.println("MemberController allcheck " + new Date());
+		
+		return service.allcheck();
+		
+	}
+	
+	// 관리자 파티장 승급 여부 - 230421 
+	@PostMapping(value="partyleadersuccess")
+	public String partyleadersuccess(String memid) {
+		System.out.println("MemberController partyleadersuccess " + new Date());
+		System.out.println("넘어온 값 memid : " + memid);
+		
+		boolean isS = service.partyleadersuccess(memid);
+		if(isS) return "YES";
+		return "NO";
+	}
+
+	// 소셜 회원가입
+	@PostMapping(value = "/socialRegi")
+	public String socialRegi(MemberDto dto) {
+		System.out.println("MemberController socialRegi " + new Date());
+		
+		System.out.println(dto.toString());
+		
+		boolean b = service.addmember(dto);
+		if(b == false) {
+			return "NO";
+		}
+		return "YES";
+	}
+
+	// 소셜 로그인
+	@PostMapping(value = "/socialLogin")
+	public MemberDto socialLogin(String id) {
+		System.out.println("MemberController socialLogin " + new Date());
+		
+		MemberDto mem = service.socialLogin(id);
+		System.out.println("mem : " + mem.getId() + mem.getPassword());
+		return mem;
+	}
+	
+	// 소셜 회원가입 추가작업
+	@PostMapping(value = "/socialAdd")
+	public MemberDto socialAdd(MemberDto dto) {
+		System.out.println("MemberController socialAdd " + new Date());
+		
+		MemberDto mem = new MemberDto();
+		boolean b = service.socialAdd(dto);
+		if(b == false) {
+			return mem;
+		}
+		
+		mem = service.socialLogin(dto.getId());
+		return mem;
+
+	}
 }

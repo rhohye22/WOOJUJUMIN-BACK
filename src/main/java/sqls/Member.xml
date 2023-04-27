@@ -29,17 +29,87 @@
 </insert>
 
 <!-- 로그인 -->
+<!-- 4/19(노혜원) auth=3 관리자의 회원 활동정지 기능때문에 쿼리 수정했습니다 + and auth in(0,1,2) -->
 <select id="login" parameterType="com.woojujumin.dto.MemberDto" resultType="com.woojujumin.dto.MemberDto">
-	select * from member where id=#{id} and password=#{password}
-</select>
 
+	select * from member where id=#{id} and password=#{password} and auth in(0,1,2)
+
+</select>
 
 <!--회원 수정  -->
 <update id="changeInfo" parameterType="com.woojujumin.dto.MemberDto">
-
 	update member set id=#{id}, password=#{password}, nickname=#{nickname}, email=#{email}, phoneNum=#{phoneNum}, address=#{address},
 					  profile=#{profile} where memberSeq=#{memberSeq}
-
 </update>
 
+<!-- 소셜 로그인 -->
+<select id="socialLogin" parameterType="String" resultType="com.woojujumin.dto.MemberDto">
+	select * from member where id=#{id}
+</select>
+
+<!-- 소셜 회원가입 후 정보 추가 -->
+<update id="socialAdd" parameterType="com.woojujumin.dto.MemberDto">
+	update member set nickname=#{nickname}, phoneNum=#{phoneNum}, address=#{address}
+	where id=#{id}
+</update>
+
+
+
+
+<!-- 관리자 페이지 로그인(노혜원) -->
+<select id="adminLogin" parameterType="com.woojujumin.dto.MemberDto" resultType="com.woojujumin.dto.MemberDto">
+
+	select * from member where id=#{id} and password=#{password} and auth = 2
+
+</select>
+
+
+<!-- 관리자 페이지 회원가입(노혜원) -->
+<insert id="adminAddmember" parameterType="com.woojujumin.dto.MemberDto">
+	insert into member(id, password, nickname, email, phoneNum, profile, address, regdate, delflg, auth, point)
+	values(#{id}, #{password}, #{nickname}, #{email}, #{phoneNum}, #{profile}, #{address}, now(), 0, 2, 0)
+</insert>
+
+
+<!-- 관리자 페이지 파티장승급 (권유리) -->
+<insert id="adminPartyLeader" parameterType="com.woojujumin.dto.IdcardDto">
+	insert into idcard(memid, idname, idbirth, idaddress, iddate, idpublic, idimage, wdate, cardcheck)
+	values(#{memid}, #{idname}, #{idbirth}, #{idaddress}, #{iddate}, #{idpublic}, #{idimage}, now(), 0)
+</insert>
+
+<!-- 관리자 페이지 파티장승급(권유리) -->
+<select id="allcheck" resultType="com.woojujumin.dto.IdcardDto">
+	select * 
+	from idcard
+	where cardcheck=0;
+</select>
+
+<!-- 관리자 페이지 파티장승급여부 -->
+<update id="partyleadersuccess" parameterType="String">
+	update member
+	set auth=1
+	where id in(
+		select memid 
+		from idcard 
+		where memid=#{memid} )
+</update>
+
+<update id="partyleadercheck" parameterType="String">		
+	update idcard
+	set cardcheck=1
+	where memid=#{memid}
+</update>
+
+<!-- 230427 크롤링 사이트 댓글쓰기 -->
+<insert id="talkcomment" parameterType="com.woojujumin.dto.TalkDto">
+	insert into talk(talkid, talkcomment, wdate)
+	values(#{talkid}, #{talkcomment}, now()) 
+</insert>
+
+<!-- 230427 크롤링 사이트 댓글가져오기 -->
+<select id="alltalkcomment" resultType="com.woojujumin.dto.TalkDto">
+	select *
+	from talk
+	order by seq desc
+</select>
 </mapper>
