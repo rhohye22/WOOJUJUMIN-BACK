@@ -8,6 +8,7 @@ import org.springframework.stereotype.Repository;
 
 import com.woojujumin.dto.IdcardDto;
 import com.woojujumin.dto.MemberDto;
+import com.woojujumin.dto.TalkDto;
 
 @Mapper
 @Repository
@@ -51,4 +52,10 @@ public interface MemberDao {
 	// 관리자 파티장 승급 승인 4/21 
 	int partyleadersuccess(String memid);	
 	int partyleadercheck(String memid);
+	
+	// 크롤링사이트 댓글쓰기
+	int talkcomment(TalkDto talk);
+	
+	// 크롤링사이트 댓글보기
+	List<TalkDto> alltalkcomment();
 }

@@ -99,4 +99,17 @@
 	set cardcheck=1
 	where memid=#{memid}
 </update>
+
+<!-- 230427 크롤링 사이트 댓글쓰기 -->
+<insert id="talkcomment" parameterType="com.woojujumin.dto.TalkDto">
+	insert into talk(talkid, talkcomment, wdate)
+	values(#{talkid}, #{talkcomment}, now()) 
+</insert>
+
+<!-- 230427 크롤링 사이트 댓글가져오기 -->
+<select id="alltalkcomment" resultType="com.woojujumin.dto.TalkDto">
+	select *
+	from talk
+	order by seq desc
+</select>
 </mapper>
