@@ -13,7 +13,7 @@
 		select *
 		from
 		(select row_number()over(order by wdate desc) as rnum,
-		bbsSeq,id,
+		bbsSeq, id,
 		title, content, image, wdate, del, readcount, tag, likey, hate
 		from
 		freeBbs
