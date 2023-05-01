@@ -83,7 +83,7 @@ public class FreeBbsController {
 
 		// 경로
 		String path = req.getServletContext().getRealPath("/upload/freebbs");
-		System.out.println(path);
+		//System.out.println(path);
 		if (uploadFile != null && !uploadFile.isEmpty()) {
 			String filename = uploadFile.getOriginalFilename();
 			System.out.println(filename);
