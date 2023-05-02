@@ -41,6 +41,7 @@
 		${end}    <!-- 숫자는 $, 문자열은 # -->
 	</select>
 
+
 	<!--글의 총수 -->
 	<select id="getmyfreeAllBbs"
 		parameterType="com.woojujumin.dto.mypartyBbsParam"
@@ -215,6 +216,14 @@
 		from freeBbs
 		where bbsSeq=#{bbsSeq}
 	</select>
+	
+	<select id="getBbs" parameterType="Integer" resultType="com.woojujumin.dto.FreeBbsDto">
+
+		select *
+		from freeBbs
+		where bbsSeq=#{bbsSeq}
+	</select>
+
 
 
 	<!-- 자유게시판 댓글 -->
@@ -326,4 +335,6 @@
 	</select>
 
 </mapper>
+
+
 
