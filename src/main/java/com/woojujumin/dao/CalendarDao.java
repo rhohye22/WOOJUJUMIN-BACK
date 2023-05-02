@@ -29,4 +29,6 @@ public interface CalendarDao {
 	// 일정 삭제하기
 	int caldelete(int calSeq);
 	
+	// 일정 검색(Front)
+	List<CalendarDto> getDayListFront(String rdate);
 }

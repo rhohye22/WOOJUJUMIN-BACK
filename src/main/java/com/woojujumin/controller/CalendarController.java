@@ -9,6 +9,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.service.annotation.GetExchange;
 
 import com.woojujumin.dto.CalendarDto;
 import com.woojujumin.service.CalendarService;
@@ -157,4 +158,16 @@ public class CalendarController {
 		if(isS) return "YES";
 		return "NO";
 	}
+	//일정검색(Front)
+	@GetMapping(value = "getDayListFront")
+	public List<CalendarDto> getDayListFront(String rdate){
+		System.out.println("CalendarController getDayListFront() " + new Date());
+		System.out.println("넘어온 값 rdate : " + rdate);
+
+		return service.getDayListFront(rdate);
+	}
+	
+	
+	
+	
 }
