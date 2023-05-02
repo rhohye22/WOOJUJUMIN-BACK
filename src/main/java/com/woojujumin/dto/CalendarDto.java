@@ -14,7 +14,7 @@ public class CalendarDto implements Serializable {
 	private String tagName;
 	
 	public CalendarDto() {
-		// TODO Auto-generated constructor stub
+	
 	}
 
 	public CalendarDto(int calSeq, String manager, String title, String content, String rdate, String wdate, int tag) {

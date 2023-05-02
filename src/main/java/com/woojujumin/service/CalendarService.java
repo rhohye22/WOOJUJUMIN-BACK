@@ -48,4 +48,8 @@ public class CalendarService {
 		int t = dao.caldelete(calSeq);
 		return t>0?true:false;
 	}
+	//일정검색(Front)
+	public List<CalendarDto> getDayListFront(String rdate){
+		return dao.getDayListFront(rdate);
+	}
 }
