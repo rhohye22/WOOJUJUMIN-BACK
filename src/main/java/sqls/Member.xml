@@ -8,6 +8,18 @@
 	select * from member
 </select>
 
+<!-- 이메일로 아이디 찾기 -->
+<select id="idsearch" parameterType="String" resultType="com.woojujumin.dto.MemberDto">
+	select Id, nickname from member
+	where email=#{email}
+</select>
+
+<!-- 임시 비밀번호 발급 -->
+<update id="pwdsearch" parameterType="com.woojujumin.dto.MemberDto">
+	update member set password=#{password}
+	where id=#{id}
+</update>
+
 <!-- id 체크 -->
 <select id="idcheck" parameterType="String" resultType="Integer">
 	select count(*)
@@ -112,4 +124,5 @@
 	from talk
 	order by seq desc
 </select>
+
 </mapper>
