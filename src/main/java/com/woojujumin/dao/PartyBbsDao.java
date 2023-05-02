@@ -19,5 +19,15 @@ public interface PartyBbsDao {
 
 	
 	
-
+	 int writePartybbs(PartyBbsDto dto);
+	 
+	 PartyBbsDto partyBbsdetail(PartyBbsDto dto);
+	 
+	 int deletePartybbs(PartyBbsDto dto);
+	 
+	 List<PartyBbsDto> partybbslist();
+	 
+	 int updatePartybbs(PartyBbsDto dto);
+	 
+	 List<PartyBbsDto> getAllpbslist(mypartyBbsParam param);
 }
