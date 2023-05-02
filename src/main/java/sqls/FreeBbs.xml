@@ -10,11 +10,10 @@
 		parameterType="com.woojujumin.dto.mypartyBbsParam"
 		resultType="com.woojujumin.dto.FreeBbsDto">
 
-		select id, title, content, image, wdate, del, readcount, tag, likey,
-		hate
+		select *
 		from
 		(select row_number()over(order by wdate desc) as rnum,
-		id,
+		bbsSeq, id,
 		title, content, image, wdate, del, readcount, tag, likey, hate
 		from
 		freeBbs
@@ -318,8 +317,10 @@
 		resultType="com.woojujumin.dto.BbsCountDto">
 
 		select *
-		from (SELECT substr(regdate,1,10) as wdate, count(substr(regdate,1,10)) as
-		count FROM woojujumin.member group by substr(regdate,1,10) ORDER BY
+		from (SELECT substr(regdate,1,10) as wdate,
+		count(substr(regdate,1,10)) as
+		count FROM woojujumin.member group by
+		substr(regdate,1,10) ORDER BY
 		wdate desc limit 30) a
 		order by wdate asc
 	</select>
