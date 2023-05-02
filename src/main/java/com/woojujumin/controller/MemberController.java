@@ -111,6 +111,31 @@ public class MemberController {
 		return mem;
 	}
 	
+	// 아이디 찾기
+	@GetMapping(value = "/idsearch")
+	public MemberDto idsearch(String email) {
+		System.out.println("MemberController idsearch " + new Date());
+		
+		MemberDto dto = service.idsearch(email);
+		
+		return dto;
+	}
+	
+	// 임시 비밀번호로 변경
+	@PostMapping(value = "/pwdsearch")
+	public String pwdsearch(MemberDto dto) {
+		System.out.println("MemberController pwdsearch " + new Date());
+		
+		boolean isS = service.pwdsearch(dto);
+		String msg = "NO";
+		
+		if(isS) {
+			msg = "YES";
+		}
+		
+		return msg;
+	}
+	
 	// 회원정보 수정 4/12 김건우
 	@PostMapping(value = "/changeInfo")
 	public String changeInfo(MemberDto dto,

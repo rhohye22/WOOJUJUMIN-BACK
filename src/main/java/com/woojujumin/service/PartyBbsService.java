@@ -27,8 +27,38 @@ public class PartyBbsService {
 		
 		return dao.getmyAllBbs(param);
 	}
-
-
-
+	
+	public boolean writePartybbs(PartyBbsDto dto) {
+		int cnt = dao.writePartybbs(dto);
+		
+		return cnt>0?true:false;
+	}
+	
+	public PartyBbsDto partyBbsdetail(PartyBbsDto dto) {
+		
+		return dao.partyBbsdetail(dto);
+	}
+	
+	public boolean deletePartybbs(PartyBbsDto dto) {
+		int cnt = dao.deletePartybbs(dto);
+		
+		return cnt>0?true:false;
+	}  
+	
+	public List<PartyBbsDto> partybbslist() {
+		
+		return dao.partybbslist();
+	}
+	
+	public boolean updatePartybbs(PartyBbsDto dto) {
+		int cnt = dao.updatePartybbs(dto);
+		
+		return cnt>0?true:false;
+	}
+	
+	public List<PartyBbsDto> getAllpbslist (mypartyBbsParam param){
+		
+		return dao.getAllpbslist(param);
+	}
 
 }

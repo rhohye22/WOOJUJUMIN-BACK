@@ -13,7 +13,7 @@
 		select *
 		from
 		(select row_number()over(order by wdate desc) as rnum,
-		bbsSeq,id,
+		bbsSeq, id,
 		title, content, image, wdate, del, readcount, tag, likey, hate
 		from
 		freeBbs
@@ -40,6 +40,7 @@
 		where id =#{id} AND rnum between ${start} and
 		${end}    <!-- 숫자는 $, 문자열은 # -->
 	</select>
+
 
 	<!--글의 총수 -->
 	<select id="getmyfreeAllBbs"
@@ -215,6 +216,14 @@
 		from freeBbs
 		where bbsSeq=#{bbsSeq}
 	</select>
+	
+	<select id="getBbs" parameterType="Integer" resultType="com.woojujumin.dto.FreeBbsDto">
+
+		select *
+		from freeBbs
+		where bbsSeq=#{bbsSeq}
+	</select>
+
 
 
 	<!-- 자유게시판 댓글 -->
@@ -326,4 +335,6 @@
 	</select>
 
 </mapper>
+
+
 
