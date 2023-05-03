@@ -77,8 +77,6 @@ public class PartyRequestController {
 		
 		System.out.println("list" + list);
 		
-		
-		
 		Map<String, Object> map = new HashMap<>();
 		
 		map.put("list", list);
