@@ -44,6 +44,17 @@ public class MemberService {
 	public MemberDto login(MemberDto dto) {
 		return dao.login(dto);
 	}
+	
+	// 아이디 찾기
+	public MemberDto idsearch(String email) {
+		return dao.idsearch(email);
+	}
+	
+	// 임시 비밀번호 발급
+	public boolean pwdsearch(MemberDto dto) {
+		int n = dao.pwdsearch(dto);
+		return n>0?true:false;
+	}
 
 	// 회원수정 4/12
 	public boolean changeInfo(MemberDto dto) {

@@ -13,6 +13,7 @@ public class ApplyDto implements Serializable {
 	private String masterId;
 	private byte totalMem;
 	private byte countMem;
+	private String profile;
 	
 	
 	public ApplyDto() {
@@ -21,7 +22,7 @@ public class ApplyDto implements Serializable {
 
 
 	public ApplyDto(int partySeq, String applyMem, byte check, String wdate, String title, byte full, String masterId,
-			byte totalMem, byte countMem) {
+			byte totalMem, byte countMem, String profile) {
 		super();
 		this.partySeq = partySeq;
 		this.applyMem = applyMem;
@@ -32,6 +33,7 @@ public class ApplyDto implements Serializable {
 		this.masterId = masterId;
 		this.totalMem = totalMem;
 		this.countMem = countMem;
+		this.profile = profile;
 	}
 
 
@@ -125,12 +127,24 @@ public class ApplyDto implements Serializable {
 	}
 
 
+	public String getProfile() {
+		return profile;
+	}
+
+
+	public void setProfile(String profile) {
+		this.profile = profile;
+	}
+
+
 	@Override
 	public String toString() {
 		return "ApplyDto [partySeq=" + partySeq + ", applyMem=" + applyMem + ", check=" + check + ", wdate=" + wdate
 				+ ", title=" + title + ", full=" + full + ", masterId=" + masterId + ", totalMem=" + totalMem
-				+ ", countMem=" + countMem + "]";
+				+ ", countMem=" + countMem + ", profile=" + profile + "]";
 	}
+
+
 
 
 }

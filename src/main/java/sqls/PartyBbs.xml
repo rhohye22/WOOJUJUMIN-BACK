@@ -1,9 +1,80 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 	"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
-	
+<!-- 	private int partySeq;
+	private String id;
+   private String title;
+   private String content;
+   private String image;
+   private String wdate;
+   private int del;
+   private int readcount;
+   private int tag;
+   private int partytype;
+   private int people;
+   private int likey;
+   private int hate;
+   private String place;
+   private String mdate;
+   private int applymem;
+   private int endparty;
+   private int fullparty;	 -->
 <mapper namespace="com.woojujumin.dao.PartyBbsDao">
-	<!-- 내가쓴글 보기 모집게시판 -->
+	
+	<insert id="writePartybbs" parameterType="com.woojujumin.dto.PartyBbsDto">
+		insert into partyBbs(id, title, content, image, wdate, del, readcount, tag, partyType, people, likey, hate, place, mdate, applyMem, endParty, fullParty)
+		values ( #{id}, #{title}, #{content}, #{image}, now(), 0, 0, #{tag}, #{partytype}, #{people}, 0, 0, #{place}, #{mdate}, 0, 0, 0  )
+	</insert>
+	
+	<select id = "partyBbsdetail" parameterType="com.woojujumin.dto.PartyBbsDto" resultType="com.woojujumin.dto.PartyBbsDto" >
+		select * from partyBbs where partySeq = #{partySeq}
+	</select>
+	
+	<update id="deletePartybbs" parameterType="com.woojujumin.dto.PartyBbsDto">
+		update partybbs set del = 1 where partySeq = #{partySeq}
+	</update>
+	
+	<update id="updatePartybbs" parameterType="com.woojujumin.dto.PartyBbsDto">
+		update partybbs set title = #{title}, content = #{content} where partySeq = #{partySeq}
+	</update>
+	
+	<select id = "partybbslist" resultType="com.woojujumin.dto.PartyBbsDto">
+		select * 
+		from 
+			(select row_number()over(order by wdate desc) as rnum,
+			partySeq, id, title, content, image, wdate, del, readcount, tag, partyType, people, likey, hate, place, mdate, applyMem, endParty, fullParty
+			from partyBbs
+			order by wdate desc) a
+	</select>
+	
+	<select id = "getAllpbslist" parameterType="com.woojujumin.dto.mypartyBbsParam" resultType="com.woojujumin.dto.PartyBbsDto">
+				select * 
+		from 
+			(select row_number()over(order by wdate desc) as rnum,
+			partySeq, id, title, content, image, wdate, del, readcount, tag, partyType, people, likey, hate, place, mdate, applyMem, endParty, fullParty
+		from partyBbs
+		where 1=1 
+			<if test="choice != null and choice != '' and search != null and search != ''">
+				<if test="choice == 'title'">
+					and title like concat('%', #{search}, '%') and del =0
+				
+				</if>
+				<if test="choice == 'content'">
+				
+					and content like concat('%', #{search}, '%') and del =0
+				
+				</if>
+				<if test="choice == 'writer'">
+				
+					and id=#{search} and del =0
+				
+				</if>
+			</if>
+			order by wdate desc) a
+			
+		where rnum between ${start} and ${end}
+	</select>
+	
 	<select id="myBbslist" parameterType="com.woojujumin.dto.mypartyBbsParam" resultType="com.woojujumin.dto.PartyBbsDto">
 		
 		select * 
@@ -54,14 +125,26 @@
 				
 				</if>
 			</if>
+
+	</select>
+	
+	
+	<insert id="partyApply" parameterType="com.woojujumin.dto.ApplyDto">
+	
+		insert into apply( partySeq, applyMem, wdate, title, masterId, countMem, totalMem, profile)
+		values(#{partySeq}, #{applyMem}, now(), #{title}, #{masterId}, #{countMem}, #{totalMem}, #{profile});
+	
+	</insert>
+	
+	<select id="applyCnt" parameterType="com.woojujumin.dto.ApplyDto" resultType="byte">
+	
+		select countMem from apply where partySeq = #{partySeq} AND masterId = #{masterId}
 	
 	</select>
 	
 	
 	
-		
-		
-		
-		
+	
+	
 		
 </mapper>

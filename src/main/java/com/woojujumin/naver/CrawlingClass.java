@@ -36,7 +36,7 @@ public class CrawlingClass {
 			List<String> movie = new ArrayList<>();
 			List<String> images = new ArrayList<>();
 
-			String downloadDir = "/woojujumin/WOOJUJUMIN-FRONT/src/components/crawlingimages"; // 로컬 파일 경로 설정
+			String downloadDir = "/finalProject/WOOJUJUMIN-FRONT/src/components/crawlingimages"; // 로컬 파일 경로 설정
 
 			for (int i = 0; i < 15; i++) {
 				Element title = titles.get(i);
@@ -96,7 +96,7 @@ public class CrawlingClass {
 			List<String> senddatas = new ArrayList<>();
 			List<String> images = new ArrayList<>();
 
-			String downloadDir = "/woojujumin/WOOJUJUMIN-FRONT/src/components/crawlingimages"; // 로컬 파일 경로 설정
+			String downloadDir = "/finalProject/WOOJUJUMIN-FRONT/src/components/crawlingimages"; // 로컬 파일 경로 설정
 
 			for (int i = 0; i < 50; i++) {
 //				Element ull = ul.get(i);
@@ -171,7 +171,7 @@ public class CrawlingClass {
 			List<String> senddates = new ArrayList<>();
 			List<String> images = new ArrayList<>();
 
-			String downloadDir = "/woojujumin/WOOJUJUMIN-FRONT/src/components/crawlingimages"; // 로컬 파일 경로 설정
+			String downloadDir = "/finalProject/WOOJUJUMIN-FRONT/src/components/crawlingimages"; // 로컬 파일 경로 설정
 
 			for (int i = 0; i < 5; i++) {
 				Element title = titles.get(i);
@@ -228,7 +228,7 @@ public class CrawlingClass {
 			List<String> senddates = new ArrayList<>();
 			List<String> images = new ArrayList<>();
 
-			String downloadDir = "/woojujumin/WOOJUJUMIN-FRONT/src/components/crawlingimages"; // 로컬 파일 경로 설정
+			String downloadDir = "/finalProject/WOOJUJUMIN-FRONT/src/components/crawlingimages"; // 로컬 파일 경로 설정
 
 			for (int i = 0; i < 5; i++) {
 				Element title = titles.get(i);
@@ -285,7 +285,7 @@ public class CrawlingClass {
 			List<String> senddates = new ArrayList<>();
 			List<String> images = new ArrayList<>();
 
-			String downloadDir = "/woojujumin/WOOJUJUMIN-FRONT/src/components/crawlingimages"; // 로컬 파일 경로 설정
+			String downloadDir = "/finalProject/WOOJUJUMIN-FRONT/src/components/crawlingimages"; // 로컬 파일 경로 설정
 
 			for (int i = 0; i < 5; i++) {
 				Element title = titles.get(i);
@@ -344,7 +344,6 @@ public class CrawlingClass {
 			List<String> images = new ArrayList<>();
 
 			String downloadDir = "/woojujumin/WOOJUJUMIN-FRONT/src/components/crawlingimages/musicimages"; // 로컬 파일 경로
-																											// 설정
 
 			for (int i = 0; i < 50; i++) {
 				Element title = titles.get(i);
