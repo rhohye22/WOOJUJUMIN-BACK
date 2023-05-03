@@ -10,6 +10,7 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.woojujumin.dto.BbsCountDto;
 import com.woojujumin.dto.FreeBbsDto;
 import com.woojujumin.dto.PartyBbsDto;
 import com.woojujumin.dto.mypartyBbsParam;
@@ -137,4 +138,13 @@ public class PartyBbsController {
 	//	map.put("pageBbs", pageBbs);
 		return map;
 	}
+	
+	//관리자페이지 7일간 모집게시판 등록수
+	@GetMapping(value ="cntFbsDays")
+	public List<BbsCountDto> cntFbsDays(){
+		System.out.println("PartyBbsController cntFbsDays : " + new Date());
+		return service.cntFbsDays();
+	}
+	
+	
 }

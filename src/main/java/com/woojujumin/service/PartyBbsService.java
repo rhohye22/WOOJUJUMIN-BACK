@@ -7,6 +7,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import com.woojujumin.dao.PartyBbsDao;
+import com.woojujumin.dto.BbsCountDto;
 import com.woojujumin.dto.FreeBbsDto;
 import com.woojujumin.dto.PartyBbsDto;
 import com.woojujumin.dto.mypartyBbsParam;
@@ -60,5 +61,8 @@ public class PartyBbsService {
 		
 		return dao.getAllpbslist(param);
 	}
-
+	//관리자 페이지
+	public List<BbsCountDto> cntFbsDays(){
+		return dao.cntFbsDays();
+	}
 }

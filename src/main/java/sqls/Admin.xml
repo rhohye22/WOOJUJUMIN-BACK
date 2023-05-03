@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+	"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.woojujumin.dao.AdminDao">
+
+<select id="allSpamWord" resultType="com.woojujumin.dto.SpamWordDto">
+SELECT * from spamword
+</select>
+
+<insert id="addSpamword" >
+INSERT INTO spamword(word) VALUES(#{word})
+</insert>
+
+<delete id="deleteSpamword" parameterType="String">
+delete from spamword where word=#{word}
+</delete>
+
+<!-- 자유게시판 스팸걸리는 리스트 -->
+<select id="freebbsSpamlist" resultType="com.woojujumin.dto.FreeBbsDto" >
+select * from freebbs where title  REGEXP (SELECT  GROUP_CONCAT(word SEPARATOR "|") from spamword) or content  REGEXP (SELECT  GROUP_CONCAT(word SEPARATOR "|") from spamword) order by wdate desc
+</select>
+
+<!--모집게시판 스팸걸리는 리스트 -->
+<select id="partybbsSpamlist" resultType="com.woojujumin.dto.FreeBbsDto" >
+select * from partybbs where title  REGEXP (SELECT  GROUP_CONCAT(word SEPARATOR "|") from spamword) or content  REGEXP (SELECT  GROUP_CONCAT(word SEPARATOR "|") from spamword) order by wdate desc
+</select>
+
+
+
+</mapper>

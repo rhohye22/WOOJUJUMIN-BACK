@@ -129,5 +129,19 @@
 	</select>
 	
 	
+	
+	<!--최근 7일간 일별 자유게시판 글수 (관리자페이지기능 - 노혜원)-->
+
+	<select id="cntFbsDays"
+		resultType="com.woojujumin.dto.BbsCountDto">
+
+	select * from (SELECT substr(wdate,1,10) as wdate,
+		count(substr(wdate,1,10))
+		as count FROM partybbs group by
+		substr(wdate,1,10) ORDER BY
+		wdate desc limit 7) a order by wdate asc
+	</select>
+	
+	
 		
 </mapper>
