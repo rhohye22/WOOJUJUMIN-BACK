@@ -129,5 +129,22 @@
 	</select>
 	
 	
+	<insert id="partyApply" parameterType="com.woojujumin.dto.ApplyDto">
+	
+		insert into apply( partySeq, applyMem, wdate, title, masterId, countMem, totalMem, profile)
+		values(#{partySeq}, #{applyMem}, now(), #{title}, #{masterId}, #{countMem}, #{totalMem}, #{profile});
+	
+	</insert>
+	
+	<select id="applyCnt" parameterType="com.woojujumin.dto.ApplyDto" resultType="byte">
+	
+		select countMem from apply where partySeq = #{partySeq} AND masterId = #{masterId}
+	
+	</select>
+	
+	
+	
+	
+	
 		
 </mapper>

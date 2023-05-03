@@ -10,6 +10,7 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.woojujumin.dto.ApplyDto;
 import com.woojujumin.dto.FreeBbsDto;
 import com.woojujumin.dto.PartyBbsDto;
 import com.woojujumin.dto.mypartyBbsParam;
@@ -55,6 +56,7 @@ public class PartyBbsController {
 		System.out.println("BbsController writePartybbs : " + new Date());
 		System.out.println(dto.toString());
 		boolean b = service.writePartybbs(dto);
+		
 		if(b == false) {
 			return "NO";
 		}
@@ -96,6 +98,26 @@ public class PartyBbsController {
 		
 		return map;
 	}
+	// 파티 요청시 등록해주는거
+	@PostMapping(value = "/partyApply")
+	public String partyApply(ApplyDto dto){
+		System.out.println("BbsController partyApply : " + new Date());
+	
+		System.out.println(dto.toString());
+		
+		byte cnt = service.applyCnt(dto);
+		
+		dto.setCountMem(cnt);
+		
+		boolean b = service.partyApply(dto);
+	
+		if(b == false) {
+			return "NO";
+		}
+		
+		return "YES";
+	}
+
 	
 	@PostMapping(value = "/updatePartybbs")
 	public String updatePartybbs(PartyBbsDto dto) {
