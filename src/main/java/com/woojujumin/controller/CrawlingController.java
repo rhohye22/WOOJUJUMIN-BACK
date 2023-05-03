@@ -77,9 +77,10 @@ public class CrawlingController {
 	}
 	
 	@GetMapping(value="/alltalkcomment")
-	public List<TalkDto> alltalkcomment(){
+	public List<TalkDto> alltalkcomment(TalkDto talk){
 		System.out.println("CrawlingController alltalkcomment() " + new Date());
+		System.out.println("넘어온 값 talk : " + talk);
 		
-		return service.alltalkcomment();
+		return service.alltalkcomment(talk);
 	}
 }

@@ -102,7 +102,7 @@ public class MemberService {
 	}
 	
 	// 크롤링사이트 댓글보기
-	public List<TalkDto> alltalkcomment(){
-		return dao.alltalkcomment();
+	public List<TalkDto> alltalkcomment(TalkDto talk){
+		return dao.alltalkcomment(talk);
 	}
 }

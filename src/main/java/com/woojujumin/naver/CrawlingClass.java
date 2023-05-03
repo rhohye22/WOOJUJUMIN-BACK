@@ -82,10 +82,15 @@ public class CrawlingClass {
 			Document doc = Jsoup.connect(url).get();
 
 			Elements titles = doc.select("div.ss_book_box div.ss_book_list ul li a.bo3 b");
-			Elements datas = doc.select("div.ss_book_box div.ss_book_list ul li:nth-child(3) ");
-			Elements posters = doc.select("div.flipcover_out div.flipcover_in img.front_cover, div.cover_area_other img.i_cover");
+			Elements datas = doc.select("div.ss_book_box td div.ss_book_list:first-child ul li:nth-child(3)");
+			Elements posters = doc
+					.select("div.flipcover_out div.flipcover_in img.front_cover, div.cover_area_other img.i_cover");
+
+//			Elements ul = doc.select("div.ss_book_list ul li span.ss_ht1 a");
 			
-//			System.out.println(titles);
+			Elements ul = doc.select("div.ss_book_list:first-child ul");
+			int liCount = ul.first().select("li").size();		
+//			System.out.println(liCount);
 
 			List<String> sendtitles = new ArrayList<>();
 			List<String> senddatas = new ArrayList<>();
@@ -93,7 +98,27 @@ public class CrawlingClass {
 
 			String downloadDir = "/woojujumin/WOOJUJUMIN-FRONT/src/components/crawlingimages"; // 로컬 파일 경로 설정
 
-			for (int i = 0; i < 15; i++) {
+			for (int i = 0; i < 50; i++) {
+//				Element ull = ul.get(i);
+//				System.out.println(ull);
+
+//				Element ull;
+//			    try {
+//			        ull = ul.get(i);
+//			    } catch (IndexOutOfBoundsException e) {
+//			        datas = doc.select("div.ss_book_box td div.ss_book_list:first-child ul li:nth-child(2)");
+//			    }
+//				try {
+//					if(ul.get(i) != null ) {
+//						datas = doc.select("div.ss_book_box td div.ss_book_list:first-child ul li:nth-child(3)");
+//					}else {
+//						datas = doc.select("div.ss_book_box td div.ss_book_list:first-child ul li:nth-child(2)");
+//					}
+//				}
+//				catch (IndexOutOfBoundsException e){
+//					datas = doc.select("div.ss_book_box td div.ss_book_list:first-child ul li:nth-child(3)");
+//				}
+						
 				Element title = titles.get(i);
 				Element data = datas.get(i);
 				Element poster = posters.get(i);
@@ -102,7 +127,7 @@ public class CrawlingClass {
 
 				String imageUrl = poster.attr("src");
 				if (imageUrl.startsWith("//")) {
-				    imageUrl = "http:" + imageUrl;
+					imageUrl = "http:" + imageUrl;
 				}
 				String localImagePath = ImageDownloader.downloadImage(imageUrl, downloadDir);
 //				System.out.println(title.text());
@@ -129,7 +154,7 @@ public class CrawlingClass {
 	public static HashMap<String, Object> localOneCrawling() throws Exception {
 
 		if (localeventpageone == null) {
-			
+
 			// 문화체육관광부
 			String url = "https://www.mcst.go.kr/kor/s_culture/festival/festivalList.jsp?pMenuCD=&pCurrentPage=1&pSearchType=&pSearchWord=&pSeq=&pSido=&pOrder=&pPeriod=&fromDt=&toDt=";
 			Document doc = Jsoup.connect(url).get();
@@ -138,7 +163,7 @@ public class CrawlingClass {
 			Elements informations = doc.select("ul.mediaWrap div.text div.ny");
 			Elements details = doc.select("ul.mediaWrap div.text ul.detail_info");
 			Elements posters = doc.select("ul.mediaWrap div.img img");
-			
+
 //			System.out.println(titles);
 
 			List<String> sendtitles = new ArrayList<>();
@@ -155,12 +180,12 @@ public class CrawlingClass {
 				Element poster = posters.get(i);
 
 //			System.out.println(title.text());
-				
+
 				String addurl = "https://www.mcst.go.kr";
 				String imageUrl = poster.attr("src");
-				String localImagePath = ImageDownloader.downloadImage(addurl +imageUrl, downloadDir);
+				String localImagePath = ImageDownloader.downloadImage(addurl + imageUrl, downloadDir);
 //				System.out.println(title.text());
-				
+
 				sendtitles.add(title.text());
 				sendinformations.add(information.text());
 				senddates.add(detail.text());
@@ -176,18 +201,17 @@ public class CrawlingClass {
 			localeventpageone.put("senddates", senddates);
 			localeventpageone.put("images", images);
 		}
-		
 
 		return localeventpageone;
 
 	}
-	
+
 	private static HashMap<String, Object> localeventpagetwo = null;
 
 	public static HashMap<String, Object> localTwoCrawling() throws Exception {
 
 		if (localeventpagetwo == null) {
-			
+
 			// 문화체육관광부
 			String url = "https://www.mcst.go.kr/kor/s_culture/festival/festivalList.jsp?pMenuCD=&pCurrentPage=2&pSearchType=&pSearchWord=&pSeq=&pSido=&pOrder=&pPeriod=&fromDt=&toDt=";
 			Document doc = Jsoup.connect(url).get();
@@ -196,7 +220,7 @@ public class CrawlingClass {
 			Elements informations = doc.select("ul.mediaWrap div.text div.ny");
 			Elements details = doc.select("ul.mediaWrap div.text ul.detail_info");
 			Elements posters = doc.select("ul.mediaWrap div.img img");
-			
+
 //			System.out.println(titles);
 
 			List<String> sendtitles = new ArrayList<>();
@@ -213,12 +237,12 @@ public class CrawlingClass {
 				Element poster = posters.get(i);
 
 //			System.out.println(title.text());
-				
+
 				String addurl = "https://www.mcst.go.kr";
 				String imageUrl = poster.attr("src");
-				String localImagePath = ImageDownloader.downloadImage(addurl+imageUrl, downloadDir);
+				String localImagePath = ImageDownloader.downloadImage(addurl + imageUrl, downloadDir);
 //				System.out.println(title.text());
-				
+
 				sendtitles.add(title.text());
 				sendinformations.add(information.text());
 				senddates.add(detail.text());
@@ -234,18 +258,17 @@ public class CrawlingClass {
 			localeventpagetwo.put("senddates", senddates);
 			localeventpagetwo.put("images", images);
 		}
-		
 
 		return localeventpagetwo;
 
 	}
-	
+
 	private static HashMap<String, Object> localeventpagethree = null;
 
 	public static HashMap<String, Object> localThreeCrawling() throws Exception {
 
 		if (localeventpagethree == null) {
-			
+
 			// 문화체육관광부
 			String url = "https://www.mcst.go.kr/kor/s_culture/festival/festivalList.jsp?pMenuCD=&pCurrentPage=3&pSearchType=&pSearchWord=&pSeq=&pSido=&pOrder=&pPeriod=&fromDt=&toDt=";
 			Document doc = Jsoup.connect(url).get();
@@ -254,7 +277,7 @@ public class CrawlingClass {
 			Elements informations = doc.select("ul.mediaWrap div.text div.ny");
 			Elements details = doc.select("ul.mediaWrap div.text ul.detail_info");
 			Elements posters = doc.select("ul.mediaWrap div.img img");
-			
+
 //			System.out.println(titles);
 
 			List<String> sendtitles = new ArrayList<>();
@@ -271,13 +294,13 @@ public class CrawlingClass {
 				Element poster = posters.get(i);
 
 //			System.out.println(title.text());
-				
+
 				String addurl = "https://www.mcst.go.kr";
 				String imageUrl = poster.attr("src");
 				System.out.println(imageUrl);
-				String localImagePath = ImageDownloader.downloadImage(addurl+imageUrl, downloadDir);
+				String localImagePath = ImageDownloader.downloadImage(addurl + imageUrl, downloadDir);
 //				System.out.println(title.text());
-				
+
 				sendtitles.add(title.text());
 				sendinformations.add(information.text());
 				senddates.add(detail.text());
@@ -293,19 +316,17 @@ public class CrawlingClass {
 			localeventpagethree.put("senddates", senddates);
 			localeventpagethree.put("images", images);
 		}
-		
 
 		return localeventpagethree;
 
 	}
-	
-	
+
 	private static HashMap<String, Object> musicData = null;
 
 	public static HashMap<String, Object> musicCrawling() throws Exception {
 
 		if (musicData == null) {
-			
+
 			// 멜론이다으아아
 			String url = "https://www.melon.com/chart/index.htm";
 			Document doc = Jsoup.connect(url).get();
@@ -314,7 +335,7 @@ public class CrawlingClass {
 			Elements singers = doc.select("tr.lst50 td div.wrap div.wrap_song_info div.rank02 span.checkEllipsis a");
 			Elements albums = doc.select("tr.lst50 td div.wrap div.rank03 a");
 			Elements posters = doc.select("tr.lst50 td div.wrap a img");
-			
+
 //			System.out.println(titles);
 
 			List<String> sendtitles = new ArrayList<>();
@@ -322,7 +343,8 @@ public class CrawlingClass {
 			List<String> sendalbums = new ArrayList<>();
 			List<String> images = new ArrayList<>();
 
-			String downloadDir = "/woojujumin/WOOJUJUMIN-FRONT/src/components/crawlingimages/musicimages"; // 로컬 파일 경로 설정
+			String downloadDir = "/woojujumin/WOOJUJUMIN-FRONT/src/components/crawlingimages/musicimages"; // 로컬 파일 경로
+																											// 설정
 
 			for (int i = 0; i < 50; i++) {
 				Element title = titles.get(i);
@@ -331,12 +353,12 @@ public class CrawlingClass {
 				Element poster = posters.get(i);
 
 //			System.out.println(title.text());
-				
+
 				String imageUrl = poster.attr("src");
 //				System.out.println(imageUrl);
 				String localImagePath = ImageDownloader.downloadImage(imageUrl, downloadDir);
 //				System.out.println(title.text());
-				
+
 				sendtitles.add(title.text());
 				sendsingers.add(singer.text());
 				sendalbums.add(album.text());
@@ -352,7 +374,6 @@ public class CrawlingClass {
 			musicData.put("sendalbums", sendalbums);
 			musicData.put("images", images);
 		}
-		
 
 		return musicData;
 

@@ -102,14 +102,15 @@
 
 <!-- 230427 크롤링 사이트 댓글쓰기 -->
 <insert id="talkcomment" parameterType="com.woojujumin.dto.TalkDto">
-	insert into talk(talkid, talkcomment, wdate)
-	values(#{talkid}, #{talkcomment}, now()) 
+	insert into talk(talkid, talkcomment, wdate, category)
+	values(#{talkid}, #{talkcomment}, now(), #{category}) 
 </insert>
 
 <!-- 230427 크롤링 사이트 댓글가져오기 -->
-<select id="alltalkcomment" resultType="com.woojujumin.dto.TalkDto">
+<select id="alltalkcomment" parameterType="com.woojujumin.dto.TalkDto" resultType="com.woojujumin.dto.TalkDto">
 	select *
 	from talk
+	where category=#{category}
 	order by seq desc
 </select>
 </mapper>

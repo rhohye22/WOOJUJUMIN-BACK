@@ -57,5 +57,5 @@ public interface MemberDao {
 	int talkcomment(TalkDto talk);
 	
 	// 크롤링사이트 댓글보기
-	List<TalkDto> alltalkcomment();
+	List<TalkDto> alltalkcomment(TalkDto talk);
 }
