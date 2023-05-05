@@ -79,7 +79,7 @@ public class FreeBbsController {
 	public String writeFreeBbs(FreeBbsDto dto,
 			@RequestParam(value = "uploadFile", required = false) MultipartFile uploadFile, HttpServletRequest req) {
 		System.out.println("FreeBbsController writeFreeBbs " + new Date());
-		System.out.println(dto.toString());
+		//System.out.println(dto.toString());
 
 		// 경로
 		String path = req.getServletContext().getRealPath("/upload/freebbs");
@@ -87,10 +87,10 @@ public class FreeBbsController {
 		//올리는 사진이 있으면
 		if (uploadFile != null && !uploadFile.isEmpty()) {
 			String filename = uploadFile.getOriginalFilename();
-			System.out.println(filename);
+			//System.out.println(filename);
 
 			String filepath = path + "/" + filename;
-			System.out.println(filepath);
+			//System.out.println(filepath);
 
 			try {
 				BufferedOutputStream bos = new BufferedOutputStream(new FileOutputStream(new File(filepath)));
@@ -149,6 +149,7 @@ public class FreeBbsController {
 			String filename = null;
 			dto.setImage(filename);
 			
+			//기존 사진을 삭제하고 싶다면 
 			//String filePath = path + "/" + predto.getImage();
 			//File file = new File(filePath);
 			//if (file.exists()) {
@@ -160,7 +161,7 @@ public class FreeBbsController {
 		else {
 			String filename = predto.getImage();
 			dto.setImage(filename);
-			System.out.println("사진은 수정없이 그대로면 ");
+			//System.out.println("사진은 수정없이 그대로면 ");
 		}
 		boolean b = service.modifyFreebbs(dto);
 		if (b == false) {
