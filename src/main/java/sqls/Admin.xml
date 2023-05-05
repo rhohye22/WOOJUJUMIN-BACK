@@ -26,6 +26,162 @@ select * from freebbs where title  REGEXP (SELECT  GROUP_CONCAT(word SEPARATOR "
 select * from partybbs where title  REGEXP (SELECT  GROUP_CONCAT(word SEPARATOR "|") from spamword) or content  REGEXP (SELECT  GROUP_CONCAT(word SEPARATOR "|") from spamword) order by wdate desc
 </select>
 
+<!-- 모집게시판 리스트 -->
+	<select id="PartyBbslistAdmin"
+		resultType="com.woojujumin.dto.PartyBbsDto">
+		SELECT f.partySeq, f.id, f.title, f.content, f.image, f.wdate, f.del,
+		b.readcount, f.tag, a.likey, f.hate
+		FROM partybbs f
+		LEFT JOIN (SELECT
+		bbsSeq, IFNULL(SUM(likeCheck),0) AS likey FROM partylikey
+		GROUP BY bbsSeq) a
+		ON f.partySeq = a.bbsSeq
+		LEFT JOIN (SELECT bbsSeq, IFNULL(COUNT(*),0) AS
+		readcount FROM partyread
+		GROUP BY bbsSeq) b
+		ON f.partySeq = b.bbsSeq
+		WHERE
+		1=1
+		<if test="choice != null and search != null and tag != null">
+			AND (
+			<if test="choice == 'title'">
+				f.title LIKE CONCAT('%', #{search}, '%')
+			</if>
+			<if test="choice == 'content'">
+				f.content LIKE CONCAT('%', #{search}, '%')
+			</if>
+			<if test="choice == 'writer'">
+				f.id = #{search}
+			</if>
+			)
+			AND f.tag = #{tag}
+		</if>
 
+		<if test="choice != null and search != null and tag == null">
+			AND (
+			<if test="choice == 'title'">
+				f.title LIKE CONCAT('%', #{search}, '%')
+			</if>
+			<if test="choice == 'content'">
+				f.content LIKE CONCAT('%', #{search}, '%')
+			</if>
+			<if test="choice == 'writer'">
+				f.id = #{search}
+			</if>
+			)
+		</if>
+
+		<if test="choice == null and search == null and tag != null">
+
+			AND f.tag = #{tag}
+
+		</if>
+		<if test="choice == null and search != null and tag != null">
+			AND f.tag = #{tag}
+		</if>
+
+		<if test="choice == null and search != null and tag != null">
+			AND (
+			f.title LIKE CONCAT('%', #{search}, '%')
+			OR f.content
+			LIKE
+			CONCAT('%', #{search}, '%')
+			)
+			AND f.tag = #{tag}
+		</if>
+
+		ORDER BY f.partySeq DESC
+		LIMIT #{start}, 20
+	</select>
+
+
+<!-- 모집게시판 조건검색별 글 수 -->
+	<select id="cntPartyBbsAdmin"
+		resultType="Integer">
+		SELECT ifnull(COUNT(*),0)
+		FROM partybbs f
+		LEFT JOIN (SELECT
+		bbsSeq, IFNULL(SUM(likeCheck),0) AS likey FROM partylikey
+		GROUP BY bbsSeq) a
+		ON f.partySeq = a.bbsSeq
+		LEFT JOIN (SELECT bbsSeq, IFNULL(COUNT(*),0) AS
+		readcount FROM partyread
+		GROUP BY bbsSeq) b
+		ON f.partySeq = b.bbsSeq
+		WHERE
+		1=1
+		<if test="choice != null and search != null and tag != null">
+			AND (
+			<if test="choice == 'title'">
+				f.title LIKE CONCAT('%', #{search}, '%')
+			</if>
+			<if test="choice == 'content'">
+				f.content LIKE CONCAT('%', #{search}, '%')
+			</if>
+			<if test="choice == 'writer'">
+				f.id = #{search}
+			</if>
+			)
+			AND f.tag = #{tag}
+		</if>
+
+		<if test="choice != null and search != null and tag == null">
+			AND (
+			<if test="choice == 'title'">
+				f.title LIKE CONCAT('%', #{search}, '%')
+			</if>
+			<if test="choice == 'content'">
+				f.content LIKE CONCAT('%', #{search}, '%')
+			</if>
+			<if test="choice == 'writer'">
+				f.id = #{search}
+			</if>
+			)
+		</if>
+
+		<if test="choice == null and search == null and tag != null">
+
+			AND f.tag = #{tag}
+
+		</if>
+		<if test="choice == null and search != null and tag != null">
+			AND f.tag = #{tag}
+		</if>
+
+		<if test="choice == null and search != null and tag != null">
+			AND (
+			f.title LIKE CONCAT('%', #{search}, '%')
+			OR f.content
+			LIKE
+			CONCAT('%', #{search}, '%')
+			)
+			AND f.tag = #{tag}
+		</if>
+
+	</select>
+
+	<!-- 자유게시판 특정게시물 -->
+	<select id="getPartyBbsAdmin"
+		resultType="com.woojujumin.dto.PartyBbsDto">
+		select *
+		from partyBbs
+		where partySeq=#{partySeq}
+	</select>
+	
+	<update id="delFreebbsByAdmin"> 
+	update freebbs set del = 2 where bbsSeq=#{bbsSeq}
+	</update>
+	
+	<update id="reopenFreebbsByAdmin"> 
+	update freebbs set del = 0 where bbsSeq=#{bbsSeq}
+	</update>
+	
+	<update id="delPartybbsByAdmin"  parameterType="Integer"> 
+	update partybbs set del = 2 where partySeq=#{partySeq}
+	</update>
+	
+	<update id="reopenPartybbsByAdmin" parameterType="Integer"> 
+	update partybbs set del = 0 where partySeq=#{partySeq}
+	</update>
 
 </mapper>

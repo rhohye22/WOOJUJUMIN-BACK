@@ -84,6 +84,7 @@ public class FreeBbsController {
 		// 경로
 		String path = req.getServletContext().getRealPath("/upload/freebbs");
 		//System.out.println(path);
+		//올리는 사진이 있으면
 		if (uploadFile != null && !uploadFile.isEmpty()) {
 			String filename = uploadFile.getOriginalFilename();
 			System.out.println(filename);
@@ -101,11 +102,67 @@ public class FreeBbsController {
 				System.out.println("파일 업로드 실패");
 			}
 			dto.setImage(filename);
+		//사진이 없으면
 		} else {
 			String filename = null;
 			dto.setImage(filename);
 		}
 		boolean b = service.writeFreeBbs(dto);
+		if (b == false) {
+			return "NO";
+		}
+		return "YES";
+	}
+	@PostMapping(value = "modifyFreebbs")
+	public String modifyFreebbs(FreeBbsDto dto,
+			@RequestParam(value = "uploadFile", required = false) MultipartFile uploadFile, HttpServletRequest req) {
+		System.out.println("FreeBbsController writeFreeBbs " + new Date());
+	
+		//수정전 데이터
+		FreeBbsDto predto = service.getfreeBbs(dto.getBbsSeq());
+		// 경로
+		String path = req.getServletContext().getRealPath("/upload/freebbs");
+		//System.out.println(path);
+		//올리는 사진이 있고 기존사진과 다르면
+		if (uploadFile != null && !uploadFile.isEmpty() && predto.getImage() != dto.getImage()) {
+			String filename = uploadFile.getOriginalFilename();
+			System.out.println(filename);
+			
+			String filepath = path + "/" + filename;
+			System.out.println(filepath);
+			//System.out.println("올리는 사진이 있고 기존사진과 다르면 dto.getImage() : "+dto.getImage());
+			try {
+				BufferedOutputStream bos = new BufferedOutputStream(new FileOutputStream(new File(filepath)));
+				bos.write(uploadFile.getBytes());
+				bos.close();
+				
+			} catch (Exception e) {
+				e.printStackTrace();
+				System.out.println("파일 업로드 실패");
+			}
+			dto.setImage(filename);
+		
+		} 
+		//기존에 사진이 있었는데 수정후에는 없다면	
+		else if( predto.getImage() != null && (dto.getImage() == null || dto.getImage().trim().isEmpty())){
+			//System.out.println("기존에 사진이 있었는데 수정후에는 없다면 dto.getImage() : "+dto.getImage());
+			String filename = null;
+			dto.setImage(filename);
+			
+			//String filePath = path + "/" + predto.getImage();
+			//File file = new File(filePath);
+			//if (file.exists()) {
+			//	file.delete();
+			//}
+					
+		} 
+		//사진은 수정없이 그대로면
+		else {
+			String filename = predto.getImage();
+			dto.setImage(filename);
+			System.out.println("사진은 수정없이 그대로면 ");
+		}
+		boolean b = service.modifyFreebbs(dto);
 		if (b == false) {
 			return "NO";
 		}
@@ -117,11 +174,22 @@ public class FreeBbsController {
 		return service.getfreeBbs(bbsSeq);
 	}
 
+	// 자유게시판 글삭제
+	@PostMapping(value = "delFeebbsByWriter")
+	public String delFeebbsByWriter(int bbsSeq) {
+		System.out.println("FreeBbsController delFeebbsByWriter() " + new Date());
+	
+		boolean b = service.delFeebbsByWriter(bbsSeq);
+		if (b == false) {
+			return "NO";
+		}
+		return "YES";
+	}
 	// 자유게시판 댓글
 	@PostMapping(value = "writeFreeReply")
 	public String writeFreeReply(FreeReplyDto dto) {
 		System.out.println("FreeBbsController writeFreeReply() " + new Date());
-		System.out.println(dto.toString());
+	
 		boolean b = service.writeFreeReply(dto);
 		if (b == false) {
 			return "NO";

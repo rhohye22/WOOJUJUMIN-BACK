@@ -20,4 +20,13 @@ public interface AdminDao {
 	
 	List<FreeBbsDto> freebbsSpamlist();
 	List<PartyBbsDto> partybbsSpamlist();
+	
+	List<PartyBbsDto> PartyBbslistAdmin(String choice, String search, int start,Integer  tag);
+	int cntPartyBbsAdmin(String choice, String search,Integer  tag);
+	PartyBbsDto getPartyBbsAdmin(int partySeq);
+	 
+	int delFreebbsByAdmin(int bbsSeq);
+	int reopenFreebbsByAdmin(int bbsSeq);
+	int delPartybbsByAdmin(int partySeq);
+	int reopenPartybbsByAdmin(int partySeq);
  }
