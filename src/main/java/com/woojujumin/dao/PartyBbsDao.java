@@ -32,7 +32,5 @@ public interface PartyBbsDao {
 	 
 	 List<PartyBbsDto> getAllpbslist(mypartyBbsParam param);
 	 
-	 
-	 //관리자기능(노혜원) 
-	 List<BbsCountDto> cntFbsDays();
+	
 }

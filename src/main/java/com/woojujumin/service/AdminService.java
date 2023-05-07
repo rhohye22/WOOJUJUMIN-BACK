@@ -7,8 +7,10 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import com.woojujumin.dao.AdminDao;
+import com.woojujumin.dto.BbsCountDto;
 import com.woojujumin.dto.FreeBbsDto;
 import com.woojujumin.dto.FreeReplyDto;
+import com.woojujumin.dto.MemberDto;
 import com.woojujumin.dto.PartyBbsDto;
 import com.woojujumin.dto.SpamWordDto;
 
@@ -68,5 +70,20 @@ public class AdminService {
 		int cnt = dao.reopenPartybbsByAdmin(partySeq);
 		return cnt > 0 ? true : false;
 	}
-
+	
+	public List<MemberDto> getMemlistByAuth(int auth){
+		return dao.getMemlistByAuth(auth);
+	}
+	public MemberDto getMemeberInfo(int memberSeq){
+		return dao.getMemeberInfo(memberSeq);
+	}
+	public boolean  stateControl(int auth, int memberSeq) {
+		int cnt = dao.stateControl(auth, memberSeq);
+		return cnt > 0 ? true : false;
+	}
+	//관리자 페이지
+	public List<BbsCountDto> cntFbsDays(){
+		return dao.cntFbsDays();
+	}
+	
 }

@@ -61,8 +61,5 @@ public class PartyBbsService {
 		
 		return dao.getAllpbslist(param);
 	}
-	//관리자 페이지
-	public List<BbsCountDto> cntFbsDays(){
-		return dao.cntFbsDays();
-	}
+
 }

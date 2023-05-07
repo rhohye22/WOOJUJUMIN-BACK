@@ -4,29 +4,36 @@
 
 <mapper namespace="com.woojujumin.dao.AdminDao">
 
-<select id="allSpamWord" resultType="com.woojujumin.dto.SpamWordDto">
-SELECT * from spamword
-</select>
+	<select id="allSpamWord"
+		resultType="com.woojujumin.dto.SpamWordDto">
+		SELECT * from spamword
+	</select>
 
-<insert id="addSpamword" >
-INSERT INTO spamword(word) VALUES(#{word})
-</insert>
+	<insert id="addSpamword">
+		INSERT INTO spamword(word) VALUES(#{word})
+	</insert>
 
-<delete id="deleteSpamword" parameterType="String">
-delete from spamword where word=#{word}
-</delete>
+	<delete id="deleteSpamword" parameterType="String">
+		delete from spamword where word=#{word}
+	</delete>
 
-<!-- 자유게시판 스팸걸리는 리스트 -->
-<select id="freebbsSpamlist" resultType="com.woojujumin.dto.FreeBbsDto" >
-select * from freebbs where title  REGEXP (SELECT  GROUP_CONCAT(word SEPARATOR "|") from spamword) or content  REGEXP (SELECT  GROUP_CONCAT(word SEPARATOR "|") from spamword) order by wdate desc
-</select>
+	<!-- 자유게시판 스팸걸리는 리스트 -->
+	<select id="freebbsSpamlist"
+		resultType="com.woojujumin.dto.FreeBbsDto">
+		select * from freebbs where title REGEXP (SELECT GROUP_CONCAT(word SEPARATOR
+		"|") from spamword) or content REGEXP (SELECT GROUP_CONCAT(word
+		SEPARATOR "|") from spamword) order by wdate desc
+	</select>
 
-<!--모집게시판 스팸걸리는 리스트 -->
-<select id="partybbsSpamlist" resultType="com.woojujumin.dto.FreeBbsDto" >
-select * from partybbs where title  REGEXP (SELECT  GROUP_CONCAT(word SEPARATOR "|") from spamword) or content  REGEXP (SELECT  GROUP_CONCAT(word SEPARATOR "|") from spamword) order by wdate desc
-</select>
+	<!--모집게시판 스팸걸리는 리스트 -->
+	<select id="partybbsSpamlist"
+		resultType="com.woojujumin.dto.PartyBbsDto">
+		select * from partybbs where title REGEXP (SELECT GROUP_CONCAT(word
+		SEPARATOR "|") from spamword) or content REGEXP (SELECT
+		GROUP_CONCAT(word SEPARATOR "|") from spamword) order by wdate desc
+	</select>
 
-<!-- 모집게시판 리스트 -->
+	<!-- 모집게시판 리스트 -->
 	<select id="PartyBbslistAdmin"
 		resultType="com.woojujumin.dto.PartyBbsDto">
 		SELECT f.partySeq, f.id, f.title, f.content, f.image, f.wdate, f.del,
@@ -34,12 +41,15 @@ select * from partybbs where title  REGEXP (SELECT  GROUP_CONCAT(word SEPARATOR 
 		FROM partybbs f
 		LEFT JOIN (SELECT
 		bbsSeq, IFNULL(SUM(likeCheck),0) AS likey FROM partylikey
-		GROUP BY bbsSeq) a
+		GROUP BY
+		bbsSeq) a
 		ON f.partySeq = a.bbsSeq
-		LEFT JOIN (SELECT bbsSeq, IFNULL(COUNT(*),0) AS
+		LEFT JOIN (SELECT bbsSeq,
+		IFNULL(COUNT(*),0) AS
 		readcount FROM partyread
 		GROUP BY bbsSeq) b
-		ON f.partySeq = b.bbsSeq
+		ON
+		f.partySeq = b.bbsSeq
 		WHERE
 		1=1
 		<if test="choice != null and search != null and tag != null">
@@ -95,15 +105,16 @@ select * from partybbs where title  REGEXP (SELECT  GROUP_CONCAT(word SEPARATOR 
 	</select>
 
 
-<!-- 모집게시판 조건검색별 글 수 -->
-	<select id="cntPartyBbsAdmin"
-		resultType="Integer">
+	<!-- 모집게시판 조건검색별 글 수 -->
+	<select id="cntPartyBbsAdmin" resultType="Integer">
 		SELECT ifnull(COUNT(*),0)
 		FROM partybbs f
 		LEFT JOIN (SELECT
-		bbsSeq, IFNULL(SUM(likeCheck),0) AS likey FROM partylikey
+		bbsSeq,
+		IFNULL(SUM(likeCheck),0) AS likey FROM partylikey
 		GROUP BY bbsSeq) a
-		ON f.partySeq = a.bbsSeq
+		ON
+		f.partySeq = a.bbsSeq
 		LEFT JOIN (SELECT bbsSeq, IFNULL(COUNT(*),0) AS
 		readcount FROM partyread
 		GROUP BY bbsSeq) b
@@ -160,28 +171,59 @@ select * from partybbs where title  REGEXP (SELECT  GROUP_CONCAT(word SEPARATOR 
 
 	</select>
 
-	<!-- 자유게시판 특정게시물 -->
+	<!-- 모집게시판 특정게시물 -->
 	<select id="getPartyBbsAdmin"
 		resultType="com.woojujumin.dto.PartyBbsDto">
 		select *
 		from partyBbs
 		where partySeq=#{partySeq}
 	</select>
-	
-	<update id="delFreebbsByAdmin"> 
-	update freebbs set del = 2 where bbsSeq=#{bbsSeq}
-	</update>
-	
-	<update id="reopenFreebbsByAdmin"> 
-	update freebbs set del = 0 where bbsSeq=#{bbsSeq}
-	</update>
-	
-	<update id="delPartybbsByAdmin"  parameterType="Integer"> 
-	update partybbs set del = 2 where partySeq=#{partySeq}
-	</update>
-	
-	<update id="reopenPartybbsByAdmin" parameterType="Integer"> 
-	update partybbs set del = 0 where partySeq=#{partySeq}
+
+	<update id="delFreebbsByAdmin">
+		update freebbs set del = 2 where bbsSeq=#{bbsSeq}
 	</update>
 
+	<update id="reopenFreebbsByAdmin">
+		update freebbs set del = 0 where bbsSeq=#{bbsSeq}
+	</update>
+
+	<update id="delPartybbsByAdmin" >
+		update partybbs set del = 2 where partySeq=#{partySeq}
+	</update>
+
+	<update id="reopenPartybbsByAdmin" >
+		update partybbs set del = 0 where partySeq=#{partySeq}
+	</update>
+
+	<select id="getMemlistByAuth"
+		resultType="com.woojujumin.dto.MemberDto">
+		select * from member where auth=#{auth}
+	</select>
+
+	<select id="getMemeberInfo"
+		resultType="com.woojujumin.dto.MemberDto">
+		select * from member where memberSeq=#{memberSeq}
+	</select>
+	
+	<update id="stateControl" >
+		update member set auth=#{auth} where memberSeq=#{memberSeq}
+	</update>
+	
+	
+		
+	<!--최근 7일간 일별 자유게시판 글수 (관리자페이지기능 - 노혜원)-->
+
+	<select id="cntFbsDays"
+		resultType="com.woojujumin.dto.BbsCountDto">
+
+	select * from (SELECT substr(wdate,1,10) as wdate,
+		count(substr(wdate,1,10))
+		as count FROM partybbs group by
+		substr(wdate,1,10) ORDER BY
+		wdate desc limit 7) a order by wdate asc
+	</select>
+	
+	
+		
+	
 </mapper>

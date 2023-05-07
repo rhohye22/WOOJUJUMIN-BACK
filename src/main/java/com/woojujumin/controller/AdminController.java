@@ -9,7 +9,9 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.woojujumin.dto.BbsCountDto;
 import com.woojujumin.dto.FreeBbsDto;
+import com.woojujumin.dto.MemberDto;
 import com.woojujumin.dto.PartyBbsDto;
 import com.woojujumin.dto.SpamWordDto;
 import com.woojujumin.service.AdminService;
@@ -79,36 +81,39 @@ public class AdminController {
 		System.out.println(service.cntPartyBbsAdmin(choice, search, tag));
 		return service.cntPartyBbsAdmin(choice, search, tag);
 	}
+
 	@GetMapping("getPartyBbsAdmin")
 	public PartyBbsDto getPartyBbsAdmin(int partySeq) {
 		return service.getPartyBbsAdmin(partySeq);
 	}
-	
+
 	@PostMapping(value = "delFreebbsByAdmin")
 	public String delFreebbsByAdmin(int bbsSeq) {
 		System.out.println("adminController delFreebbsByAdmin() " + new Date());
-	
+
 		boolean b = service.delFreebbsByAdmin(bbsSeq);
 		if (b == false) {
 			return "NO";
 		}
 		return "YES";
 	}
+
 	@PostMapping(value = "reopenFreebbsByAdmin")
 	public String reopenFreebbsByAdmin(int bbsSeq) {
 		System.out.println("adminController reopenFreebbsByAdmin() " + new Date());
-		
+
 		boolean b = service.reopenFreebbsByAdmin(bbsSeq);
 		if (b == false) {
 			return "NO";
 		}
 		return "YES";
 	}
+
 	@PostMapping(value = "delPartybbsByAdmin")
 	public String delPartybbsByAdmin(int partySeq) {
 		System.out.println("adminController delPartybbsByAdmin() " + new Date());
 		System.out.println("partySeq : " + partySeq);
-		
+
 		boolean b = service.delPartybbsByAdmin(partySeq);
 		System.out.println(b);
 		if (b == false) {
@@ -116,16 +121,47 @@ public class AdminController {
 		}
 		return "YES";
 	}
+
 	@PostMapping(value = "reopenPartybbsByAdmin")
 	public String reopenPartybbsByAdmin(int partySeq) {
 		System.out.println("adminController reopenPartybbsByAdmin() " + new Date());
 		System.out.println("partySeq : " + partySeq);
 		boolean b = service.reopenPartybbsByAdmin(partySeq);
-		
+
 		if (b == false) {
 			return "NO";
 		}
 		return "YES";
 	}
 
+	@GetMapping(value = "getMemlistByAuth")
+	public List<MemberDto> getMemlistByAuth(int auth) {
+		System.out.println("adminController getMemlistByAuth() " + new Date());
+		return service.getMemlistByAuth(auth);
+	}
+
+	@GetMapping(value = "getMemeberInfo")
+	public MemberDto getMemeberInfo(int memberSeq) {
+		System.out.println("adminController getMemeberInfo() " + new Date());
+		return service.getMemeberInfo(memberSeq);
+	}
+	@PostMapping(value = "stateControl")
+	public String  stateControl(int auth, int memberSeq){
+		System.out.println("adminController stateControl() " + new Date());
+
+		boolean b = service.stateControl(auth,memberSeq);
+
+		if (b == false) {
+			return "NO";
+		}
+		return "YES";
+	}
+	
+	//관리자페이지 7일간 모집게시판 등록수
+	@GetMapping(value ="cntFbsDays")
+	public List<BbsCountDto> cntFbsDays(){
+		System.out.println("PartyBbsController cntFbsDays : " + new Date());
+		return service.cntFbsDays();
+	}
+	
 }
