@@ -114,7 +114,6 @@ public class PartyRequestController {
 		List<mypartyBbsParam> list = service.partyListmy(param);
 		
 		
-		
 		int len = service.getpartyListmy(param);
 		
 		System.out.println("list" + list);
