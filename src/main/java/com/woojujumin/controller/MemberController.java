@@ -108,7 +108,7 @@ public class MemberController {
 		System.out.println("MemberController login " + new Date());
 		
 		MemberDto mem = service.login(dto);
-		System.out.println("mem : " + mem.getId() + mem.getPassword());
+	//	System.out.println("mem : " + mem.getId() + mem.getPassword());
 		return mem;
 	}
 	
