@@ -137,15 +137,41 @@
 	
 	</insert>
 	
-	<select id="applyCnt" parameterType="com.woojujumin.dto.ApplyDto" resultType="byte">
 	
-		select countMem from apply where partySeq = #{partySeq} AND masterId = #{masterId}
+	<insert id="insertPartyJang" parameterType="com.woojujumin.dto.ApplyDto">
+		
+		insert into apply(partySeq, applyMem, `check`, wdate, title, masterId, totalMem)
+		values(#{partySeq}, #{applyMem}, 1, now(), #{title}, #{masterId}, #{totalMem});
+	</insert>
 	
+	<select id="getSeq" parameterType="com.woojujumin.dto.PartyBbsDto" resultType="com.woojujumin.dto.PartyBbsDto">
+	
+	select * from partyBbs where id = #{id} AND title = #{title} AND content = #{content} AND place = #{place} AND people = #{people}
+	</select>
+	
+	<select id="getCountMem" parameterType="com.woojujumin.dto.ApplyDto" resultType="com.woojujumin.dto.ApplyDto">
+	
+		select * from apply where partySeq = #{partySeq} AND applyMem = #{masterId};
 	</select>
 	
 	
+	<update id="updateCountMem" parameterType="com.woojujumin.dto.ApplyDto" >
 	
+		update apply set countMem = #{countMem} where partySeq = #{partySeq};
+
+	</update>
+		
+		
+		<select id="getRow" parameterType="com.woojujumin.dto.ApplyDto" resultType="com.woojujumin.dto.ApplyDto">
 	
+		select * from apply where partySeq = #{partySeq} AND applyMem = #{applyMem};
+		
+	</select>
+		<select id="getFullRow" parameterType="com.woojujumin.dto.ApplyDto" resultType="com.woojujumin.dto.ApplyDto">
+	
+		select * from apply where partySeq = #{partySeq} AND applyMem = #{masterId};
+		
+	</select>
 	
 
 </mapper>

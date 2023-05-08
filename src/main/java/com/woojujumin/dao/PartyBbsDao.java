@@ -36,6 +36,18 @@ public interface PartyBbsDao {
 
 	int partyApply(ApplyDto dto);
 	
-	byte applyCnt(ApplyDto dto);
 
+	void insertPartyJang(ApplyDto adto);
+
+	PartyBbsDto getSeq(PartyBbsDto dto);
+
+	ApplyDto getCountMem(ApplyDto dto);
+
+	int updateCountMem(ApplyDto dtos);
+
+	List<ApplyDto> getRow(ApplyDto dto);
+
+	List<ApplyDto> getFullRow(ApplyDto dto);
+
+	
 }
