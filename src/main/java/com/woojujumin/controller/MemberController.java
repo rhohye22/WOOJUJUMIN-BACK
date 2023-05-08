@@ -70,7 +70,7 @@ public class MemberController {
 		System.out.println(dto.toString());
 		
 		// 경로
-		String path = req.getServletContext().getRealPath("/upload");
+		String path = req.getServletContext().getRealPath("/upload/member"); // 5/6 혜원 수정
 		System.out.println(path);
 		
 		String filename = uploadFile.getOriginalFilename();
@@ -92,7 +92,8 @@ public class MemberController {
 			e.printStackTrace();
 			System.out.println("파일 업로드 실패");
 		}
-		dto.setProfile(filepath);
+		//dto.setProfile(filepath); 5/6 혜원 수정
+		dto.setProfile(filename);
 		
 		boolean b = service.addmember(dto);
 		if(b == false) {
@@ -145,7 +146,7 @@ public class MemberController {
 		
 		System.out.println("MemberController changeInfo " + new Date());
 		// 경로
-		String path = req.getServletContext().getRealPath("/upload");
+		String path = req.getServletContext().getRealPath("/upload/member");// 5/6 혜원 수정
 		String filename = uploadFile.getOriginalFilename();
 		String filepath = path + "/" + filename;
 		System.out.println(filepath);	
@@ -159,7 +160,8 @@ public class MemberController {
 			e.printStackTrace();
 			System.out.println("파일 업로드 실패");
 		}
-		dto.setProfile(filepath);
+		// 5/6 혜원 수정
+		dto.setProfile(filename);
 		System.out.println(dto.toString());	
 		
 		boolean b = service.changeInfo(dto);

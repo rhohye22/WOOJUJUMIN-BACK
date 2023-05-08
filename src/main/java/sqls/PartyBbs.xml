@@ -129,6 +129,7 @@
 	</select>
 	
 	
+
 	<insert id="partyApply" parameterType="com.woojujumin.dto.ApplyDto">
 	
 		insert into apply( partySeq, applyMem, wdate, title, masterId, countMem, totalMem, profile)
@@ -146,5 +147,5 @@
 	
 	
 	
-		
+
 </mapper>

@@ -26,8 +26,10 @@ public interface FreeBbsDao {
 	List<FreeBbsDto> freeBbslist(String choice, String search, int start,Integer  tag);
 	int cntFreeBbs(String choice, String search,Integer  tag);
 	int writeFreeBbs(FreeBbsDto dto);
-
+	int modifyFreebbs(FreeBbsDto dto);
+	int delFeebbsByWriter(int bbsSeq);
 	FreeBbsDto getfreeBbs(int bbsSeq);
+	
 	
 	int writeFreeReply(FreeReplyDto dto);
 	List<FreeReplyDto> freeReplyList(int replySeq, int start, int limit);
