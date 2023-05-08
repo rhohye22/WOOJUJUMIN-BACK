@@ -5,6 +5,8 @@ import java.util.List;
 import org.apache.ibatis.annotations.Mapper;
 import org.springframework.stereotype.Repository;
 
+
+import com.woojujumin.dto.BbsCountDto;
 import com.woojujumin.dto.ApplyDto;
 import com.woojujumin.dto.FreeBbsDto;
 import com.woojujumin.dto.PartyBbsDto;
@@ -31,7 +33,21 @@ public interface PartyBbsDao {
 	 
 	 List<PartyBbsDto> getAllpbslist(mypartyBbsParam param);
 
+
 	int partyApply(ApplyDto dto);
 	
-	byte applyCnt(ApplyDto dto);
+
+	void insertPartyJang(ApplyDto adto);
+
+	PartyBbsDto getSeq(PartyBbsDto dto);
+
+	ApplyDto getCountMem(ApplyDto dto);
+
+	int updateCountMem(ApplyDto dtos);
+
+	List<ApplyDto> getRow(ApplyDto dto);
+
+	List<ApplyDto> getFullRow(ApplyDto dto);
+
+	
 }

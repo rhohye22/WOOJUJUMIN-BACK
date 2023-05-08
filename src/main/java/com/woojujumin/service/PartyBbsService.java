@@ -7,6 +7,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import com.woojujumin.dao.PartyBbsDao;
+import com.woojujumin.dto.BbsCountDto;
 import com.woojujumin.dto.ApplyDto;
 import com.woojujumin.dto.FreeBbsDto;
 import com.woojujumin.dto.PartyBbsDto;
@@ -68,11 +69,39 @@ public class PartyBbsService {
 
 		return cnt > 0 ? true : false;
 	}
-	public byte applyCnt(ApplyDto dto) {
+	
+
+	public void insertPartyJang(ApplyDto adto) {
 		
-		byte cnt2 = (byte) dao.applyCnt(dto);
-		
-		return cnt2;
+		dao.insertPartyJang(adto);
 	}
+
+	public PartyBbsDto getSeq(PartyBbsDto dto) {
+		
+		return dao.getSeq(dto);
+	}
+
+	public ApplyDto getCountMem(ApplyDto dto) {
+		
+		return dao.getCountMem(dto);
+	}
+
+	public boolean updateCountMem(ApplyDto dtos) {
+		
+		int cnt = dao.updateCountMem(dtos);
+
+		return cnt > 0 ? true : false;
+	}
+
+	public List<ApplyDto> getRow(ApplyDto dto) {
+		
+		return dao.getRow(dto);
+	}
+
+	public List<ApplyDto> getFullRow(ApplyDto dto) {
+		
+		return dao.getFullRow(dto);
+	}
+
 
 }
