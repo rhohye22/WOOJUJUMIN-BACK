@@ -44,6 +44,16 @@ public class FreeBbsService {
 		return cnt > 0 ? true : false;
 
 	}
+	public boolean modifyFreebbs(FreeBbsDto dto) {
+		int cnt = dao.modifyFreebbs(dto);
+		return cnt > 0 ? true : false;
+		
+	}
+	public boolean delFeebbsByWriter(int bbsSeq) {
+		int cnt = dao.delFeebbsByWriter(bbsSeq);
+		return cnt > 0 ? true : false;
+		
+	}
 
 	public FreeBbsDto getfreeBbs(int bbsSeq) {
 		return dao.getfreeBbs(bbsSeq);
