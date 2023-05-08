@@ -10,6 +10,8 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+
+import com.woojujumin.dto.BbsCountDto;
 import com.woojujumin.dto.ApplyDto;
 import com.woojujumin.dto.FreeBbsDto;
 import com.woojujumin.dto.PartyBbsDto;
@@ -196,4 +198,6 @@ public class PartyBbsController {
 	//	map.put("pageBbs", pageBbs);
 		return map;
 	}
+
+	
 }
