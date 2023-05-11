@@ -7,8 +7,10 @@ import org.springframework.stereotype.Repository;
 
 import com.woojujumin.dto.BbsCountDto;
 import com.woojujumin.dto.FreeBbsDto;
+import com.woojujumin.dto.FreeReplyDto;
 import com.woojujumin.dto.MemberDto;
 import com.woojujumin.dto.PartyBbsDto;
+import com.woojujumin.dto.PartyReplyDto;
 import com.woojujumin.dto.SpamWordDto;
 
 @Mapper
@@ -41,4 +43,12 @@ public interface AdminDao {
 	 
 	 
 	 List<BbsCountDto> cntFbsDays();
+	 
+	 List<FreeReplyDto> freeBbsSpamReply();
+	 List<PartyReplyDto> partyBbsSpamReply();
+	 List<PartyReplyDto> partyReplyListAdmin(int replySeq, int start, int limit);
+	 
+	 int stateFreeReplyControl( int seq,int replySeq, int del);
+	 int statePartyReplyControl( int seq,int replySeq, int del);
+	 
  }
