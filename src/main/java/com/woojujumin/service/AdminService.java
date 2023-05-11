@@ -12,6 +12,7 @@ import com.woojujumin.dto.FreeBbsDto;
 import com.woojujumin.dto.FreeReplyDto;
 import com.woojujumin.dto.MemberDto;
 import com.woojujumin.dto.PartyBbsDto;
+import com.woojujumin.dto.PartyReplyDto;
 import com.woojujumin.dto.SpamWordDto;
 
 @Service
@@ -54,36 +55,63 @@ public class AdminService {
 	public PartyBbsDto getPartyBbsAdmin(int partySeq) {
 		return dao.getPartyBbsAdmin(partySeq);
 	}
+
 	public boolean delFreebbsByAdmin(int bbsSeq) {
 		int cnt = dao.delFreebbsByAdmin(bbsSeq);
 		return cnt > 0 ? true : false;
 	}
+
 	public boolean reopenFreebbsByAdmin(int bbsSeq) {
 		int cnt = dao.reopenFreebbsByAdmin(bbsSeq);
 		return cnt > 0 ? true : false;
 	}
+
 	public boolean delPartybbsByAdmin(int partySeq) {
 		int cnt = dao.delPartybbsByAdmin(partySeq);
 		return cnt > 0 ? true : false;
 	}
+
 	public boolean reopenPartybbsByAdmin(int partySeq) {
 		int cnt = dao.reopenPartybbsByAdmin(partySeq);
 		return cnt > 0 ? true : false;
 	}
-	
-	public List<MemberDto> getMemlistByAuth(int auth){
+
+	public List<MemberDto> getMemlistByAuth(int auth) {
 		return dao.getMemlistByAuth(auth);
 	}
-	public MemberDto getMemeberInfo(int memberSeq){
+
+	public MemberDto getMemeberInfo(int memberSeq) {
 		return dao.getMemeberInfo(memberSeq);
 	}
-	public boolean  stateControl(int auth, int memberSeq) {
+
+	public boolean stateControl(int auth, int memberSeq) {
 		int cnt = dao.stateControl(auth, memberSeq);
 		return cnt > 0 ? true : false;
 	}
-	//관리자 페이지
-	public List<BbsCountDto> cntFbsDays(){
+
+	// 관리자 페이지
+	public List<BbsCountDto> cntFbsDays() {
 		return dao.cntFbsDays();
 	}
+
+	public List<FreeReplyDto> freeBbsSpamReply() {
+		return dao.freeBbsSpamReply();
+	}
+
+	public List<PartyReplyDto> partyBbsSpamReply() {
+		return dao.partyBbsSpamReply();
+	}
+	public List<PartyReplyDto> partyReplyListAdmin(int replySeq, int start, int limit){
+		return dao.partyReplyListAdmin(replySeq,start,limit);
+	}
+
+	public boolean stateFreeReplyControl( int seq, int replySeq, int del) {
+		int cnt = dao.stateFreeReplyControl( seq, replySeq, del);
+		return cnt > 0 ? true : false;
+	}
 	
+	public boolean statePartyReplyControl( int seq, int replySeq, int del) {
+		int cnt = dao.statePartyReplyControl( seq, replySeq,  del);
+		return cnt > 0 ? true : false;
+	}
 }

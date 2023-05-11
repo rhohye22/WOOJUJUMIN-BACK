@@ -11,8 +11,10 @@ import org.springframework.web.bind.annotation.RestController;
 
 import com.woojujumin.dto.BbsCountDto;
 import com.woojujumin.dto.FreeBbsDto;
+import com.woojujumin.dto.FreeReplyDto;
 import com.woojujumin.dto.MemberDto;
 import com.woojujumin.dto.PartyBbsDto;
+import com.woojujumin.dto.PartyReplyDto;
 import com.woojujumin.dto.SpamWordDto;
 import com.woojujumin.service.AdminService;
 
@@ -163,5 +165,45 @@ public class AdminController {
 		System.out.println("PartyBbsController cntFbsDays : " + new Date());
 		return service.cntFbsDays();
 	}
+	
+	@GetMapping(value ="freeBbsSpamReply")
+	public List<FreeReplyDto> freeBbsSpamReply(){
+		System.out.println("PartyBbsController freeBbsSpamReply : " + new Date());
+		return service.freeBbsSpamReply();
+	}
+	
+	@GetMapping(value ="partyBbsSpamReply")
+	public  List<PartyReplyDto> partyBbsSpamReply(){
+		System.out.println("PartyBbsController partyBbsSpamReply : " + new Date());
+		return service.partyBbsSpamReply();
+	}
+	@GetMapping(value ="partyReplyListAdmin")
+	public List<PartyReplyDto> partyReplyListAdmin(int replySeq, int start, int limit){
+		System.out.println("PartyBbsController partyReplyListAdmin : " + new Date());
+		return service.partyReplyListAdmin(replySeq,start,limit);
+	}
+	@PostMapping(value = "stateFreeReplyControl")
+	public String stateFreeReplyControl( int seq, int replySeq, int del){
+		System.out.println("adminController stateFreeReplyControl() " + new Date()); 
+
+		boolean b = service.stateFreeReplyControl( seq,replySeq,del);
+
+		if (b == false) {
+			return "NO";
+		}
+		return "YES";
+	}
+	@PostMapping(value = "statePartyReplyControl")
+	public String statePartyReplyControl( int seq, int replySeq, int del){
+		System.out.println("adminController statePartyReplyControl() " + new Date()); 
+		
+		boolean b = service.statePartyReplyControl(seq,replySeq,del);
+		
+		if (b == false) {
+			return "NO";
+		}
+		return "YES";
+	}
+	
 	
 }
