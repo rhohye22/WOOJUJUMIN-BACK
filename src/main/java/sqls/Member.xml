@@ -126,4 +126,31 @@
 	order by seq desc
 </select>
 
+<!-- 230512 파티장 요청 결과 -->
+<select id="partyleaderresult" parameterType="String" resultType="String">
+	select cardcheck
+	from idcard
+	where memid=#{memid}
+</select>
+
+<!-- 230512 파티장 요청 모든정보 -->
+<select id="partyleaderresultAll" parameterType="String" resultType="com.woojujumin.dto.IdcardDto">
+	select *
+	from idcard
+	where memid=#{memid}
+</select>
+
+<!-- 230512 파티장 요청 거절 -->
+<update id="partyleaderreject" parameterType="String">		
+	update idcard
+	set cardcheck=2
+	where memid=#{memid}
+</update>
+
+<!-- 230512 파티장 요청 리셋 -->
+<delete id="partyleaderreset" parameterType="String">		
+	delete from idcard
+	where memid=#{memid}
+</delete>
+
 </mapper>

@@ -64,4 +64,16 @@ public interface MemberDao {
 	
 	// 크롤링사이트 댓글보기
 	List<TalkDto> alltalkcomment(TalkDto talk);
+	
+	// 파티장 결과
+	String partyleaderresult(String memid);
+	
+	// 파티장 승인 요청 시 모든 결과
+	IdcardDto partyleaderresultAll(String memid);
+	
+	// 파티장 거절
+	int partyleaderreject(String memid);
+	
+	// 파티장 리셋
+	int partyleaderreset(String memid);
 }

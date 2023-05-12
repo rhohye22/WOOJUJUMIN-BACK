@@ -311,4 +311,41 @@ public class MemberController {
 		return mem;
 
 	}
+	
+	// 파티장 승인 결과 
+	@GetMapping(value = "/partyleaderresult")
+	public String partyleaderresult(String memid) {
+		System.out.println("MemberController partyleaderresult " + new Date());
+		System.out.println("넘어온 값 memid : " + memid);
+		
+		return service.partyleaderresult(memid);
+	}
+	
+	@GetMapping(value="/partyleaderresultAll")
+	public IdcardDto partyleaderresultAll(String memid) {
+		System.out.println("MemberController partyleaderresultAll " + new Date());
+		System.out.println("넘어온 값 memid : " + memid);
+		
+		return service.partyleaderresultAll(memid);
+	}
+	
+	@PostMapping(value="/partyleaderreject")
+	public String partyleaderreject(String memid) {
+		System.out.println("MemberController partyleaderreject " + new Date());
+		System.out.println("넘어온 값 memid : " + memid);
+		
+		boolean isS = service.partyleaderreject(memid);
+		if(isS) return "YES";
+		return "NO";
+	}
+	
+	@GetMapping(value="/partyleaderreset")
+	public String partyleaderreset(String memid) {
+		System.out.println("MemberController partyleaderreset " + new Date());
+		System.out.println("넘어온 값 memid : " + memid);
+		
+		boolean isS = service.partyleaderreset(memid);
+		if(isS) return "YES";
+		return "NO";
+	}
 }
