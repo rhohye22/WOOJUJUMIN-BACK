@@ -57,4 +57,11 @@
 	delete from calendar
 	where calSeq=#{calSeq}
 </delete>
+
+<!-- 230510 리스트 개수 표현하기 -->
+<select id="listcount" parameterType="String" resultType="Integer">
+	select count(*)
+	from calendar
+	WHERE rdate LIKE CONCAT(#{rdate}, '%')
+</select>
 </mapper>

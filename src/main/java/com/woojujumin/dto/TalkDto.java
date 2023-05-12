@@ -8,6 +8,7 @@ public class TalkDto implements Serializable {
 	private String talkid;
 	private String talkcomment;
 	private String wdate;
+	private int category;
 	
 	public TalkDto() {
 		// TODO Auto-generated constructor stub
@@ -19,6 +20,7 @@ public class TalkDto implements Serializable {
 		this.talkid = talkid;
 		this.talkcomment = talkcomment;
 		this.wdate = wdate;
+		this.category = category;
 	}
 
 	public int getSeq() {
@@ -53,10 +55,21 @@ public class TalkDto implements Serializable {
 		this.wdate = wdate;
 	}
 
+	
+	public int getCategory() {
+		return category;
+	}
+
+	public void setCategory(int category) {
+		this.category = category;
+	}
+
 	@Override
 	public String toString() {
-		return "TalkDto [seq=" + seq + ", talkid=" + talkid + ", talkcomment=" + talkcomment + ", wdate=" + wdate + "]";
+		return "TalkDto [seq=" + seq + ", talkid=" + talkid + ", talkcomment=" + talkcomment + ", wdate=" + wdate
+				+ ", category=" + category + "]";
 	}
+
 	
 	
 }
