@@ -113,7 +113,27 @@ public class MemberService {
 	}
 	
 	// 크롤링사이트 댓글보기
-	public List<TalkDto> alltalkcomment(){
-		return dao.alltalkcomment();
+	public List<TalkDto> alltalkcomment(TalkDto talk){
+		return dao.alltalkcomment(talk);
+	}
+	
+	// 파티장 결과
+	public String partyleaderresult(String memid) {
+		return dao.partyleaderresult(memid);
+	}
+	
+	public IdcardDto partyleaderresultAll(String memid) {
+		return dao.partyleaderresultAll(memid);
+	}
+	
+	public boolean partyleaderreject(String memid) {
+		int n = dao.partyleaderreject(memid);
+		return n>0?true:false;
+	}
+	
+	
+	public boolean partyleaderreset(String memid) {
+		int n = dao.partyleaderreset(memid);
+		return n>0?true:false;
 	}
 }
