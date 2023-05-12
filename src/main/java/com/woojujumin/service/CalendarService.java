@@ -52,4 +52,9 @@ public class CalendarService {
 	public List<CalendarDto> getDayListFront(String rdate){
 		return dao.getDayListFront(rdate);
 	}
+	
+	// 총 개수 가져오기 
+	public int listcount(String rdate) {
+		return dao.listcount(rdate);
+	}
 }

@@ -16,13 +16,14 @@ public class MemberDto implements Serializable {
 	private byte delflg;
 	private byte auth;
 	private double point;
+	private String masterId;
 	
     public MemberDto() {
 		
 	}
 
 	public MemberDto(int memberSeq, String id, String password, String nickname, String email, String phoneNum,
-			String profile, String address, String regdate, byte delflg, byte auth, double point) {
+			String profile, String address, String regdate, byte delflg, byte auth, double point, String masterId) {
 		super();
 		this.memberSeq = memberSeq;
 		this.id = id;
@@ -36,6 +37,7 @@ public class MemberDto implements Serializable {
 		this.delflg = delflg;
 		this.auth = auth;
 		this.point = point;
+		this.masterId = masterId;
 	}
 
 	public int getMemberSeq() {
@@ -134,10 +136,21 @@ public class MemberDto implements Serializable {
 		this.point = point;
 	}
 
+	public String getMasterId() {
+		return masterId;
+	}
+
+	public void setMasterId(String masterId) {
+		this.masterId = masterId;
+	}
+
 	@Override
 	public String toString() {
 		return "MemberDto [memberSeq=" + memberSeq + ", id=" + id + ", password=" + password + ", nickname=" + nickname
 				+ ", email=" + email + ", phoneNum=" + phoneNum + ", profile=" + profile + ", address=" + address
-				+ ", regdate=" + regdate + ", delflg=" + delflg + ", auth=" + auth + ", point=" + point + "]";
+				+ ", regdate=" + regdate + ", delflg=" + delflg + ", auth=" + auth + ", point=" + point + ", masterId="
+				+ masterId + "]";
 	}
+
+
 }

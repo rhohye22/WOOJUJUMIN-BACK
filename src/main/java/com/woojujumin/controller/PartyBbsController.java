@@ -1,5 +1,8 @@
 package com.woojujumin.controller;
 
+import java.io.BufferedOutputStream;
+import java.io.File;
+import java.io.FileOutputStream;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
@@ -8,7 +11,9 @@ import java.util.Map;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.multipart.MultipartFile;
 
 
 import com.woojujumin.dto.BbsCountDto;
@@ -17,6 +22,8 @@ import com.woojujumin.dto.FreeBbsDto;
 import com.woojujumin.dto.PartyBbsDto;
 import com.woojujumin.dto.mypartyBbsParam;
 import com.woojujumin.service.PartyBbsService;
+
+import jakarta.servlet.http.HttpServletRequest;
 
 @RestController
 public class PartyBbsController {
@@ -39,6 +46,7 @@ public class PartyBbsController {
 
 		param.setStart(start);
 		param.setEnd(end);
+		System.out.println("search"+ param.getSearch());
 
 		List<PartyBbsDto> list = service.myBbslist(param);
 		
@@ -53,10 +61,38 @@ public class PartyBbsController {
 	}
 	
 	@PostMapping(value = "/writePartybbs")
-	public String writePartybbs(PartyBbsDto dto, ApplyDto adto ) {
+	public String writePartybbs(PartyBbsDto dto, ApplyDto adto,
+								@RequestParam("uploadFile")
+								MultipartFile uploadFile,
+								HttpServletRequest req) {
 		
 		System.out.println("BbsController writePartybbs : " + new Date());
 		System.out.println(dto.toString());
+		
+		String path = req.getServletContext().getRealPath("/upload/partybbs");
+		System.out.println(path);
+		if (uploadFile != null && !uploadFile.isEmpty()) {
+			String filename = uploadFile.getOriginalFilename();
+			System.out.println(filename);
+
+			String filepath = path + "/" + filename;
+			System.out.println(filepath);
+
+			try {
+				BufferedOutputStream bos = new BufferedOutputStream(new FileOutputStream(new File(filepath)));
+				bos.write(uploadFile.getBytes());
+				bos.close();
+
+			} catch (Exception e) {
+				e.printStackTrace();
+				System.out.println("파일 업로드 실패");
+			}
+			dto.setImage(filename);
+		} else {
+			String filename = null;
+			dto.setImage(filename);
+		}
+		
 		boolean b = service.writePartybbs(dto);
 		
 		PartyBbsDto dtos = service.getSeq(dto);// seq select으로 받아오기
@@ -176,7 +212,7 @@ public class PartyBbsController {
 
 		System.out.println("BbsController getAllpbslist : " + new Date());
 		
-
+		System.out.println(param.toString());
 		// 글의 시작과 끝
 		int pn = param.getPageNumber(); // 0 1 2 3 4
 		int start = 1 + (pn * 5); // 1 11
@@ -187,7 +223,7 @@ public class PartyBbsController {
 		param.setEnd(end);
 
 		List<PartyBbsDto> list = service.getAllpbslist(param);
-		
+		System.out.println(list.toString());
 		
 //		int pageBbs = len / 10;		// 25 / 10 -> 2
 //		if((len % 10) > 0) {
