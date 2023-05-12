@@ -70,6 +70,9 @@
 				
 				</if>
 			</if>
+			<if test="tag != 0">
+				and tag=#{tag}
+			</if>
 			order by wdate desc) a
 			
 		where rnum between ${start} and ${end}
@@ -108,23 +111,29 @@
 	<select id="getmyAllBbs" parameterType="com.woojujumin.dto.mypartyBbsParam" resultType="Integer">
 	
 		select ifnull(count(*), 0)
+		from (select row_number()over(order by wdate desc) as rnum,
+			partySeq, id, title, content, image, wdate, del, readcount, tag, partyType, people, likey, hate, place, mdate, applyMem, endParty, fullParty
 		from partyBbs
+		where 1=1 
 		<if test="choice != null and choice != '' and search != null and search != ''">
 				<if test="choice == 'title'">
-					where title like concat('%', #{search}, '%')
+					AND title like concat('%', #{search}, '%') and del =0
 				
 				</if>
 				<if test="choice == 'content'">
 				
-					where content like concat('%', #{search}, '%')
+					AND content like concat('%', #{search}, '%') and del =0
 				
 				</if>
 				<if test="choice == 'writer'">
 				
-					where id=#{search}
+					AND id=#{search} and del =0
 				
 				</if>
 			</if>
+			order by wdate desc) a
+			
+		where id =#{id} AND rnum between ${start} and ${end}
 
 	</select>
 	

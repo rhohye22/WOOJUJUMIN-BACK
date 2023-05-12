@@ -31,4 +31,7 @@ public interface CalendarDao {
 	
 	// 일정 검색(Front)
 	List<CalendarDto> getDayListFront(String rdate);
+	
+	// 총 개수 가져오기
+	int listcount(String rdate);
 }
