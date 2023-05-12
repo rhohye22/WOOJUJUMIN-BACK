@@ -90,6 +90,7 @@ public class PartyBbsController {
 	@PostMapping(value = "/deletePartybbs")
 	public String deletePartybbs(PartyBbsDto dto) {
 		System.out.println("BbsController deletePartybbs : " + new Date());
+		System.out.println("partySeq : " + dto.getPartySeq());
 		
 		boolean b = service.deletePartybbs(dto);
 		if(b == false) {
@@ -107,7 +108,7 @@ public class PartyBbsController {
 		
 		System.out.println("list : " + list);
 		System.out.println("lists : " + lists);
-		System.out.println("dsfewf" + lists.get(0).getFull());
+		//System.out.println("dsfewf" + lists.get(0).getFull());
 	
 		if (!list.isEmpty() || lists.get(0).getFull() == 1) {
 			

@@ -31,11 +31,11 @@
 	</select>
 	
 	<update id="deletePartybbs" parameterType="com.woojujumin.dto.PartyBbsDto">
-		update partybbs set del = 1 where partySeq = #{partySeq}
+		update partyBbs set del = 1 where partySeq = #{partySeq}
 	</update>
 	
 	<update id="updatePartybbs" parameterType="com.woojujumin.dto.PartyBbsDto">
-		update partybbs set title = #{title}, content = #{content} where partySeq = #{partySeq}
+		update partyBbs set title = #{title}, content = #{content} where partySeq = #{partySeq}
 	</update>
 	
 	<select id = "partybbslist" resultType="com.woojujumin.dto.PartyBbsDto">
