@@ -9,18 +9,20 @@ public class FreeReplyDto implements Serializable {
 	private String content;
 	private String writer;
 	private String wdate;
+	private int del;
 	
 	public FreeReplyDto() {
 		// TODO Auto-generated constructor stub
 	}
 
-	public FreeReplyDto(int seq, int replySeq, String content, String writer, String wdate) {
+	public FreeReplyDto(int seq, int replySeq, String content, String writer, String wdate, int del) {
 		super();
 		this.seq = seq;
 		this.replySeq = replySeq;
 		this.content = content;
 		this.writer = writer;
 		this.wdate = wdate;
+		this.del = del;
 	}
 
 	public int getSeq() {
@@ -63,9 +65,18 @@ public class FreeReplyDto implements Serializable {
 		this.wdate = wdate;
 	}
 
+	public int getDel() {
+		return del;
+	}
+
+	public void setDel(int del) {
+		this.del = del;
+	}
+
 	@Override
 	public String toString() {
 		return "FreeReplyDto [seq=" + seq + ", replySeq=" + replySeq + ", content=" + content + ", writer=" + writer
-				+ ", wdate=" + wdate + "]";
+				+ ", wdate=" + wdate + ", del=" + del + "]";
 	}
+
 }

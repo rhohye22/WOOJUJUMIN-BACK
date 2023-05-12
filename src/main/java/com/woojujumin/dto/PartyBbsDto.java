@@ -4,17 +4,17 @@ import java.io.Serializable;
 
 public class PartyBbsDto implements Serializable {
 
-	private int partySeq;
-	private String id;
+	private int partySeq; // 이거
+	private String id;// 이거
    private String title;
    private String content;
    private String image;
-   private String wdate;
+   private String wdate;// 이거
    private int del;
    private int readcount;
    private int tag;
    private int partytype;
-   private int people;
+   private int people; // 이거
    private int likey;
    private int hate;
    private String place;

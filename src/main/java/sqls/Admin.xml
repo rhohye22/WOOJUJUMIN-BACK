@@ -1,0 +1,266 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+	"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.woojujumin.dao.AdminDao">
+
+	<select id="allSpamWord"
+		resultType="com.woojujumin.dto.SpamWordDto">
+		SELECT * from spamword
+	</select>
+
+	<insert id="addSpamword">
+		INSERT INTO spamword(word) VALUES(#{word})
+	</insert>
+
+	<delete id="deleteSpamword" parameterType="String">
+		delete from spamword
+		where word=#{word}
+	</delete>
+
+	<!-- 자유게시판 스팸걸리는 리스트 -->
+	<select id="freebbsSpamlist"
+		resultType="com.woojujumin.dto.FreeBbsDto">
+		select * from freebbs where title REGEXP (SELECT
+		GROUP_CONCAT(word SEPARATOR
+		"|") from spamword) or content REGEXP
+		(SELECT GROUP_CONCAT(word
+		SEPARATOR "|") from spamword) order by wdate
+		desc
+	</select>
+
+	<!--모집게시판 스팸걸리는 리스트 -->
+	<select id="partybbsSpamlist"
+		resultType="com.woojujumin.dto.PartyBbsDto">
+		select * from partybbs where title REGEXP (SELECT
+		GROUP_CONCAT(word
+		SEPARATOR "|") from spamword) or content REGEXP
+		(SELECT
+		GROUP_CONCAT(word SEPARATOR "|") from spamword) order by wdate
+		desc
+	</select>
+
+	<!-- 모집게시판 리스트 -->
+	<select id="PartyBbslistAdmin"
+		resultType="com.woojujumin.dto.PartyBbsDto">
+		SELECT f.partySeq, f.id, f.title, f.content, f.image, f.wdate, f.del,
+		b.readcount, f.tag, a.likey, f.hate
+		FROM partybbs f
+		LEFT JOIN (SELECT
+		bbsSeq, IFNULL(SUM(likeCheck),0) AS likey FROM partylikey
+		GROUP BY
+		bbsSeq) a
+		ON f.partySeq = a.bbsSeq
+		LEFT JOIN (SELECT bbsSeq,
+		IFNULL(COUNT(*),0) AS
+		readcount FROM partyread
+		GROUP BY bbsSeq) b
+		ON
+		f.partySeq = b.bbsSeq
+		WHERE
+		1=1
+		<if test="choice != null and search != null and tag != null">
+			AND (
+			<if test="choice == 'title'">
+				f.title LIKE CONCAT('%', #{search}, '%')
+			</if>
+			<if test="choice == 'content'">
+				f.content LIKE CONCAT('%', #{search}, '%')
+			</if>
+			<if test="choice == 'writer'">
+				f.id = #{search}
+			</if>
+			)
+			AND f.tag = #{tag}
+		</if>
+
+		<if test="choice != null and search != null and tag == null">
+			AND (
+			<if test="choice == 'title'">
+				f.title LIKE CONCAT('%', #{search}, '%')
+			</if>
+			<if test="choice == 'content'">
+				f.content LIKE CONCAT('%', #{search}, '%')
+			</if>
+			<if test="choice == 'writer'">
+				f.id = #{search}
+			</if>
+			)
+		</if>
+
+		<if test="choice == null and search == null and tag != null">
+
+			AND f.tag = #{tag}
+
+		</if>
+		<if test="choice == null and search != null and tag != null">
+			AND f.tag = #{tag}
+		</if>
+
+		<if test="choice == null and search != null and tag != null">
+			AND (
+			f.title LIKE CONCAT('%', #{search}, '%')
+			OR f.content
+			LIKE
+			CONCAT('%', #{search}, '%')
+			)
+			AND f.tag = #{tag}
+		</if>
+
+		ORDER BY f.partySeq DESC
+		LIMIT #{start}, 20
+	</select>
+
+
+	<!-- 모집게시판 조건검색별 글 수 -->
+	<select id="cntPartyBbsAdmin" resultType="Integer">
+		SELECT ifnull(COUNT(*),0)
+		FROM partybbs f
+		LEFT JOIN (SELECT
+		bbsSeq,
+		IFNULL(SUM(likeCheck),0) AS likey FROM partylikey
+		GROUP BY bbsSeq) a
+		ON
+		f.partySeq = a.bbsSeq
+		LEFT JOIN (SELECT bbsSeq, IFNULL(COUNT(*),0) AS
+		readcount FROM partyread
+		GROUP BY bbsSeq) b
+		ON f.partySeq = b.bbsSeq
+		WHERE
+		1=1
+		<if test="choice != null and search != null and tag != null">
+			AND (
+			<if test="choice == 'title'">
+				f.title LIKE CONCAT('%', #{search}, '%')
+			</if>
+			<if test="choice == 'content'">
+				f.content LIKE CONCAT('%', #{search}, '%')
+			</if>
+			<if test="choice == 'writer'">
+				f.id = #{search}
+			</if>
+			)
+			AND f.tag = #{tag}
+		</if>
+
+		<if test="choice != null and search != null and tag == null">
+			AND (
+			<if test="choice == 'title'">
+				f.title LIKE CONCAT('%', #{search}, '%')
+			</if>
+			<if test="choice == 'content'">
+				f.content LIKE CONCAT('%', #{search}, '%')
+			</if>
+			<if test="choice == 'writer'">
+				f.id = #{search}
+			</if>
+			)
+		</if>
+
+		<if test="choice == null and search == null and tag != null">
+
+			AND f.tag = #{tag}
+
+		</if>
+		<if test="choice == null and search != null and tag != null">
+			AND f.tag = #{tag}
+		</if>
+
+		<if test="choice == null and search != null and tag != null">
+			AND (
+			f.title LIKE CONCAT('%', #{search}, '%')
+			OR f.content
+			LIKE
+			CONCAT('%', #{search}, '%')
+			)
+			AND f.tag = #{tag}
+		</if>
+
+	</select>
+
+	<!-- 모집게시판 특정게시물 -->
+	<select id="getPartyBbsAdmin"
+		resultType="com.woojujumin.dto.PartyBbsDto">
+		select *
+		from partyBbs
+		where partySeq=#{partySeq}
+	</select>
+
+	<update id="delFreebbsByAdmin">
+		update freebbs set del = 2 where bbsSeq=#{bbsSeq}
+	</update>
+
+	<update id="reopenFreebbsByAdmin">
+		update freebbs set del = 0 where bbsSeq=#{bbsSeq}
+	</update>
+
+	<update id="delPartybbsByAdmin">
+		update partybbs set del = 2
+		where partySeq=#{partySeq}
+	</update>
+
+	<update id="reopenPartybbsByAdmin">
+		update partybbs set del = 0
+		where partySeq=#{partySeq}
+	</update>
+
+	<select id="getMemlistByAuth"
+		resultType="com.woojujumin.dto.MemberDto">
+		select * from member where auth=#{auth}
+	</select>
+
+	<select id="getMemeberInfo"
+		resultType="com.woojujumin.dto.MemberDto">
+		select * from member where memberSeq=#{memberSeq}
+	</select>
+
+	<update id="stateControl">
+		update member set auth=#{auth} where
+		memberSeq=#{memberSeq}
+	</update>
+
+
+
+	<!--최근 7일간 일별 자유게시판 글수 (관리자페이지기능 - 노혜원) -->
+
+	<select id="cntFbsDays"
+		resultType="com.woojujumin.dto.BbsCountDto">
+
+		select * from (SELECT substr(wdate,1,10) as wdate,
+		count(substr(wdate,1,10))
+		as count FROM partybbs group by
+		substr(wdate,1,10) ORDER BY
+		wdate desc
+		limit 7) a order by wdate asc
+	</select>
+
+<!-- 자유게시판댓글 스팸걸리는 리스트 -->
+	<select id="freeBbsSpamReply" resultType="com.woojujumin.dto.FreeReplyDto">
+		select * from freereply where content REGEXP (SELECT GROUP_CONCAT(word
+		SEPARATOR "|") from spamword) order by wdate desc;
+	</select>
+	
+	<!-- 모집게시판 댓글 스팸걸리는 리스트 -->
+	<select id="partyBbsSpamReply" resultType="com.woojujumin.dto.PartyReplyDto">
+		select * from partyreply where content REGEXP (SELECT GROUP_CONCAT(word
+		SEPARATOR "|") from spamword) order by wdate desc;
+	</select>
+	
+	<!-- 자유게시판 댓글리스트 -->
+	<select id="partyReplyListAdmin"
+		resultType="com.woojujumin.dto.PartyReplyDto">
+		select * from partyreply where replySeq=#{replySeq} order by
+		wdate limit #{start},#{limit};
+	</select>
+	
+
+	<update id="stateFreeReplyControl">
+		update freereply set del=#{del} where
+		seq=#{seq} and replySeq=#{replySeq}
+	</update>
+	<update id="statePartyReplyControl">
+		update partyreply set del=#{del} where
+		seq=#{seq} and replySeq=#{replySeq}
+	</update>
+
+</mapper>

@@ -77,8 +77,6 @@ public class PartyRequestController {
 		
 		System.out.println("list" + list);
 		
-		
-		
 		Map<String, Object> map = new HashMap<>();
 		
 		map.put("list", list);
@@ -114,7 +112,6 @@ public class PartyRequestController {
 		param.setEnd(end);
 		
 		List<mypartyBbsParam> list = service.partyListmy(param);
-		
 		
 		
 		int len = service.getpartyListmy(param);

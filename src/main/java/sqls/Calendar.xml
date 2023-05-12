@@ -37,6 +37,14 @@
 	order by rdate asc 
 </select>
 
+<!-- front 날짜에 해당하는 리스트 보기 -->
+<select id="getDayListFront" parameterType="com.woojujumin.dto.CalendarDto" resultType="com.woojujumin.dto.CalendarDto">
+	select *
+	from calendar
+	where substr(rdate, 1, 8)=#{rdate}
+	order by rdate asc 
+</select>
+
 <!-- 230418 일정 수정하기 -->
 <update id="calupdate" parameterType="com.woojujumin.dto.CalendarDto">
 	update calendar
