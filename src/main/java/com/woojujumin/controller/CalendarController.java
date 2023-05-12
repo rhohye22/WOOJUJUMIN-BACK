@@ -167,7 +167,14 @@ public class CalendarController {
 		return service.getDayListFront(rdate);
 	}
 	
-	
+	// 총 개수 가져오기
+	@GetMapping(value="listcount")
+	public int listcount(String rdate) {
+		System.out.println("CalendarController listcount() " + new Date());
+		System.out.println("넘어온 값 rdate : " + rdate);
+		
+		return service.listcount(rdate);
+	}
 	
 	
 }
