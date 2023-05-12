@@ -110,9 +110,9 @@ public class PartyRequestController {
 		
 		param.setStart(start);
 		param.setEnd(end);
+		System.out.println("search" + param.getSearch());
 		
 		List<mypartyBbsParam> list = service.partyListmy(param);
-		
 		
 		
 		int len = service.getpartyListmy(param);
