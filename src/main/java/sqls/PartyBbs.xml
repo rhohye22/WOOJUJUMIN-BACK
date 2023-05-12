@@ -70,6 +70,9 @@
 				
 				</if>
 			</if>
+			<if test="tag != 0">
+				and tag=#{tag}
+			</if>
 			order by wdate desc) a
 			
 		where rnum between ${start} and ${end}
