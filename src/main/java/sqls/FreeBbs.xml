@@ -14,7 +14,8 @@
 		from
 		(select row_number()over(order by wdate desc) as rnum,
 		bbsSeq, id,
-		title, content, image, wdate, del, readcount, tag, likey, hate
+		title, content, image, wdate, del, readcount, tag, likey,
+		hate
 		from
 		freeBbs
 		where 1=1 AND id =#{id}
@@ -48,25 +49,33 @@
 		resultType="Integer">
 
 		select ifnull(count(*), 0)
-		from freeBbs
+		from (select row_number()over(order by wdate desc) as rnum,
+		bbsSeq, id,
+		title, content, image, wdate, del, readcount, tag, likey,
+		hate
+		from
+		freeBbs
+		where 1=1 
 		<if
 			test="choice != null and choice != '' and search != null and search != ''">
 			<if test="choice == 'title'">
-				where title like concat('%', #{search}, '%')
+				AND title like concat('%', #{search}, '%')
 
 			</if>
 			<if test="choice == 'content'">
 
-				where content like concat('%', #{search}, '%')
+				AND content like concat('%', #{search}, '%')
 
 			</if>
 			<if test="choice == 'writer'">
 
-				where id=#{search}
+				AND id=#{search}
 
 			</if>
 		</if>
+		order by wdate desc) a
 
+		where id =#{id} AND rnum
 	</select>
 
 
@@ -216,8 +225,9 @@
 		from freeBbs
 		where bbsSeq=#{bbsSeq}
 	</select>
-	
-	<select id="getBbs" parameterType="Integer" resultType="com.woojujumin.dto.FreeBbsDto">
+
+	<select id="getBbs" parameterType="Integer"
+		resultType="com.woojujumin.dto.FreeBbsDto">
 
 		select *
 		from freeBbs
@@ -333,6 +343,19 @@
 		wdate desc limit 30) a
 		order by wdate asc
 	</select>
+	<!-- 자유게시판 글수정 -->
+	<update id="modifyFreebbs" parameterType="com.woojujumin.dto.FreeBbsDto">
+		update freebbs set title=#{title},
+		content=#{content}, tag=#{tag}, image=#{image}
+		where bbsSeq=#{bbsSeq}
+
+	</update>
+	
+	<!--자유게시판 글 삭제  -->
+	<update id="delFeebbsByWriter"> 
+	update freebbs set del = 1 where bbsSeq=#{bbsSeq}
+	</update>
+	
 
 </mapper>
 

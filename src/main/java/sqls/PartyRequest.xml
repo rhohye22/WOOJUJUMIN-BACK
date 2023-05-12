@@ -27,7 +27,15 @@
 		resultType="Integer">
 
 		select ifnull(count(*), 0)
+		from (select row_number()over(order by wdate desc) as rnum,
+		partySeq, applyMem, `check`, wdate, title, full, masterId
 		from apply
+		where 1=1
+		AND applyMem =#{id} AND masterId !=#{id}
+
+		order by wdate desc) a
+
+		where applyMem =#{id} AND masterId !=#{id} AND rnum
 
 
 	</select>
@@ -37,10 +45,10 @@
 		resultType="com.woojujumin.dto.ApplyDto"
 		parameterType="com.woojujumin.dto.mypartyBbsParam">
 		select partySeq, applyMem, `check`, wdate, title, full,
-		masterId, totalMem, countMem
+		masterId, totalMem, countMem, profile
 		from
 		(select row_number()over(order by wdate desc) as rnum,
-		partySeq, applyMem, `check`, wdate, title, full, masterId, totalMem, countMem
+		partySeq, applyMem, `check`, wdate, title, full, masterId, totalMem, countMem, profile
 		from apply
 		where 1=1 AND applyMem !=#{id} AND masterId =#{id}
 
@@ -56,7 +64,14 @@
 		resultType="Integer">
 
 		select ifnull(count(*), 0)
+		from (select row_number()over(order by wdate desc) as rnum,
+		partySeq, applyMem, `check`, wdate, title, full, masterId, totalMem, countMem, profile
 		from apply
+		where 1=1 AND applyMem !=#{id} AND masterId =#{id}
+
+		order by wdate desc) a
+
+		where applyMem !=#{id} AND masterId =#{id} AND rnum
 
 
 	</select>
@@ -109,7 +124,15 @@
 		resultType="Integer">
 
 		select ifnull(count(*), 0)
+		from (select row_number()over(order by wdate desc) as rnum,
+		partySeq, applyMem, `check`, wdate, title, full, masterId
 		from apply
+		where 1=1
+		AND (applyMem =#{id} OR (masterId = #{id} AND applyMem = #{id}))
+
+		order by wdate desc) a
+
+		where (applyMem =#{id} OR masterId = #{id}) AND `check` = 1 AND rnum
 
 
 	</select>
