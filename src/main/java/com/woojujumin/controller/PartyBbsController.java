@@ -259,8 +259,8 @@ public class PartyBbsController {
 		System.out.println(param.toString());
 		// 글의 시작과 끝
 		int pn = param.getPageNumber(); // 0 1 2 3 4
-		int start = 1 + (pn * 6); // 1 11
-		int end = (pn + 1) * 6; // 10 20
+		int start = 1 + (pn * 10); // 1 11
+		int end = (pn + 1) * 10; // 10 20
 		System.out.println("pn" +pn);
 
 		param.setStart(start);
