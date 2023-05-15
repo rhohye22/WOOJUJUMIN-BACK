@@ -82,7 +82,8 @@ public class FreeBbsController {
 		//System.out.println(dto.toString());
 
 		// 경로
-		String path = req.getServletContext().getRealPath("/upload/freebbs");
+//		String path = req.getServletContext().getRealPath("/upload/freebbs");
+		String path = "/root/tmp/image/upload/freebbs";
 		//System.out.println(path);
 		//올리는 사진이 있으면
 		if (uploadFile != null && !uploadFile.isEmpty()) {
