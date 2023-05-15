@@ -20,46 +20,46 @@ import com.woojujumin.service.MemberService;
 public class CrawlingController {
 	
 	@GetMapping("/moviechart")
-	public HashMap<String, Object> cgvmoviechart() throws Exception{
+	public HashMap<String, Object> cgvmoviechart(String path) throws Exception{
 		System.out.println("CrawlingController cgvmoviechart() " + new Date());
 		
 		CrawlingClass craw = new CrawlingClass();
-		return craw.cgvmovieCrawling();		
+		return craw.cgvmovieCrawling(path);		
 		
 		
 	}
 	
 	@GetMapping("/bookchart")
-	public HashMap<String, Object> aladinbookchart() throws Exception{
+	public HashMap<String, Object> aladinbookchart(String path) throws Exception{
 		System.out.println("CrawlingController aladinbookchart() " + new Date());
 		
 		CrawlingClass craw = new CrawlingClass();
-		return craw.aladinCrawling();
+		return craw.aladinCrawling(path);
 				
 	}
 	
 	@GetMapping("/localevent")
-	public HashMap<String, Object> localevent() throws Exception{
+	public HashMap<String, Object> localevent(String path) throws Exception{
 		System.out.println("CrawlingController localevent() " + new Date());
 		
 		CrawlingClass craw = new CrawlingClass();
 		
 		HashMap<String, Object> map = new HashMap<>();
 		
-		map.put("onepage", craw.localOneCrawling());
-		map.put("twopage", craw.localTwoCrawling());
-		map.put("threepage", craw.localThreeCrawling());
+		map.put("onepage", craw.localOneCrawling(path));
+		map.put("twopage", craw.localTwoCrawling(path));
+		map.put("threepage", craw.localThreeCrawling(path));
 
 		return map;
 	}
 	
 	@GetMapping(value="/musicchart")
-	public HashMap<String, Object> musicchart() throws Exception{
+	public HashMap<String, Object> musicchart(String path) throws Exception{
 		System.out.println("CrawlingController musicchart() " + new Date());
 		
 		CrawlingClass craw = new CrawlingClass();
 		
-		return craw.musicCrawling();
+		return craw.musicCrawling(path);
 	}
 	
 	@Autowired
