@@ -63,15 +63,15 @@ public class FreeBbsController {
 	@GetMapping(value = "freeBbslist")
 	public List<FreeBbsDto> freeBbslist(@RequestParam(required=false)String choice, @RequestParam(required=false)String search, int start,@RequestParam(required=false)Integer  tag) {
 		System.out.println("FreeBbsController freeBbslist : " + new Date());
-		System.out.println("choice: " + choice + "  search: " + search + "  start: " + start+ " tag : "+tag);
+		//System.out.println("choice: " + choice + "  search: " + search + "  start: " + start+ " tag : "+tag);
 		return service.freeBbslist(choice, search, start,tag);
 	}
 
 	@GetMapping(value = "cntFreeBbs")
 	public int cntFreeBbs(@RequestParam(required=false)String choice, @RequestParam(required=false)String search,@RequestParam(required=false)Integer  tag) {
 		System.out.println("FreeBbsController cntFreeBbs : " + new Date());
-		System.out.println("choice: " + choice + "  search: " + search+" tag : "+tag);
-		System.out.println(service.cntFreeBbs(choice, search,tag));
+		//System.out.println("choice: " + choice + "  search: " + search+" tag : "+tag);
+		//System.out.println(service.cntFreeBbs(choice, search,tag));
 		return service.cntFreeBbs(choice, search,tag);
 	}
 

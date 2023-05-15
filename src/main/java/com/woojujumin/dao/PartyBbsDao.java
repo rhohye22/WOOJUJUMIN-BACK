@@ -9,7 +9,9 @@ import org.springframework.stereotype.Repository;
 import com.woojujumin.dto.BbsCountDto;
 import com.woojujumin.dto.ApplyDto;
 import com.woojujumin.dto.FreeBbsDto;
+import com.woojujumin.dto.FreeReplyDto;
 import com.woojujumin.dto.PartyBbsDto;
+import com.woojujumin.dto.PartyReplyDto;
 import com.woojujumin.dto.mypartyBbsParam;
 
 @Mapper
@@ -48,6 +50,31 @@ public interface PartyBbsDao {
 	List<ApplyDto> getRow(ApplyDto dto);
 
 	List<ApplyDto> getFullRow(ApplyDto dto);
+	
+	//요청인원수
+	int applyMemCnt(int partySeq);
+	//확정인원수
+	int applyCheckMemCnt(int partySeq);
+	
+	
+	//좋아요
+	int LikeyPlus(int bbsSeq, int memSeq);
+	int LikeyMinus(int bbsSeq, int memSeq);
+	int LikeyState(int bbsSeq, int memSeq);
+	int cntLikey(int bbsSeq);
+	
+	//좋아요
+	int checkLikeyrow(int bbsSeq, int memSeq);//0이면 없는거 1이면 있는거
+	int makeLikeyrow(int bbsSeq, int memSeq);
+	
+	//댓글
+	int writepartyReply(PartyReplyDto dto);
+	List<PartyReplyDto> partyReplyList(int replySeq, int start, int limit);
+	
+	//조회수
+	int checkReadrow(int bbsSeq, int memSeq);
+	int makeReadrow(int bbsSeq, int memSeq);
+	int cntRead(int bbsSeq);
 
 	
 }
