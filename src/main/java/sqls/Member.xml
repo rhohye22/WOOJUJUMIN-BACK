@@ -36,8 +36,8 @@
 
 <!-- 회원가입 -->
 <insert id="addmember" parameterType="com.woojujumin.dto.MemberDto">
-	insert into member(id, password, nickname, email, phoneNum, profile, address, regdate, delflg, auth, point)
-	values(#{id}, #{password}, #{nickname}, #{email}, #{phoneNum}, #{profile}, #{address}, now(), 0, 0, 0)
+	insert into member(id, password, nickname, email, phoneNum, profile, address, regdate, delflg, auth, point, imageurl)
+	values(#{id}, #{password}, #{nickname}, #{email}, #{phoneNum}, #{profile}, #{address}, now(), 0, 0, 0, #{imageurl})
 </insert>
 
 <!-- 로그인 -->
@@ -51,7 +51,7 @@
 <!--회원 수정  -->
 <update id="changeInfo" parameterType="com.woojujumin.dto.MemberDto">
 	update member set id=#{id}, password=#{password}, nickname=#{nickname}, email=#{email}, phoneNum=#{phoneNum}, address=#{address},
-					  profile=#{profile} where memberSeq=#{memberSeq}
+					  profile=#{profile}, imageurl=#{imageurl} where memberSeq=#{memberSeq}
 </update>
 
 <!-- 소셜 로그인 -->
@@ -85,8 +85,8 @@
 
 <!-- 관리자 페이지 파티장승급 (권유리) -->
 <insert id="adminPartyLeader" parameterType="com.woojujumin.dto.IdcardDto">
-	insert into idcard(memid, idname, idbirth, idaddress, iddate, idpublic, idimage, wdate, cardcheck)
-	values(#{memid}, #{idname}, #{idbirth}, #{idaddress}, #{iddate}, #{idpublic}, #{idimage}, now(), 0)
+	insert into idcard(memid, idname, idbirth, idaddress, iddate, idpublic, idimage, wdate, cardcheck, imageurl)
+	values(#{memid}, #{idname}, #{idbirth}, #{idaddress}, #{iddate}, #{idpublic}, #{idimage}, now(), 0, #{imageurl})
 </insert>
 
 <!-- 관리자 페이지 파티장승급(권유리) -->
