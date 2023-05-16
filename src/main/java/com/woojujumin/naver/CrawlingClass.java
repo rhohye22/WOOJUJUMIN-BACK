@@ -44,13 +44,14 @@ public class CrawlingClass {
 				Element percent = percents.get(i);
 				Element moviedate = moviedates.get(i);
 				Element poster = posters.get(i);
-
+				
 //			System.out.println(title.text()+ ":" + percent.text()+ ":"+ moviedate.text());
 
 				String imageUrl = poster.attr("src");
-				String localImagePath = ImageDownloader.downloadImage(imageUrl, downloadDir);
+				images.add(imageUrl);
+//				String localImagePath = ImageDownloader.downloadImage(imageUrl, downloadDir);
 				movie.add(title.text() + ":" + percent.text() + ":" + moviedate.text());
-				images.add(localImagePath);
+//				images.add(localImagePath);
 
 //			System.out.println(poster);
 
@@ -131,11 +132,11 @@ public class CrawlingClass {
 				if (imageUrl.startsWith("//")) {
 					imageUrl = "http:" + imageUrl;
 				}
-				String localImagePath = ImageDownloader.downloadImage(imageUrl, downloadDir);
+//				String localImagePath = ImageDownloader.downloadImage(imageUrl, downloadDir);
 //				System.out.println(title.text());
 				sendtitles.add(title.text());
 				senddatas.add(data.text());
-				images.add(localImagePath);
+				images.add(imageUrl);
 
 //			System.out.println(poster);
 
@@ -186,13 +187,13 @@ public class CrawlingClass {
 
 				String addurl = "https://www.mcst.go.kr";
 				String imageUrl = poster.attr("src");
-				String localImagePath = ImageDownloader.downloadImage(addurl + imageUrl, downloadDir);
+//				String localImagePath = ImageDownloader.downloadImage(addurl + imageUrl, downloadDir);
 //				System.out.println(title.text());
 
 				sendtitles.add(title.text());
 				sendinformations.add(information.text());
 				senddates.add(detail.text());
-				images.add(localImagePath);
+				images.add(addurl + imageUrl);
 
 //			System.out.println(poster);
 
@@ -244,13 +245,13 @@ public class CrawlingClass {
 
 				String addurl = "https://www.mcst.go.kr";
 				String imageUrl = poster.attr("src");
-				String localImagePath = ImageDownloader.downloadImage(addurl + imageUrl, downloadDir);
+//				String localImagePath = ImageDownloader.downloadImage(addurl + imageUrl, downloadDir);
 //				System.out.println(title.text());
 
 				sendtitles.add(title.text());
 				sendinformations.add(information.text());
 				senddates.add(detail.text());
-				images.add(localImagePath);
+				images.add(addurl + imageUrl);
 
 //			System.out.println(poster);
 
@@ -303,13 +304,13 @@ public class CrawlingClass {
 				String addurl = "https://www.mcst.go.kr";
 				String imageUrl = poster.attr("src");
 				System.out.println(imageUrl);
-				String localImagePath = ImageDownloader.downloadImage(addurl + imageUrl, downloadDir);
+//				String localImagePath = ImageDownloader.downloadImage(addurl + imageUrl, downloadDir);
 //				System.out.println(title.text());
 
 				sendtitles.add(title.text());
 				sendinformations.add(information.text());
 				senddates.add(detail.text());
-				images.add(localImagePath);
+				images.add(addurl + imageUrl);
 
 //			System.out.println(poster);
 
@@ -361,13 +362,13 @@ public class CrawlingClass {
 
 				String imageUrl = poster.attr("src");
 //				System.out.println(imageUrl);
-				String localImagePath = ImageDownloader.downloadImage(imageUrl, downloadDir);
+//				String localImagePath = ImageDownloader.downloadImage(imageUrl, downloadDir);
 //				System.out.println(title.text());
 
 				sendtitles.add(title.text());
 				sendsingers.add(singer.text());
 				sendalbums.add(album.text());
-				images.add(localImagePath);
+				images.add(imageUrl);
 
 //			System.out.println(poster);
 
