@@ -83,26 +83,26 @@ public class FreeBbsController {
 
 		// 경로
 //		String path = req.getServletContext().getRealPath("/upload/freebbs");
-		String path = "/root/tmp/image/upload/freebbs";
+		//String path = "/root/tmp/image/upload/freebbs";
 		//System.out.println(path);
 		//올리는 사진이 있으면
 		if (uploadFile != null && !uploadFile.isEmpty()) {
 			String filename = uploadFile.getOriginalFilename();
 			//System.out.println(filename);
 
-			String filepath = path + "/" + filename;
+			//String filepath = path + "/" + filename;
 			//System.out.println(filepath);
 
 			try {
-				BufferedOutputStream bos = new BufferedOutputStream(new FileOutputStream(new File(filepath)));
-				bos.write(uploadFile.getBytes());
-				bos.close();
-
+				//BufferedOutputStream bos = new BufferedOutputStream(new FileOutputStream(new File(filepath)));
+				//bos.write(uploadFile.getBytes());
+				//.close();
+				dto.setImage(filename);
 			} catch (Exception e) {
 				e.printStackTrace();
 				System.out.println("파일 업로드 실패");
 			}
-			dto.setImage(filename);
+		
 		//사진이 없으면
 		} else {
 			String filename = null;
@@ -122,21 +122,21 @@ public class FreeBbsController {
 		//수정전 데이터
 		FreeBbsDto predto = service.getfreeBbs(dto.getBbsSeq());
 		// 경로
-		String path = req.getServletContext().getRealPath("/upload/freebbs");
+		//String path = req.getServletContext().getRealPath("/upload/freebbs");
 		//System.out.println(path);
 		//올리는 사진이 있고 기존사진과 다르면
 		if (uploadFile != null && !uploadFile.isEmpty() && predto.getImage() != dto.getImage()) {
 			String filename = uploadFile.getOriginalFilename();
-			System.out.println(filename);
+			//System.out.println(filename);
 			
-			String filepath = path + "/" + filename;
-			System.out.println(filepath);
+			//String filepath = path + "/" + filename;
+			//System.out.println(filepath);
 			//System.out.println("올리는 사진이 있고 기존사진과 다르면 dto.getImage() : "+dto.getImage());
 			try {
-				BufferedOutputStream bos = new BufferedOutputStream(new FileOutputStream(new File(filepath)));
-				bos.write(uploadFile.getBytes());
-				bos.close();
-				
+				//BufferedOutputStream bos = new BufferedOutputStream(new FileOutputStream(new File(filepath)));
+				//bos.write(uploadFile.getBytes());
+				//bos.close();
+				dto.setImage(filename);
 			} catch (Exception e) {
 				e.printStackTrace();
 				System.out.println("파일 업로드 실패");
@@ -149,6 +149,7 @@ public class FreeBbsController {
 			//System.out.println("기존에 사진이 있었는데 수정후에는 없다면 dto.getImage() : "+dto.getImage());
 			String filename = null;
 			dto.setImage(filename);
+			dto.setImageurl(filename);
 			
 			//기존 사진을 삭제하고 싶다면 
 			//String filePath = path + "/" + predto.getImage();
