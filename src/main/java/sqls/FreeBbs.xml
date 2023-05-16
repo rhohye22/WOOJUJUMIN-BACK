@@ -12,12 +12,12 @@
 
 		select *
 		from
-		(select row_number()over(order by wdate desc) as rnum,
+		(select @rownum:=@rownum+1 as rnum,
 		bbsSeq, id,
 		title, content, image, wdate, del, readcount, tag, likey,
 		hate
 		from
-		freeBbs
+		freeBbs, (SELECT @rownum:=0) r
 		where 1=1 AND id =#{id}
 		<if
 			test="choice != null and choice != '' and search != null and search != ''">
@@ -49,12 +49,12 @@
 		resultType="Integer">
 
 		select ifnull(count(*), 0)
-		from (select row_number()over(order by wdate desc) as rnum,
+		from (select @rownum:=@rownum+1 as rnum,
 		bbsSeq, id,
 		title, content, image, wdate, del, readcount, tag, likey,
 		hate
 		from
-		freeBbs
+		freeBbs, (SELECT @rownum:=0) r
 		where 1=1 
 		<if
 			test="choice != null and choice != '' and search != null and search != ''">

@@ -43,10 +43,10 @@
 		resultType="com.woojujumin.dto.PartyBbsDto">
 		select *
 		from
-		(select row_number()over(order by wdate desc) as rnum,
+		(select @rownum:=@rownum+1 as rnum,
 		partySeq, id, title, content, image, wdate, del, readcount, tag, partyType,
 		people, likey, hate, place, mdate, applyMem, endParty, fullParty
-		from partyBbs
+		from partyBbs, (SELECT @rownum:=0) r
 		order by wdate desc) a
 	</select>
 
@@ -55,11 +55,11 @@
 		resultType="com.woojujumin.dto.PartyBbsDto">
 		select *
 		from
-		(select row_number()over(order by wdate desc) as rnum,
+		(select @rownum:=@rownum+1 as rnum,
 		partySeq, id, title, content, image, wdate, del, readcount, tag, partyType,
 		people, likey, hate, place, mdate, applyMem, endParty, fullParty
 		from
-		partyBbs
+		partyBbs, (SELECT @rownum:=0) r
 		where 1=1 and del =0
 		<if
 			test="choice != null and choice != '' and search != null and search != ''">
@@ -83,7 +83,7 @@
 		</if>
 		order by wdate desc) a
 
-		where rnum between ${start} and ${end}
+		where rnum between #{start} and #{end}
 	</select>
 
 	<select id="myBbslist"
@@ -92,11 +92,11 @@
 
 		select *
 		from
-		(select row_number()over(order by wdate desc) as rnum,
+		(select @rownum:=@rownum+1 as rnum,
 		partySeq, id, title, content, image, wdate, del, readcount, tag, partyType,
 		people, likey, hate, place, mdate, applyMem, endParty, fullParty
 		from
-		partyBbs
+		partyBbs , (SELECT @rownum:=0) r
 		where 1=1 AND id =#{id}
 		<if
 			test="choice != null and choice != '' and search != null and search != ''">
@@ -117,7 +117,7 @@
 		</if>
 		order by wdate desc) a
 
-		where id =#{id} AND rnum between ${start} and ${end}    <!-- 숫자는 $, 문자열은 # -->
+		where id =#{id} AND rnum between #{start} and #{end}    <!-- 숫자는 $, 문자열은 # -->
 	</select>
 
 	<!--글의 총수 -->
@@ -126,12 +126,11 @@
 		resultType="Integer">
 
 		select ifnull(count(*), 0)
-		from (select row_number()over(order by wdate
-		desc) as rnum,
+		from (select @rownum:=@rownum+1 as rnum,
 		partySeq, id, title, content, image, wdate, del, readcount, tag, partyType,
 		people, likey, hate, place, mdate, applyMem, endParty, fullParty
 		from
-		partyBbs
+		partyBbs, (SELECT @rownum:=0) r
 		where 1=1
 		<if
 			test="choice != null and choice != '' and search != null and search != ''">
@@ -152,7 +151,7 @@
 		</if>
 		order by wdate desc) a
 
-		where id =#{id} AND rnum between ${start} and ${end}
+		where id =#{id} AND rnum between #{start} and #{end}
 
 	</select>
 
