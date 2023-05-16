@@ -173,4 +173,9 @@ public class PartyBbsService {
 		return dao.cntRead(bbsSeq);
 	}
 		
+	// 메인 게시글뿌려주기 
+	public List<PartyBbsDto> mainPartypost() {
+		return dao.mainPartypost();
+	}
+	
 }

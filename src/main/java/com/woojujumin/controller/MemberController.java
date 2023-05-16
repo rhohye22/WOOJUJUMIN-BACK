@@ -242,10 +242,42 @@ public class MemberController {
 
 	// 관리자 파티장 승급 페이지 - 신청하기 230420
 	@PostMapping(value="partyleader")
-	public String adminPartyLeader(IdcardDto dto) {
+	public String adminPartyLeader(IdcardDto dto, 
+									@RequestParam(value = "uploadFile", required = false) MultipartFile uploadFile, 
+									HttpServletRequest req) {
 		System.out.println("MemberController adminPartyLeader " + new Date());
 		System.out.println("넘어온 값 : " + dto);
 		
+		// 경로
+//		String path = req.getServletContext().getRealPath("/upload/freebbs");
+		//String path = "/root/tmp/image/upload/freebbs";
+		//System.out.println(path);
+		
+		//올리는 사진이 있으면		
+		if (uploadFile != null && !uploadFile.isEmpty()) {
+			String filename = uploadFile.getOriginalFilename();
+			//System.out.println(filename);
+
+			//String filepath = path + "/" + filename;
+			//System.out.println(filepath);
+
+			try {
+				//BufferedOutputStream bos = new BufferedOutputStream(new FileOutputStream(new File(filepath)));
+				//bos.write(uploadFile.getBytes());
+				//.close();
+				dto.setIdimage(filename);
+				
+			} catch (Exception e) {
+				e.printStackTrace();
+				System.out.println("파일 업로드 실패");
+			}
+		
+		//사진이 없으면
+		} else {
+			String filename = null;
+			dto.setIdimage(filename);
+		}
+				
 		boolean isS = service.adminPartyLeader(dto);
 		if(isS) return "YES";
 		return "NO";

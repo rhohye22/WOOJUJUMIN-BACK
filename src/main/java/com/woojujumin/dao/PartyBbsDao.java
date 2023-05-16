@@ -75,6 +75,8 @@ public interface PartyBbsDao {
 	int checkReadrow(int bbsSeq, int memSeq);
 	int makeReadrow(int bbsSeq, int memSeq);
 	int cntRead(int bbsSeq);
-
+	
+	//메인 게시물 뿌려주기 6개 
+	List<PartyBbsDto> mainPartypost();
 	
 }
