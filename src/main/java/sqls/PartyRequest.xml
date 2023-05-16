@@ -10,9 +10,9 @@
 		select partySeq, applyMem, `check`, wdate, title, full,
 		masterId
 		from
-		(select row_number()over(order by wdate desc) as rnum,
+		(select @rownum:=@rownum+1 as rnum,
 		partySeq, applyMem, `check`, wdate, title, full, masterId
-		from apply
+		from apply, (SELECT @rownum:=0) r
 		where 1=1
 		AND applyMem =#{id} AND masterId !=#{id}
 
@@ -27,9 +27,9 @@
 		resultType="Integer">
 
 		select ifnull(count(*), 0)
-		from (select row_number()over(order by wdate desc) as rnum,
+		from (select @rownum:=@rownum+1 as rnum,
 		partySeq, applyMem, `check`, wdate, title, full, masterId
-		from apply
+		from apply, (SELECT @rownum:=0) r
 		where 1=1
 		AND applyMem =#{id} AND masterId !=#{id}
 
@@ -47,9 +47,9 @@
 		select partySeq, applyMem, `check`, wdate, title, full,
 		masterId, totalMem, countMem, profile
 		from
-		(select row_number()over(order by wdate desc) as rnum,
+		(select @rownum:=@rownum+1 as rnum,
 		partySeq, applyMem, `check`, wdate, title, full, masterId, totalMem, countMem, profile
-		from apply
+		from apply, (SELECT @rownum:=0) r
 		where 1=1 AND applyMem !=#{id} AND masterId =#{id}
 
 		order by wdate desc) a
@@ -64,9 +64,9 @@
 		resultType="Integer">
 
 		select ifnull(count(*), 0)
-		from (select row_number()over(order by wdate desc) as rnum,
+		from (select @rownum:=@rownum+1 as rnum,
 		partySeq, applyMem, `check`, wdate, title, full, masterId, totalMem, countMem, profile
-		from apply
+		from apply, (SELECT @rownum:=0) r
 		where 1=1 AND applyMem !=#{id} AND masterId =#{id}
 
 		order by wdate desc) a
@@ -107,9 +107,9 @@
 		select partySeq, applyMem, `check`, wdate, title, full,
 		masterId
 		from
-		(select row_number()over(order by wdate desc) as rnum,
+		(select @rownum:=@rownum+1 as rnum,
 		partySeq, applyMem, `check`, wdate, title, full, masterId
-		from apply
+		from apply, (SELECT @rownum:=0) r
 		where 1=1
 		AND (applyMem =#{id} OR (masterId = #{id} AND applyMem = #{id}))
 
@@ -124,9 +124,9 @@
 		resultType="Integer">
 
 		select ifnull(count(*), 0)
-		from (select row_number()over(order by wdate desc) as rnum,
+		from (select @rownum:=@rownum+1 as rnum,
 		partySeq, applyMem, `check`, wdate, title, full, masterId
-		from apply
+		from apply, (SELECT @rownum:=0) r
 		where 1=1
 		AND (applyMem =#{id} OR (masterId = #{id} AND applyMem = #{id}))
 
