@@ -33,7 +33,7 @@ public class FreeBbsController {
 
 	// 4/13 내가 쓴 게시판(자유)
 	@GetMapping(value = "/myfreeBbslist")
-	public Map<String, Object> myfreeBbslist(mypartyBbsParam param) {
+	public Map<String, Object> myfreeBbslist(mypartyBbsParam param) throws Exception {
 
 		System.out.println("BbsController myfreeBbslist : " + new Date());
 		System.out.println("id" + param.getId());
