@@ -9,9 +9,9 @@
 <!-- 230417 달력가져오기 / CalendarDto에 tagName 변수 하나 추가-->
 <select id="getCalendarList" parameterType="String" resultType="com.woojujumin.dto.CalendarDto">
 	select * 
-	from (select row_number()over(partition by substr(rdate, 1, 8) order by rdate asc) as rnum,
+	from (select (@rnum:=@rnum+1) as rnum,
 	 	calSeq, manager, title, content, rdate, wdate, tag
-     	from calendar 
+     	from calendar, (SELECT @rownum:=0) r
      	where substr(rdate, 1, 6)=#{yyyymm} ) a , category c
 	where rnum between 1 and 5 and a.tag = c.tagSeq;
 </select>

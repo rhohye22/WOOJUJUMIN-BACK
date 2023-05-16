@@ -67,11 +67,11 @@ public class MemberController {
 							MultipartFile uploadFile,
 							HttpServletRequest req) {
 		System.out.println("MemberController addmember " + new Date());
-		System.out.println(dto.toString());
+	//	System.out.println(dto.toString());
 		
 		// 경로
-		String path = req.getServletContext().getRealPath("/upload/member"); // 5/6 혜원 수정
-		System.out.println(path);
+	//	String path = req.getServletContext().getRealPath("/upload/member"); // 5/6 혜원 수정
+	//	System.out.println(path);
 		
 		String filename = uploadFile.getOriginalFilename();
 		System.out.println(filename);
@@ -80,20 +80,19 @@ public class MemberController {
 			
 		}*/
 		
-		String filepath = path + "/" + filename;
-		System.out.println(filepath);
+	//	String filepath = path + "/" + filename;
+	//	System.out.println(filepath);
 		
 		try {
-			BufferedOutputStream bos = new BufferedOutputStream(new FileOutputStream(new File(filepath)));
-			bos.write(uploadFile.getBytes());
-			bos.close();
-			
+//			BufferedOutputStream bos = new BufferedOutputStream(new FileOutputStream(new File(filepath)));
+//			bos.write(uploadFile.getBytes());
+//			bos.close();
+			dto.setProfile(filename);
 		} catch (Exception e) {
 			e.printStackTrace();
 			System.out.println("파일 업로드 실패");
 		}
-		//dto.setProfile(filepath); 5/6 혜원 수정
-		dto.setProfile(filename);
+		//dto.setProfile(filepath); 5/6 혜원 수정;
 		
 		boolean b = service.addmember(dto);
 		if(b == false) {
@@ -146,24 +145,23 @@ public class MemberController {
 		
 		System.out.println("MemberController changeInfo " + new Date());
 		// 경로
-		String path = req.getServletContext().getRealPath("/upload/member");// 5/6 혜원 수정
+	//	String path = req.getServletContext().getRealPath("/upload/member");// 5/6 혜원 수정
 		String filename = uploadFile.getOriginalFilename();
-		String filepath = path + "/" + filename;
-		System.out.println(filepath);	
+	//	String filepath = path + "/" + filename;
+	//	System.out.println(filepath);	
 		
 		try {
-			BufferedOutputStream bos = new BufferedOutputStream(new FileOutputStream(new File(filepath)));
-			bos.write(uploadFile.getBytes());
-			bos.close();
-			
+//			BufferedOutputStream bos = new BufferedOutputStream(new FileOutputStream(new File(filepath)));
+//			bos.write(uploadFile.getBytes());
+//			bos.close();
+			dto.setProfile(filename);
 		} catch (Exception e) {
 			e.printStackTrace();
 			System.out.println("파일 업로드 실패");
 		}
 		// 5/6 혜원 수정
 		//dto.setProfile(filepath);
-		dto.setProfile(filename);
-		System.out.println(dto.toString());	
+	//	System.out.println(dto.toString());	
 		
 		boolean b = service.changeInfo(dto);
 		if(b == false) {
@@ -191,21 +189,20 @@ public class MemberController {
 			System.out.println(dto.toString());
 			
 			// 경로
-			String path = req.getServletContext().getRealPath("/upload/member");
+		//	String path = req.getServletContext().getRealPath("/upload/member");
 			String filename = uploadFile.getOriginalFilename();
-			String filepath = path + "/" + filename;
-			System.out.println(filepath);
+		//	String filepath = path + "/" + filename;
+		//	System.out.println(filepath);
 			
 			try {
-				BufferedOutputStream bos = new BufferedOutputStream(new FileOutputStream(new File(filepath)));
-				bos.write(uploadFile.getBytes());
-				bos.close();
-				
+//				BufferedOutputStream bos = new BufferedOutputStream(new FileOutputStream(new File(filepath)));
+//				bos.write(uploadFile.getBytes());
+//				bos.close();
+				dto.setProfile(filename);
 			} catch (Exception e) {
 				e.printStackTrace();
 				System.out.println("파일 업로드 실패");
 			}
-			dto.setProfile(filename);
 			
 			boolean b = service.adminAddmember(dto);
 			if(b == false) {
@@ -245,10 +242,42 @@ public class MemberController {
 
 	// 관리자 파티장 승급 페이지 - 신청하기 230420
 	@PostMapping(value="partyleader")
-	public String adminPartyLeader(IdcardDto dto) {
+	public String adminPartyLeader(IdcardDto dto, 
+									@RequestParam(value = "uploadFile", required = false) MultipartFile uploadFile, 
+									HttpServletRequest req) {
 		System.out.println("MemberController adminPartyLeader " + new Date());
 		System.out.println("넘어온 값 : " + dto);
 		
+		// 경로
+//		String path = req.getServletContext().getRealPath("/upload/freebbs");
+		//String path = "/root/tmp/image/upload/freebbs";
+		//System.out.println(path);
+		
+		//올리는 사진이 있으면		
+		if (uploadFile != null && !uploadFile.isEmpty()) {
+			String filename = uploadFile.getOriginalFilename();
+			//System.out.println(filename);
+
+			//String filepath = path + "/" + filename;
+			//System.out.println(filepath);
+
+			try {
+				//BufferedOutputStream bos = new BufferedOutputStream(new FileOutputStream(new File(filepath)));
+				//bos.write(uploadFile.getBytes());
+				//.close();
+				dto.setIdimage(filename);
+				
+			} catch (Exception e) {
+				e.printStackTrace();
+				System.out.println("파일 업로드 실패");
+			}
+		
+		//사진이 없으면
+		} else {
+			String filename = null;
+			dto.setIdimage(filename);
+		}
+				
 		boolean isS = service.adminPartyLeader(dto);
 		if(isS) return "YES";
 		return "NO";

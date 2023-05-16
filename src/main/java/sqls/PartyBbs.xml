@@ -12,10 +12,10 @@
 		parameterType="com.woojujumin.dto.PartyBbsDto">
 		insert into partyBbs(id, title, content, image, wdate,
 		del, readcount, tag, partyType, people, likey, hate, place, mdate,
-		applyMem, endParty, fullParty)
+		applyMem, endParty, fullParty, imageurl)
 		values ( #{id}, #{title}, #{content},
 		#{image}, now(), 0, 0, #{tag}, #{partytype}, #{people}, 0, 0,
-		#{place}, #{mdate}, 0, 0, 0 )
+		#{place}, #{mdate}, 0, 0, 0 , #{imageurl})
 	</insert>
 
 	<select id="partyBbsdetail"
@@ -35,7 +35,7 @@
 		update partyBbs set title = #{title}, content =
 		#{content},tag=${tag},partytype=#{partytype},
 		people=#{people},
-		image=#{image} where partySeq = #{partySeq}
+		image=#{image}, imageurl=#{imageurl} where partySeq = #{partySeq}
 
 	</update>
 
@@ -43,10 +43,10 @@
 		resultType="com.woojujumin.dto.PartyBbsDto">
 		select *
 		from
-		(select row_number()over(order by wdate desc) as rnum,
+		(select @rownum:=@rownum+1 as rnum,
 		partySeq, id, title, content, image, wdate, del, readcount, tag, partyType,
-		people, likey, hate, place, mdate, applyMem, endParty, fullParty
-		from partyBbs
+		people, likey, hate, place, mdate, applyMem, endParty, fullParty, imageurl
+		from partyBbs, (SELECT @rownum:=0) r
 		order by wdate desc) a
 	</select>
 
@@ -55,26 +55,28 @@
 		resultType="com.woojujumin.dto.PartyBbsDto">
 		select *
 		from
-		(select row_number()over(order by wdate desc) as rnum,
+		(select @rownum:=@rownum+1 as rnum,
+
 		partySeq, id, title, content, image, wdate, del, readcount, tag, partyType,
-		people, likey, hate, place, mdate, applyMem, endParty, fullParty
+		people, likey, hate, place, mdate, applyMem, endParty, fullParty, imageurl
 		from
-		partyBbs
+		partyBbs, (SELECT
+		@rownum:=0) r
 		where 1=1 and del =0
 		<if
 			test="choice != null and choice != '' and search != null and search != ''">
 			<if test="choice == 'title'">
-				and title like concat('%', #{search}, '%') 
+				and title like concat('%', #{search}, '%')
 
 			</if>
 			<if test="choice == 'content'">
 
-				and content like concat('%', #{search}, '%') 
+				and content like concat('%', #{search}, '%')
 
 			</if>
 			<if test="choice == 'writer'">
 
-				and id=#{search} 
+				and id=#{search}
 
 			</if>
 		</if>
@@ -83,7 +85,7 @@
 		</if>
 		order by wdate desc) a
 
-		where rnum between ${start} and ${end}
+		where rnum between #{start} and #{end}
 	</select>
 
 	<select id="myBbslist"
@@ -92,11 +94,12 @@
 
 		select *
 		from
-		(select row_number()over(order by wdate desc) as rnum,
+		(select @rownum:=@rownum+1 as rnum,
 		partySeq, id, title, content, image, wdate, del, readcount, tag, partyType,
-		people, likey, hate, place, mdate, applyMem, endParty, fullParty
+		people, likey, hate, place, mdate, applyMem, endParty, fullParty, imageurl
 		from
-		partyBbs
+		partyBbs ,
+		(SELECT @rownum:=0) r
 		where 1=1 AND id =#{id}
 		<if
 			test="choice != null and choice != '' and search != null and search != ''">
@@ -117,7 +120,8 @@
 		</if>
 		order by wdate desc) a
 
-		where id =#{id} AND rnum between ${start} and ${end}    <!-- 숫자는 $, 문자열은 # -->
+		where id =#{id} AND rnum between #{start} and
+		#{end}    <!-- 숫자는 $, 문자열은 # -->
 	</select>
 
 	<!--글의 총수 -->
@@ -126,12 +130,11 @@
 		resultType="Integer">
 
 		select ifnull(count(*), 0)
-		from (select row_number()over(order by wdate
-		desc) as rnum,
+		from (select @rownum:=@rownum+1 as rnum,
 		partySeq, id, title, content, image, wdate, del, readcount, tag, partyType,
-		people, likey, hate, place, mdate, applyMem, endParty, fullParty
+		people, likey, hate, place, mdate, applyMem, endParty, fullParty, imageurl
 		from
-		partyBbs
+		partyBbs, (SELECT @rownum:=0) r
 		where 1=1
 		<if
 			test="choice != null and choice != '' and search != null and search != ''">
@@ -152,7 +155,8 @@
 		</if>
 		order by wdate desc) a
 
-		where id =#{id} AND rnum between ${start} and ${end}
+		where id =#{id} AND rnum between #{start} and
+		#{end}
 
 	</select>
 
@@ -161,9 +165,11 @@
 	<insert id="partyApply"
 		parameterType="com.woojujumin.dto.ApplyDto">
 
-		insert into apply( partySeq, applyMem, wdate, title, masterId, countMem,
+		insert into apply( partySeq, applyMem, wdate, title,
+		masterId, countMem,
 		totalMem, profile)
-		values(#{partySeq}, #{applyMem}, now(), #{title},
+		values(#{partySeq}, #{applyMem},
+		now(), #{title},
 		#{masterId}, #{countMem}, #{totalMem}, #{profile});
 
 	</insert>
@@ -172,9 +178,11 @@
 	<insert id="insertPartyJang"
 		parameterType="com.woojujumin.dto.ApplyDto">
 
-		insert into apply(partySeq, applyMem, `check`, wdate, title, masterId,
+		insert into apply(partySeq, applyMem, `check`, wdate,
+		title, masterId,
 		totalMem)
-		values(#{partySeq}, #{applyMem}, 1, now(), #{title},
+		values(#{partySeq}, #{applyMem}, 1, now(),
+		#{title},
 		#{masterId}, #{totalMem});
 	</insert>
 
@@ -182,22 +190,26 @@
 		parameterType="com.woojujumin.dto.PartyBbsDto"
 		resultType="com.woojujumin.dto.PartyBbsDto">
 
-		select * from partyBbs where id = #{id} AND title = #{title} AND content =
-		#{content} AND place = #{place} AND people = #{people}
+		select * from partyBbs where id = #{id} AND title =
+		#{title} AND content =
+		#{content} AND place = #{place} AND people =
+		#{people}
 	</select>
 
 	<select id="getCountMem"
 		parameterType="com.woojujumin.dto.ApplyDto"
 		resultType="com.woojujumin.dto.ApplyDto">
 
-		select * from apply where partySeq = #{partySeq} AND applyMem = #{masterId};
+		select * from apply where partySeq = #{partySeq} AND
+		applyMem = #{masterId};
 	</select>
 
 
 	<update id="updateCountMem"
 		parameterType="com.woojujumin.dto.ApplyDto">
 
-		update apply set countMem = #{countMem} where partySeq = #{partySeq};
+		update apply set countMem = #{countMem} where partySeq =
+		#{partySeq};
 
 	</update>
 
@@ -205,29 +217,34 @@
 	<select id="getRow" parameterType="com.woojujumin.dto.ApplyDto"
 		resultType="com.woojujumin.dto.ApplyDto">
 
-		select * from apply where partySeq = #{partySeq} AND applyMem = #{applyMem};
+		select * from apply where partySeq = #{partySeq} AND
+		applyMem = #{applyMem};
 
 	</select>
 	<select id="getFullRow"
 		parameterType="com.woojujumin.dto.ApplyDto"
 		resultType="com.woojujumin.dto.ApplyDto">
 
-		select * from apply where partySeq = #{partySeq} AND applyMem = #{masterId};
+		select * from apply where partySeq = #{partySeq} AND
+		applyMem = #{masterId};
 
 	</select>
 
 	<!-- 신청한 인원 -->
 	<select id="applyMemCnt" resultType="Integer">
-		SELECT ifnull(COUNT(*),0) from apply where partySeq=#{partySeq}
+		SELECT ifnull(COUNT(*),0)
+		from apply where partySeq=#{partySeq}
 
 	</select>
 	<!-- 확정된 인원 -->
 	<select id="applyCheckMemCnt" resultType="Integer">
-		SELECT ifnull(COUNT(*),0) from apply where partySeq=#{partySeq} and `check` = 1
+		SELECT
+		ifnull(COUNT(*),0) from apply where partySeq=#{partySeq} and `check` =
+		1
 
 	</select>
-	
-	
+
+
 	<!-- 좋아요기능 구현 -->
 
 	<!-- 좋아요 로우가 생성되어있는지 확인 -->
@@ -237,20 +254,23 @@
 	</select>
 
 	<!--좋아요 테이블 데이터 삽입 -->
-	<insert id="makeLikeyrow" >
-		insert into partylikey(bbsSeq, memSeq, likeCheck,
+	<insert id="makeLikeyrow">
+		insert into partylikey(bbsSeq, memSeq,
+		likeCheck,
 		hateCheck)
 		values(#{bbsSeq},#{memSeq},0,0)
 	</insert>
 
 	<!-- 좋아요 +1 -->
 	<update id="LikeyPlus">
-		update partylikey set likeCheck = 1 where bbsSeq=#{bbsSeq}
+		update partylikey set likeCheck = 1 where
+		bbsSeq=#{bbsSeq}
 		and memSeq=#{memSeq}
 	</update>
 	<!-- 좋아요 -1 -->
 	<update id="LikeyMinus">
-		update partylikey set likeCheck = 0 where bbsSeq=#{bbsSeq}
+		update partylikey set likeCheck = 0 where
+		bbsSeq=#{bbsSeq}
 		and memSeq=#{memSeq}
 	</update>
 
@@ -269,11 +289,11 @@
 		partylikey where bbsSeq=#{bbsSeq} and likeCheck = 1
 
 	</select>
-	
-<!-- 모집게시판 댓글 -->
+
+	<!-- 모집게시판 댓글 -->
 	<insert id="writepartyReply"
 		parameterType="com.woojujumin.dto.PartyReplyDto">
-		insert into partyreply(replySeq,content,writer,wdate)
+		insert into partyReply(replySeq,content,writer,wdate)
 		values(#{replySeq},#{content},#{writer},now())
 	</insert>
 
@@ -281,11 +301,11 @@
 	<!-- 모집게시판 댓글리스트 -->
 	<select id="partyReplyList"
 		resultType="com.woojujumin.dto.PartyReplyDto">
-		select * from partyreply where replySeq=#{replySeq} order by
+		select * from partyReply where replySeq=#{replySeq} order by
 		wdate limit #{start},#{limit};
 	</select>
 
-<!-- 조회수 구현 -->
+	<!-- 조회수 구현 -->
 
 	<!-- 조회수 로우가 생성되어있는지 확인 -->
 	<select id="checkReadrow" resultType="Integer">
@@ -308,5 +328,20 @@
 
 	</select>
 
+	<select id="mainPartypost"
+		resultType="com.woojujumin.dto.PartyBbsDto">
+		SELECT * <!-- f.partySeq, f.id, f.title, f.content, f.image,
+		f.wdate, f.del,
+		b.readcount, f.tag, a.likey, f.hate -->
+		FROM partyBbs f
+		LEFT JOIN (SELECT bbsSeq, IFNULL(SUM(likeCheck),0) AS likey FROM
+		partylikey
+		GROUP BY bbsSeq) a
+		ON f.partySeq = a.bbsSeq
+		LEFT JOIN (SELECT bbsSeq, IFNULL(COUNT(*),0) AS readcount FROM partyread
+		GROUP BY bbsSeq) b
+		ON f.partySeq = b.bbsSeq
+		order by a.likey desc, b.readcount desc LIMIT 6;
+	</select>
 
 </mapper>

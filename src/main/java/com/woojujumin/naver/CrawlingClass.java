@@ -23,7 +23,7 @@ public class CrawlingClass {
 
 	public static HashMap<String, Object> cgvmovieCrawling(String path) throws Exception {
 
-		if (movieData == null) {
+//		if (movieData == null) {
 			// cgv - 현재 상영작
 			Document doc = Jsoup.connect("http://www.cgv.co.kr/movies/?lt=1&ft=1").get();
 
@@ -44,13 +44,14 @@ public class CrawlingClass {
 				Element percent = percents.get(i);
 				Element moviedate = moviedates.get(i);
 				Element poster = posters.get(i);
-
+				
 //			System.out.println(title.text()+ ":" + percent.text()+ ":"+ moviedate.text());
 
 				String imageUrl = poster.attr("src");
-				String localImagePath = ImageDownloader.downloadImage(imageUrl, downloadDir);
+				images.add(imageUrl);
+//				String localImagePath = ImageDownloader.downloadImage(imageUrl, downloadDir);
 				movie.add(title.text() + ":" + percent.text() + ":" + moviedate.text());
-				images.add(localImagePath);
+//				images.add(localImagePath);
 
 //			System.out.println(poster);
 
@@ -59,7 +60,7 @@ public class CrawlingClass {
 			movieData = new HashMap<>();
 			movieData.put("movie", movie);
 			movieData.put("images", images);
-		}
+//		}
 
 		return movieData;
 
@@ -69,7 +70,7 @@ public class CrawlingClass {
 
 	public static HashMap<String, Object> aladinCrawling(String path) throws Exception {
 
-		if (bookData == null) {
+//		if (bookData == null) {
 			// 알라딘 베스트 순위
 //			String url = "http://www.yes24.com/24/Category/BestSeller?CategoryNumber=001&sumgb=06";
 //			Document doc = Jsoup.connect(url).get();
@@ -131,11 +132,11 @@ public class CrawlingClass {
 				if (imageUrl.startsWith("//")) {
 					imageUrl = "http:" + imageUrl;
 				}
-				String localImagePath = ImageDownloader.downloadImage(imageUrl, downloadDir);
+//				String localImagePath = ImageDownloader.downloadImage(imageUrl, downloadDir);
 //				System.out.println(title.text());
 				sendtitles.add(title.text());
 				senddatas.add(data.text());
-				images.add(localImagePath);
+				images.add(imageUrl);
 
 //			System.out.println(poster);
 
@@ -145,7 +146,7 @@ public class CrawlingClass {
 			bookData.put("sendtitles", sendtitles);
 			bookData.put("senddatas", senddatas);
 			bookData.put("images", images);
-		}
+//		}
 
 		return bookData;
 
@@ -155,7 +156,7 @@ public class CrawlingClass {
 
 	public static HashMap<String, Object> localOneCrawling(String path) throws Exception {
 
-		if (localeventpageone == null) {
+//		if (localeventpageone == null) {
 
 			// 문화체육관광부
 			String url = "https://www.mcst.go.kr/kor/s_culture/festival/festivalList.jsp?pMenuCD=&pCurrentPage=1&pSearchType=&pSearchWord=&pSeq=&pSido=&pOrder=&pPeriod=&fromDt=&toDt=";
@@ -186,13 +187,13 @@ public class CrawlingClass {
 
 				String addurl = "https://www.mcst.go.kr";
 				String imageUrl = poster.attr("src");
-				String localImagePath = ImageDownloader.downloadImage(addurl + imageUrl, downloadDir);
+//				String localImagePath = ImageDownloader.downloadImage(addurl + imageUrl, downloadDir);
 //				System.out.println(title.text());
 
 				sendtitles.add(title.text());
 				sendinformations.add(information.text());
 				senddates.add(detail.text());
-				images.add(localImagePath);
+				images.add(addurl + imageUrl);
 
 //			System.out.println(poster);
 
@@ -203,7 +204,7 @@ public class CrawlingClass {
 			localeventpageone.put("sendinformations", sendinformations);
 			localeventpageone.put("senddates", senddates);
 			localeventpageone.put("images", images);
-		}
+//		}
 
 		return localeventpageone;
 
@@ -213,7 +214,7 @@ public class CrawlingClass {
 
 	public static HashMap<String, Object> localTwoCrawling(String path) throws Exception {
 
-		if (localeventpagetwo == null) {
+//		if (localeventpagetwo == null) {
 
 			// 문화체육관광부
 			String url = "https://www.mcst.go.kr/kor/s_culture/festival/festivalList.jsp?pMenuCD=&pCurrentPage=2&pSearchType=&pSearchWord=&pSeq=&pSido=&pOrder=&pPeriod=&fromDt=&toDt=";
@@ -244,13 +245,13 @@ public class CrawlingClass {
 
 				String addurl = "https://www.mcst.go.kr";
 				String imageUrl = poster.attr("src");
-				String localImagePath = ImageDownloader.downloadImage(addurl + imageUrl, downloadDir);
+//				String localImagePath = ImageDownloader.downloadImage(addurl + imageUrl, downloadDir);
 //				System.out.println(title.text());
 
 				sendtitles.add(title.text());
 				sendinformations.add(information.text());
 				senddates.add(detail.text());
-				images.add(localImagePath);
+				images.add(addurl + imageUrl);
 
 //			System.out.println(poster);
 
@@ -261,7 +262,7 @@ public class CrawlingClass {
 			localeventpagetwo.put("sendinformations", sendinformations);
 			localeventpagetwo.put("senddates", senddates);
 			localeventpagetwo.put("images", images);
-		}
+//		}
 
 		return localeventpagetwo;
 
@@ -271,7 +272,7 @@ public class CrawlingClass {
 
 	public static HashMap<String, Object> localThreeCrawling(String path) throws Exception {
 
-		if (localeventpagethree == null) {
+//		if (localeventpagethree == null) {
 
 			// 문화체육관광부
 			String url = "https://www.mcst.go.kr/kor/s_culture/festival/festivalList.jsp?pMenuCD=&pCurrentPage=3&pSearchType=&pSearchWord=&pSeq=&pSido=&pOrder=&pPeriod=&fromDt=&toDt=";
@@ -303,13 +304,13 @@ public class CrawlingClass {
 				String addurl = "https://www.mcst.go.kr";
 				String imageUrl = poster.attr("src");
 				System.out.println(imageUrl);
-				String localImagePath = ImageDownloader.downloadImage(addurl + imageUrl, downloadDir);
+//				String localImagePath = ImageDownloader.downloadImage(addurl + imageUrl, downloadDir);
 //				System.out.println(title.text());
 
 				sendtitles.add(title.text());
 				sendinformations.add(information.text());
 				senddates.add(detail.text());
-				images.add(localImagePath);
+				images.add(addurl + imageUrl);
 
 //			System.out.println(poster);
 
@@ -320,7 +321,7 @@ public class CrawlingClass {
 			localeventpagethree.put("sendinformations", sendinformations);
 			localeventpagethree.put("senddates", senddates);
 			localeventpagethree.put("images", images);
-		}
+//		}
 
 		return localeventpagethree;
 
@@ -330,7 +331,7 @@ public class CrawlingClass {
 
 	public static HashMap<String, Object> musicCrawling(String path) throws Exception {
 
-		if (musicData == null) {
+//		if (musicData == null) {
 
 			// 멜론이다으아아
 			String url = "https://www.melon.com/chart/index.htm";
@@ -361,13 +362,13 @@ public class CrawlingClass {
 
 				String imageUrl = poster.attr("src");
 //				System.out.println(imageUrl);
-				String localImagePath = ImageDownloader.downloadImage(imageUrl, downloadDir);
+//				String localImagePath = ImageDownloader.downloadImage(imageUrl, downloadDir);
 //				System.out.println(title.text());
 
 				sendtitles.add(title.text());
 				sendsingers.add(singer.text());
 				sendalbums.add(album.text());
-				images.add(localImagePath);
+				images.add(imageUrl);
 
 //			System.out.println(poster);
 
@@ -378,7 +379,7 @@ public class CrawlingClass {
 			musicData.put("sendsingers", sendsingers);
 			musicData.put("sendalbums", sendalbums);
 			musicData.put("images", images);
-		}
+//		}
 
 		return musicData;
 
