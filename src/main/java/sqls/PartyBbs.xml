@@ -300,7 +300,7 @@
 	<!-- 모집게시판 댓글 -->
 	<insert id="writepartyReply"
 		parameterType="com.woojujumin.dto.PartyReplyDto">
-		insert into partyreply(replySeq,content,writer,wdate)
+		insert into partyReply(replySeq,content,writer,wdate)
 		values(#{replySeq},#{content},#{writer},now())
 	</insert>
 
@@ -308,8 +308,7 @@
 	<!-- 모집게시판 댓글리스트 -->
 	<select id="partyReplyList"
 		resultType="com.woojujumin.dto.PartyReplyDto">
-		select * from partyreply where replySeq=#{replySeq} order
-		by
+		select * from partyReply where replySeq=#{replySeq} order by
 		wdate limit #{start},#{limit};
 	</select>
 

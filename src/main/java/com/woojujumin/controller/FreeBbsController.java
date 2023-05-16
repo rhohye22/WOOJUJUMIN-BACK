@@ -33,7 +33,7 @@ public class FreeBbsController {
 
 	// 4/13 내가 쓴 게시판(자유)
 	@GetMapping(value = "/myfreeBbslist")
-	public Map<String, Object> myfreeBbslist(mypartyBbsParam param) {
+	public Map<String, Object> myfreeBbslist(mypartyBbsParam param) throws Exception {
 
 		System.out.println("BbsController myfreeBbslist : " + new Date());
 		System.out.println("id" + param.getId());
@@ -82,8 +82,10 @@ public class FreeBbsController {
 		//System.out.println(dto.toString());
 
 		// 경로
+
 		String path = "/root/tmp/image/upload/freebbs";
 		System.out.println(path);
+
 		//올리는 사진이 있으면
 		if (uploadFile != null && !uploadFile.isEmpty()) {
 			String filename = uploadFile.getOriginalFilename();

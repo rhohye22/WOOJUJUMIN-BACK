@@ -239,7 +239,7 @@
 	<!-- 자유게시판 댓글 -->
 	<insert id="writeFreeReply"
 		parameterType="com.woojujumin.dto.FreeReplyDto">
-		insert into freereply(replySeq,content,writer,wdate)
+		insert into freeReply(replySeq,content,writer,wdate)
 		values(#{replySeq},#{content},#{writer},now())
 	</insert>
 
@@ -247,7 +247,7 @@
 	<!-- 자유게시판 댓글리스트 -->
 	<select id="freeReplyList"
 		resultType="com.woojujumin.dto.FreeReplyDto">
-		select * from freereply where replySeq=#{replySeq} order by
+		select * from freeReply where replySeq=#{replySeq} order by
 		wdate limit #{start},#{limit};
 	</select>
 

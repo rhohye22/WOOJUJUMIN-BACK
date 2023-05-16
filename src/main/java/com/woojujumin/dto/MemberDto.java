@@ -17,13 +17,15 @@ public class MemberDto implements Serializable {
 	private byte auth;
 	private double point;
 	private String masterId;
+	private String imageurl;
 	
     public MemberDto() {
 		
 	}
 
 	public MemberDto(int memberSeq, String id, String password, String nickname, String email, String phoneNum,
-			String profile, String address, String regdate, byte delflg, byte auth, double point, String masterId) {
+			String profile, String address, String regdate, byte delflg, byte auth, double point, String masterId,
+			String imageurl) {
 		super();
 		this.memberSeq = memberSeq;
 		this.id = id;
@@ -38,6 +40,7 @@ public class MemberDto implements Serializable {
 		this.auth = auth;
 		this.point = point;
 		this.masterId = masterId;
+		this.imageurl = imageurl;
 	}
 
 	public int getMemberSeq() {
@@ -144,13 +147,20 @@ public class MemberDto implements Serializable {
 		this.masterId = masterId;
 	}
 
+	public String getImageurl() {
+		return imageurl;
+	}
+
+	public void setImageurl(String imageurl) {
+		this.imageurl = imageurl;
+	}
+
 	@Override
 	public String toString() {
 		return "MemberDto [memberSeq=" + memberSeq + ", id=" + id + ", password=" + password + ", nickname=" + nickname
 				+ ", email=" + email + ", phoneNum=" + phoneNum + ", profile=" + profile + ", address=" + address
 				+ ", regdate=" + regdate + ", delflg=" + delflg + ", auth=" + auth + ", point=" + point + ", masterId="
-				+ masterId + "]";
+				+ masterId + ", imageurl=" + imageurl + "]";
 	}
-
 
 }
