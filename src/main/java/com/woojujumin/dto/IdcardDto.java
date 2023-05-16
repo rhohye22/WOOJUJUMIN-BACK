@@ -15,12 +15,13 @@ public class IdcardDto implements Serializable {
 	private String wdate;
 	private String cardcheck;
 	private String checkdate;
+	private String imageurl;
 	
 	public IdcardDto() {
 	}
 
 	public IdcardDto(int seq, String memid, String idname, String idbirth, String idaddress, String iddate,
-			String idpublic, String idimage, String wdate, String cardcheck, String checkdate) {
+			String idpublic, String idimage, String wdate, String cardcheck, String checkdate, String imageurl) {
 		super();
 		this.seq = seq;
 		this.memid = memid;
@@ -33,9 +34,8 @@ public class IdcardDto implements Serializable {
 		this.wdate = wdate;
 		this.cardcheck = cardcheck;
 		this.checkdate = checkdate;
+		this.imageurl = imageurl;
 	}
-
-
 
 	public int getSeq() {
 		return seq;
@@ -125,12 +125,23 @@ public class IdcardDto implements Serializable {
 		this.checkdate = checkdate;
 	}
 
+	public String getImageurl() {
+		return imageurl;
+	}
+
+	public void setImageurl(String imageurl) {
+		this.imageurl = imageurl;
+	}
+
 	@Override
 	public String toString() {
 		return "IdcardDto [seq=" + seq + ", memid=" + memid + ", idname=" + idname + ", idbirth=" + idbirth
 				+ ", idaddress=" + idaddress + ", iddate=" + iddate + ", idpublic=" + idpublic + ", idimage=" + idimage
-				+ ", wdate=" + wdate + ", cardcheck=" + cardcheck + ", checkdate=" + checkdate + "]";
+				+ ", wdate=" + wdate + ", cardcheck=" + cardcheck + ", checkdate=" + checkdate + ", imageurl="
+				+ imageurl + "]";
 	}
+
+	
 
 	
 }
