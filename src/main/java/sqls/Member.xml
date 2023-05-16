@@ -85,8 +85,8 @@
 
 <!-- 관리자 페이지 파티장승급 (권유리) -->
 <insert id="adminPartyLeader" parameterType="com.woojujumin.dto.IdcardDto">
-	insert into idcard(memid, idname, idbirth, idaddress, iddate, idpublic, idimage, wdate, cardcheck)
-	values(#{memid}, #{idname}, #{idbirth}, #{idaddress}, #{iddate}, #{idpublic}, #{idimage}, now(), 0)
+	insert into idcard(memid, idname, idbirth, idaddress, iddate, idpublic, idimage, wdate, cardcheck, imageurl)
+	values(#{memid}, #{idname}, #{idbirth}, #{idaddress}, #{iddate}, #{idpublic}, #{idimage}, now(), 0, #{imageurl})
 </insert>
 
 <!-- 관리자 페이지 파티장승급(권유리) -->
