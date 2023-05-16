@@ -82,7 +82,7 @@
 	<!-- 자유게시판 리스트 -->
 	<select id="freeBbslist"
 		resultType="com.woojujumin.dto.FreeBbsDto">
-		SELECT f.bbsSeq, f.id, f.title, f.content, f.image, f.wdate, f.del,
+		SELECT f.bbsSeq, f.id, f.title, f.content, f.image, f.wdate, f.del,f.imageurl,
 		b.readcount, f.tag, a.likey, f.hate
 		FROM freeBbs f
 		LEFT JOIN (SELECT
@@ -214,8 +214,8 @@
 	<!-- 자유게시판 글쓰기 -->
 	<insert id="writeFreeBbs"
 		parameterType="com.woojujumin.dto.FreeBbsDto">
-		insert into freeBbs(id, title, content,image,tag)
-		VALUES(#{id},#{title},#{content},#{image}, #{tag})
+		insert into freeBbs(id, title, content,image,imageurl,tag)
+		VALUES(#{id},#{title},#{content},#{image},#{imageurl}, #{tag})
 	</insert>
 
 	<!-- 자유게시판 특정게시물 -->
@@ -346,7 +346,7 @@
 	<!-- 자유게시판 글수정 -->
 	<update id="modifyFreebbs" parameterType="com.woojujumin.dto.FreeBbsDto">
 		update freeBbs set title=#{title},
-		content=#{content}, tag=#{tag}, image=#{image}
+		content=#{content}, tag=#{tag}, image=#{image},imageurl=#{imageurl}
 		where bbsSeq=#{bbsSeq}
 
 	</update>
