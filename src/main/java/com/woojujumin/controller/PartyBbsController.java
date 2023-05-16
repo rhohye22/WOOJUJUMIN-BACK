@@ -66,26 +66,29 @@ public class PartyBbsController {
 
 		System.out.println("BbsController writePartybbs : " + new Date());
 		System.out.println(dto.toString());
+		
+		//String path = req.getServletContext().getRealPath("/upload/partybbs");
+		//System.out.println(path);
 
-		String path = req.getServletContext().getRealPath("/upload/partybbs");
-		System.out.println(path);
 		if (uploadFile != null && !uploadFile.isEmpty()) {
 			String filename = uploadFile.getOriginalFilename();
 			// System.out.println(filename);
 
-			String filepath = path + "/" + filename;
-			// System.out.println(filepath);
+
+			//String filepath = path + "/" + filename;
+			//System.out.println(filepath);
+
 
 			try {
-				BufferedOutputStream bos = new BufferedOutputStream(new FileOutputStream(new File(filepath)));
-				bos.write(uploadFile.getBytes());
-				bos.close();
-
+//				BufferedOutputStream bos = new BufferedOutputStream(new FileOutputStream(new File(filepath)));
+//				bos.write(uploadFile.getBytes());
+//				bos.close();
+				dto.setImage(filename);
 			} catch (Exception e) {
 				e.printStackTrace();
 				System.out.println("파일 업로드 실패");
 			}
-			dto.setImage(filename);
+			//dto.setImage(filename);
 		} else {
 			String filename = null;
 			dto.setImage(filename);
@@ -198,32 +201,33 @@ public class PartyBbsController {
 		// 수정전 데이터
 		PartyBbsDto predto = service.partyBbsdetail(dto);
 		// 경로
-		String path = req.getServletContext().getRealPath("/upload/partybbs");
-		// System.out.println(path);
-		// 올리는 사진이 있고 기존사진과 다르면
+
+//		String path = req.getServletContext().getRealPath("/upload/partybbs");
+		//System.out.println(path);
+		//올리는 사진이 있고 기존사진과 다르면
 		if (uploadFile != null && !uploadFile.isEmpty() && predto.getImage() != dto.getImage()) {
 			String filename = uploadFile.getOriginalFilename();
 			System.out.println(filename);
-
-			String filepath = path + "/" + filename;
-			System.out.println(filepath);
-			// System.out.println("올리는 사진이 있고 기존사진과 다르면 dto.getImage() : "+dto.getImage());
+			
+//			String filepath = path + "/" + filename;
+//			System.out.println(filepath);
+			//System.out.println("올리는 사진이 있고 기존사진과 다르면 dto.getImage() : "+dto.getImage());
 			try {
-				BufferedOutputStream bos = new BufferedOutputStream(new FileOutputStream(new File(filepath)));
-				bos.write(uploadFile.getBytes());
-				bos.close();
+//				BufferedOutputStream bos = new BufferedOutputStream(new FileOutputStream(new File(filepath)));
+//				bos.write(uploadFile.getBytes());
+//				bos.close();
+				dto.setImage(filename);
 
 			} catch (Exception e) {
 				e.printStackTrace();
 				System.out.println("파일 업로드 실패");
 			}
-			dto.setImage(filename);
 
-		}
-		// 기존에 사진이 있었는데 수정후에는 없다면
-		else if (predto.getImage() != null && (dto.getImage() == null || dto.getImage().trim().isEmpty())) {
-			// System.out.println("기존에 사진이 있었는데 수정후에는 없다면 dto.getImage() :
-			// "+dto.getImage());
+		} 
+		//기존에 사진이 있었는데 수정후에는 없다면	
+		else if( predto.getImage() != null && (dto.getImage() == null || dto.getImage().trim().isEmpty())){
+			//System.out.println("기존에 사진이 있었는데 수정후에는 없다면 dto.getImage() : "+dto.getImage());
+
 			String filename = null;
 			dto.setImage(filename);
 

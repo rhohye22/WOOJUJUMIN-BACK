@@ -12,10 +12,10 @@
 		parameterType="com.woojujumin.dto.PartyBbsDto">
 		insert into partyBbs(id, title, content, image, wdate,
 		del, readcount, tag, partyType, people, likey, hate, place, mdate,
-		applyMem, endParty, fullParty)
+		applyMem, endParty, fullParty, imageurl)
 		values ( #{id}, #{title}, #{content},
 		#{image}, now(), 0, 0, #{tag}, #{partytype}, #{people}, 0, 0,
-		#{place}, #{mdate}, 0, 0, 0 )
+		#{place}, #{mdate}, 0, 0, 0 , #{imageurl})
 	</insert>
 
 	<select id="partyBbsdetail"
@@ -35,7 +35,7 @@
 		update partyBbs set title = #{title}, content =
 		#{content},tag=${tag},partytype=#{partytype},
 		people=#{people},
-		image=#{image} where partySeq = #{partySeq}
+		image=#{image}, imageurl=#{imageurl} where partySeq = #{partySeq}
 
 	</update>
 
@@ -44,11 +44,9 @@
 		select *
 		from
 		(select @rownum:=@rownum+1 as rnum,
-		partySeq,
-		id, title, content, image, wdate, del, readcount, tag, partyType,
-		people, likey, hate, place, mdate, applyMem, endParty, fullParty
-		from
-		partyBbs, (SELECT @rownum:=0) r
+		partySeq, id, title, content, image, wdate, del, readcount, tag, partyType,
+		people, likey, hate, place, mdate, applyMem, endParty, fullParty, imageurl
+		from partyBbs, (SELECT @rownum:=0) r
 		order by wdate desc) a
 	</select>
 
@@ -58,10 +56,9 @@
 		select *
 		from
 		(select @rownum:=@rownum+1 as rnum,
-		partySeq, id, title,
-		content, image, wdate, del, readcount, tag, partyType,
-		people, likey,
-		hate, place, mdate, applyMem, endParty, fullParty
+
+		partySeq, id, title, content, image, wdate, del, readcount, tag, partyType,
+		people, likey, hate, place, mdate, applyMem, endParty, fullParty, imageurl
 		from
 		partyBbs, (SELECT
 		@rownum:=0) r
@@ -98,10 +95,8 @@
 		select *
 		from
 		(select @rownum:=@rownum+1 as rnum,
-		partySeq, id, title,
-		content, image, wdate, del, readcount, tag, partyType,
-		people, likey,
-		hate, place, mdate, applyMem, endParty, fullParty
+		partySeq, id, title, content, image, wdate, del, readcount, tag, partyType,
+		people, likey, hate, place, mdate, applyMem, endParty, fullParty, imageurl
 		from
 		partyBbs ,
 		(SELECT @rownum:=0) r
@@ -136,10 +131,8 @@
 
 		select ifnull(count(*), 0)
 		from (select @rownum:=@rownum+1 as rnum,
-		partySeq, id, title, content, image, wdate, del, readcount, tag,
-		partyType,
-		people, likey, hate, place, mdate, applyMem, endParty,
-		fullParty
+		partySeq, id, title, content, image, wdate, del, readcount, tag, partyType,
+		people, likey, hate, place, mdate, applyMem, endParty, fullParty, imageurl
 		from
 		partyBbs, (SELECT @rownum:=0) r
 		where 1=1
