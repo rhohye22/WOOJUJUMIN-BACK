@@ -236,30 +236,30 @@
 
 <!-- 자유게시판댓글 스팸걸리는 리스트 -->
 	<select id="freeBbsSpamReply" resultType="com.woojujumin.dto.FreeReplyDto">
-		select * from freereply where content REGEXP (SELECT GROUP_CONCAT(word
+		select * from freeReply where content REGEXP (SELECT GROUP_CONCAT(word
 		SEPARATOR "|") from spamword) order by wdate desc;
 	</select>
 	
 	<!-- 모집게시판 댓글 스팸걸리는 리스트 -->
 	<select id="partyBbsSpamReply" resultType="com.woojujumin.dto.PartyReplyDto">
-		select * from partyreply where content REGEXP (SELECT GROUP_CONCAT(word
+		select * from partyReply where content REGEXP (SELECT GROUP_CONCAT(word
 		SEPARATOR "|") from spamword) order by wdate desc;
 	</select>
 	
 	<!-- 자유게시판 댓글리스트 -->
 	<select id="partyReplyListAdmin"
 		resultType="com.woojujumin.dto.PartyReplyDto">
-		select * from partyreply where replySeq=#{replySeq} order by
+		select * from partyReply where replySeq=#{replySeq} order by
 		wdate limit #{start},#{limit};
 	</select>
 	
 
 	<update id="stateFreeReplyControl">
-		update freereply set del=#{del} where
+		update freeReply set del=#{del} where
 		seq=#{seq} and replySeq=#{replySeq}
 	</update>
 	<update id="statePartyReplyControl">
-		update partyreply set del=#{del} where
+		update partyReply set del=#{del} where
 		seq=#{seq} and replySeq=#{replySeq}
 	</update>
 
