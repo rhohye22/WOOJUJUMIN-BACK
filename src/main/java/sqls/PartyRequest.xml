@@ -7,8 +7,8 @@
 	<select id="myRequestList"
 		resultType="com.woojujumin.dto.ApplyDto"
 		parameterType="com.woojujumin.dto.mypartyBbsParam">
-		select partySeq, applyMem, `check`, wdate, title, full,
-		masterId
+		select *
+	
 		from
 		(select @rownum:=@rownum+1 as rnum,
 		partySeq, applyMem, `check`, wdate, title, full, masterId
@@ -41,7 +41,8 @@
 	</select>
 
 	<!-- 파티장이 파티원 수락하는 곳 -->
-	<select id="myPartyList"
+
+		<select id="myPartyList"
 		resultType="com.woojujumin.dto.ApplyDto"
 		parameterType="com.woojujumin.dto.mypartyBbsParam">
 		select partySeq, applyMem, `check`, wdate, title, full,
@@ -57,6 +58,7 @@
 		where applyMem !=#{id} AND masterId =#{id} AND rnum between ${start} and
 		${end}
 	</select>
+	
 
 
 	<select id="getmyPartyList"
