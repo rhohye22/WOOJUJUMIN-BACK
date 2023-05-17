@@ -217,15 +217,29 @@ public class MemberController {
 									HttpServletRequest req) {
 		System.out.println("MemberController partyrequest_ocr " + new Date());
 		
-		String uploadpath = req.getServletContext().getRealPath("/upload");
-
+//		String uploadpath = req.getServletContext().getRealPath("/upload");
+		String uploadpath = "/root/tmp/image/upload/member";
+		
 		String filename = uploadFile.getOriginalFilename();
 		String filepath = uploadpath + "/" + filename;
-
-
 		System.out.println(filepath);
 		
+//		String filename = uploadFile.getOriginalFilename();
+//		String filepath = "";
+//		
+//		System.out.println(filename);
+//		
+//		if(filename == "홍길동.jpg") {
+//			filepath = "https://firebasestorage.googleapis.com/v0/b/woojujumin-photo.appspot.com/o/images%2FImage20230517101157.jpg?alt=media&token=6a53da9c-0860-436d-a67f-14b389933987";
+//			System.out.println(filepath);
+//		}
+//		else if(filename == "둘리.png") {
+//			filepath = "https://firebasestorage.googleapis.com/v0/b/woojujumin-photo.appspot.com/o/images%2FImage20230517101204.png?alt=media&token=3c77006c-ff03-433c-b7fd-73d5ca634230";
+//			System.out.println(filepath);
+//		}
+		
 		try {
+//			파일 작성 코드
 			BufferedOutputStream os = new BufferedOutputStream(new FileOutputStream(new File(filepath)));
 			os.write(uploadFile.getBytes());
 			os.close();
