@@ -38,7 +38,7 @@
 	<!-- 답변이 안달린 질문 전체 리스트 -->
 	<select id="allnewqna" resultType="com.woojujumin.dto.QnaDto">
 		select *
-		from qna where ansdate
+		from qna where answer
 		is null
 		ORDER BY qnaSeq DESC
 
@@ -48,7 +48,7 @@
 
 	<select id="typeqna" resultType="com.woojujumin.dto.QnaDto">
 		select *
-		from qna where ansdate
+		from qna where answer
 		is null and qtype=#{qtype}
 		ORDER BY qnaSeq DESC
 
@@ -58,7 +58,7 @@
 	<select id="answeredqns" resultType="com.woojujumin.dto.QnaDto">
 		select *
 		from qna where
-		ansdate
+		answer 
 		is not null
 		ORDER BY qnaSeq DESC
 
