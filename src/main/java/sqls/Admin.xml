@@ -44,7 +44,7 @@
 	<select id="PartyBbslistAdmin"
 		resultType="com.woojujumin.dto.PartyBbsDto">
 		SELECT f.partySeq, f.id, f.title, f.content, f.image, f.wdate, f.del,
-		b.readcount, f.tag, a.likey, f.hate
+		b.readcount, f.tag, a.likey, f.hate,f.imageurl
 		FROM partyBbs f
 		LEFT JOIN (SELECT
 		bbsSeq, IFNULL(SUM(likeCheck),0) AS likey FROM partylikey
