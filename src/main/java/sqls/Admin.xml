@@ -21,7 +21,7 @@
 	<!-- 자유게시판 스팸걸리는 리스트 -->
 	<select id="freebbsSpamlist"
 		resultType="com.woojujumin.dto.FreeBbsDto">
-		select * from freebbs where title REGEXP (SELECT
+		select * from freeBbs where title REGEXP (SELECT
 		GROUP_CONCAT(word SEPARATOR
 		"|") from spamword) or content REGEXP
 		(SELECT GROUP_CONCAT(word
@@ -32,7 +32,7 @@
 	<!--모집게시판 스팸걸리는 리스트 -->
 	<select id="partybbsSpamlist"
 		resultType="com.woojujumin.dto.PartyBbsDto">
-		select * from partybbs where title REGEXP (SELECT
+		select * from partyBbs where title REGEXP (SELECT
 		GROUP_CONCAT(word
 		SEPARATOR "|") from spamword) or content REGEXP
 		(SELECT
@@ -45,7 +45,7 @@
 		resultType="com.woojujumin.dto.PartyBbsDto">
 		SELECT f.partySeq, f.id, f.title, f.content, f.image, f.wdate, f.del,
 		b.readcount, f.tag, a.likey, f.hate
-		FROM partybbs f
+		FROM partyBbs f
 		LEFT JOIN (SELECT
 		bbsSeq, IFNULL(SUM(likeCheck),0) AS likey FROM partylikey
 		GROUP BY
@@ -115,7 +115,7 @@
 	<!-- 모집게시판 조건검색별 글 수 -->
 	<select id="cntPartyBbsAdmin" resultType="Integer">
 		SELECT ifnull(COUNT(*),0)
-		FROM partybbs f
+		FROM partyBbs f
 		LEFT JOIN (SELECT
 		bbsSeq,
 		IFNULL(SUM(likeCheck),0) AS likey FROM partylikey
@@ -187,20 +187,20 @@
 	</select>
 
 	<update id="delFreebbsByAdmin">
-		update freebbs set del = 2 where bbsSeq=#{bbsSeq}
+		update freeBbs set del = 2 where bbsSeq=#{bbsSeq}
 	</update>
 
 	<update id="reopenFreebbsByAdmin">
-		update freebbs set del = 0 where bbsSeq=#{bbsSeq}
+		update freeBbs set del = 0 where bbsSeq=#{bbsSeq}
 	</update>
 
 	<update id="delPartybbsByAdmin">
-		update partybbs set del = 2
+		update partyBbs set del = 2
 		where partySeq=#{partySeq}
 	</update>
 
 	<update id="reopenPartybbsByAdmin">
-		update partybbs set del = 0
+		update partyBbs set del = 0
 		where partySeq=#{partySeq}
 	</update>
 
@@ -228,7 +228,7 @@
 
 		select * from (SELECT substr(wdate,1,10) as wdate,
 		count(substr(wdate,1,10))
-		as count FROM partybbs group by
+		as count FROM partyBbs group by
 		substr(wdate,1,10) ORDER BY
 		wdate desc
 		limit 7) a order by wdate asc
@@ -236,30 +236,30 @@
 
 <!-- 자유게시판댓글 스팸걸리는 리스트 -->
 	<select id="freeBbsSpamReply" resultType="com.woojujumin.dto.FreeReplyDto">
-		select * from freereply where content REGEXP (SELECT GROUP_CONCAT(word
+		select * from freeReply where content REGEXP (SELECT GROUP_CONCAT(word
 		SEPARATOR "|") from spamword) order by wdate desc;
 	</select>
 	
 	<!-- 모집게시판 댓글 스팸걸리는 리스트 -->
 	<select id="partyBbsSpamReply" resultType="com.woojujumin.dto.PartyReplyDto">
-		select * from partyreply where content REGEXP (SELECT GROUP_CONCAT(word
+		select * from partyReply where content REGEXP (SELECT GROUP_CONCAT(word
 		SEPARATOR "|") from spamword) order by wdate desc;
 	</select>
 	
 	<!-- 자유게시판 댓글리스트 -->
 	<select id="partyReplyListAdmin"
 		resultType="com.woojujumin.dto.PartyReplyDto">
-		select * from partyreply where replySeq=#{replySeq} order by
+		select * from partyReply where replySeq=#{replySeq} order by
 		wdate limit #{start},#{limit};
 	</select>
 	
 
 	<update id="stateFreeReplyControl">
-		update freereply set del=#{del} where
+		update freeReply set del=#{del} where
 		seq=#{seq} and replySeq=#{replySeq}
 	</update>
 	<update id="statePartyReplyControl">
-		update partyreply set del=#{del} where
+		update partyReply set del=#{del} where
 		seq=#{seq} and replySeq=#{replySeq}
 	</update>
 

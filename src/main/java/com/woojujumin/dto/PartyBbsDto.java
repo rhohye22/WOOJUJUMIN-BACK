@@ -22,6 +22,8 @@ public class PartyBbsDto implements Serializable {
    private int applymem;
    private int endparty;
    private int fullparty;
+   private String imageurl;
+   
    
    public PartyBbsDto() {
 	// TODO Auto-generated constructor stub
@@ -29,7 +31,7 @@ public class PartyBbsDto implements Serializable {
 
 	public PartyBbsDto(int partySeq, String id, String title, String content, String image, String wdate, int del,
 			int readcount, int tag, int partytype, int people, int likey, int hate, String place, String mdate,
-			int applymem, int endparty, int fullparty) {
+			int applymem, int endparty, int fullparty, String imageurl) {
 		super();
 		this.partySeq = partySeq;
 		this.id = id;
@@ -49,6 +51,7 @@ public class PartyBbsDto implements Serializable {
 		this.applymem = applymem;
 		this.endparty = endparty;
 		this.fullparty = fullparty;
+		this.imageurl = imageurl;
 	}
 
 	public int getPartySeq() {
@@ -194,6 +197,14 @@ public class PartyBbsDto implements Serializable {
 	public void setFullparty(int fullparty) {
 		this.fullparty = fullparty;
 	}
+	
+	public String getImageurl() {
+		return imageurl;
+	}
+
+	public void setImageurl(String imageurl) {
+		this.imageurl = imageurl;
+	}
 
 	@Override
 	public String toString() {
@@ -201,6 +212,8 @@ public class PartyBbsDto implements Serializable {
 				+ ", image=" + image + ", wdate=" + wdate + ", del=" + del + ", readcount=" + readcount + ", tag=" + tag
 				+ ", partytype=" + partytype + ", people=" + people + ", likey=" + likey + ", hate=" + hate + ", place="
 				+ place + ", mdate=" + mdate + ", applymem=" + applymem + ", endparty=" + endparty + ", fullparty="
-				+ fullparty + "]";
+				+ fullparty + ", imageurl=" + imageurl + "]";
 	}
+
+	
 }

@@ -42,9 +42,9 @@
 	
 	select seq, targetId, sendId, title, message, sendDate
 		from 
-			(select row_number()over(order by sendDate desc) as rnum,
+			(select @rownum:=@rownum+1 as rnum,
 			 seq, targetId, sendId, title, message, sendDate
-		from msg
+		from msg, (SELECT @rownum:=0) r
 		where 1=1 AND targetId =#{id}
 			
 			order by sendDate desc) a
@@ -57,9 +57,9 @@
 	<select id="getmsglist" parameterType="com.woojujumin.dto.mypartyBbsParam" resultType="Integer">
 	
 		select ifnull(count(*), 0)
-		from (select row_number()over(order by sendDate desc) as rnum,
+		from (select @rownum:=@rownum+1 as rnum,
 			 seq, targetId, sendId, title, message, sendDate
-		from msg
+		from msg, (SELECT @rownum:=0) r
 		where 1=1 AND targetId =#{id}
 			
 			order by sendDate desc) a
@@ -77,9 +77,9 @@
 	
 	select seq, targetId, sendId, title, message, sendDate
 		from 
-			(select row_number()over(order by sendDate desc) as rnum,
+			(select @rownum:=@rownum+1 as rnum,
 			 seq, targetId, sendId, title, message, sendDate
-		from msg
+		from msg, (SELECT @rownum:=0) r
 		where 1=1 AND sendId =#{id}
 			
 			order by sendDate desc) a
@@ -92,9 +92,9 @@
 	<select id="getsendmsglist" parameterType="com.woojujumin.dto.mypartyBbsParam" resultType="Integer">
 	
 		select ifnull(count(*), 0)
-		from (select row_number()over(order by sendDate desc) as rnum,
+		from (select @rownum:=@rownum+1 as rnum,
 			 seq, targetId, sendId, title, message, sendDate
-		from msg
+		from msg, (SELECT @rownum:=0) r
 		where 1=1 AND sendId =#{id}
 			
 			order by sendDate desc) a
