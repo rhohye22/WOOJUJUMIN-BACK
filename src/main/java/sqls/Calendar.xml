@@ -18,8 +18,8 @@
 
 <!-- 230414 일정 등록하기 -->
 <insert id="calwrite" parameterType="com.woojujumin.dto.CalendarDto" >
-	INSERT INTO CALENDAR(manager, title, content, rdate, wdate, tag)
-	VALUES (#{manager}, #{title}, #{content}, #{rdate}, now(), #{tag})
+	insert into calendar(manager, title, content, rdate, wdate, tag)
+	values (#{manager}, #{title}, #{content}, #{rdate}, now(), #{tag})
 </insert>
 
 <!-- 230417 일정 상세보기 -->
