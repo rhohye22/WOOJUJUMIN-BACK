@@ -17,7 +17,9 @@
 </select>
 
 <!-- 230414 일정 등록하기 -->
+
 <insert id="calWrite" parameterType="com.woojujumin.dto.CalendarDto" >
+
 	insert into calendar(manager, title, content, rdate, wdate, tag)
 	values (#{manager}, #{title}, #{content}, #{rdate}, now(), #{tag})
 </insert>
