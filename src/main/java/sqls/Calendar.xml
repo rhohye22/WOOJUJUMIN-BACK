@@ -2,68 +2,104 @@
 
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 	"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
-	
+
 
 <mapper namespace="com.woojujumin.dao.CalendarDao">
 
-<!-- 230417 달력가져오기 / CalendarDto에 tagName 변수 하나 추가-->
-<select id="getCalendarList" parameterType="String" resultType="com.woojujumin.dto.CalendarDto">
-	select * 
-	from (select (@rnum:=@rnum+1) as rnum,
-	 	calSeq, manager, title, content, rdate, wdate, tag
-     	from calendar, (SELECT @rownum:=0) r
-     	where substr(rdate, 1, 6)=#{yyyymm} ) a , category c
-	where rnum between 1 and 5 and a.tag = c.tagSeq;
-</select>
+	<!-- 230417 달력가져오기 / CalendarDto에 tagName 변수 하나 추가 -->
+	<!-- <select id="getCalendarList" parameterType="String" resultType="com.woojujumin.dto.CalendarDto"> 
+		select * from (select (@rnum:=@rnum+1) as rnum, calSeq, manager, title, content, 
+		rdate, wdate, tag from calendar, (SELECT @rownum:=0) r where substr(rdate, 
+		1, 6)=#{yyyymm} ) a , category c where rnum between 1 and 5 and a.tag = c.tagSeq; 
+		</select> -->
+	<select id="getCalendarList" parameterType="String"
+		resultType="com.woojujumin.dto.CalendarDto">
+		SELECT
+			a.rnum, a.calSeq, a.manager, a.title, a.content, a.rdate, a.wdate, c.tagName
+		FROM
+		(SELECT
+		(@rownum := CASE
+		WHEN @partition = SUBSTR(rdate, 1, 8) THEN @rownum + 1
+		ELSE 1
+		END) AS rnum,
+		@partition := SUBSTR(rdate, 1, 8) AS partition_col,
+		calSeq,
+		manager,
+		title,
+		content,
+		rdate,
+		wdate,
+		tag
+		FROM
+		calendar,
+		(SELECT @rownum := 0, @partition := NULL) r
+		WHERE
+		SUBSTR(rdate, 1, 6) = #{yyyymm}
+		ORDER BY SUBSTR(rdate, 1, 8), rdate) AS a,
+		category c
+		WHERE
+		a.rnum BETWEEN 1 AND 5
+		AND a.tag = c.tagSeq;
+	</select>
 
-<!-- 230414 일정 등록하기 -->
 
-<insert id="calWrite" parameterType="com.woojujumin.dto.CalendarDto" >
+	<!-- 230414 일정 등록하기 -->
 
-	insert into calendar(manager, title, content, rdate, wdate, tag)
-	values (#{manager}, #{title}, #{content}, #{rdate}, now(), #{tag})
-</insert>
+	<insert id="calwrite"
+		parameterType="com.woojujumin.dto.CalendarDto">
 
-<!-- 230417 일정 상세보기 -->
-<select id="caldetail" parameterType="Integer" resultType="com.woojujumin.dto.CalendarDto">
-	select * 
-	from calendar cal, category c
-	where calSeq=#{calSeq} and cal.tag = c.tagSeq;
-</select>	
+		insert into calendar(manager, title, content, rdate, wdate, tag)
+		values (#{manager}, #{title}, #{content}, #{rdate}, now(), #{tag})
+	</insert>
 
-<!-- 230418 날짜에 해당하는 리스트 보기 -->
-<select id="getDayList" parameterType="com.woojujumin.dto.CalendarDto" resultType="com.woojujumin.dto.CalendarDto">
-	select *
-	from calendar
-	where manager=#{manager} and substr(rdate, 1, 8)=#{rdate}
-	order by rdate asc 
-</select>
+	<!-- 230417 일정 상세보기 -->
+	<select id="caldetail" parameterType="Integer"
+		resultType="com.woojujumin.dto.CalendarDto">
+		select *
+		from calendar cal, category c
+		where calSeq=#{calSeq} and cal.tag = c.tagSeq;
+	</select>
 
-<!-- front 날짜에 해당하는 리스트 보기 -->
-<select id="getDayListFront" parameterType="com.woojujumin.dto.CalendarDto" resultType="com.woojujumin.dto.CalendarDto">
-	select *
-	from calendar
-	where substr(rdate, 1, 8)=#{rdate}
-	order by rdate asc 
-</select>
+	<!-- 230418 날짜에 해당하는 리스트 보기 -->
+	<select id="getDayList"
+		parameterType="com.woojujumin.dto.CalendarDto"
+		resultType="com.woojujumin.dto.CalendarDto">
+		select *
+		from calendar
+		where manager=#{manager} and substr(rdate, 1, 8)=#{rdate}
+		order by rdate asc
+	</select>
 
-<!-- 230418 일정 수정하기 -->
-<update id="calupdate" parameterType="com.woojujumin.dto.CalendarDto">
-	update calendar
-	set title=#{title}, content=#{content}, rdate=#{rdate}, wdate=now(), tag=#{tag}
-	where calSeq=#{calSeq}
-</update>
+	<!-- front 날짜에 해당하는 리스트 보기 -->
+	<select id="getDayListFront"
+		parameterType="com.woojujumin.dto.CalendarDto"
+		resultType="com.woojujumin.dto.CalendarDto">
+		select *
+		from calendar
+		where substr(rdate, 1, 8)=#{rdate}
+		order by rdate asc
+	</select>
 
-<!-- 230419 일정 삭제하기 -->
-<delete id="caldelete" parameterType="Integer">
-	delete from calendar
-	where calSeq=#{calSeq}
-</delete>
+	<!-- 230418 일정 수정하기 -->
+	<update id="calupdate"
+		parameterType="com.woojujumin.dto.CalendarDto">
+		update calendar
+		set title=#{title}, content=#{content}, rdate=#{rdate}, wdate=now(),
+		tag=#{tag}
+		where calSeq=#{calSeq}
+	</update>
 
-<!-- 230510 리스트 개수 표현하기 -->
-<select id="listcount" parameterType="String" resultType="Integer">
-	select count(*)
-	from calendar
-	WHERE rdate LIKE CONCAT(#{rdate}, '%')
-</select>
+	<!-- 230419 일정 삭제하기 -->
+	<delete id="caldelete" parameterType="Integer">
+		delete from calendar
+		where calSeq=#{calSeq}
+	</delete>
+
+	<!-- 230510 리스트 개수 표현하기 -->
+	<select id="listcount" parameterType="String"
+		resultType="Integer">
+		select count(*)
+		from calendar
+		WHERE rdate LIKE CONCAT(#{rdate}, '%')
+	</select>
 </mapper>

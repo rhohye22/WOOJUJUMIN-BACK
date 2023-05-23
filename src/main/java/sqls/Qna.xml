@@ -5,9 +5,7 @@
 <mapper namespace="com.woojujumin.dao.QnaDao">
 	<!--id별 질문글 리스트 -->
 	<select id="myqna" resultType="com.woojujumin.dto.QnaDto">
-		select qnaSeq,id,title,
-		content,qtype,
-		wdate,ansdate from qna where id =#{id}
+		select * from qna where id =#{id}
 		ORDER BY qnaSeq
 		DESC
 		LIMIT #{start},10
